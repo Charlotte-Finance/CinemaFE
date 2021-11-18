@@ -13,18 +13,51 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is HomePageEmpty) {
           context.watch<HomePageBloc>().add(GetMovies());
-        }
-        else if (state is HomePageLoaded) {
-          return const Text("AAAAAAAAAAAA");
-        }
-        else if (state is HomePageError) {
+        } else if (state is HomePageLoaded) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text(
+                'Headline',
+                style: TextStyle(fontSize: 18),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.movies.length,
+                  itemBuilder: (BuildContext context, int index) => const Card(
+                    child: Center(child: Text('Dummy Card Text')),
+                  ),
+                ),
+              ),
+              const Text(
+                'Demo Headline 2',
+                style: TextStyle(fontSize: 18),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (ctx, index) {
+                    return Card(
+                      child: ListTile(
+                          title: Text('Motivation $index'),
+                          subtitle: const Text(
+                              'this is a description of the motivation')),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        } else if (state is HomePageError) {
           return ErrorMessage(
             error: state.error,
             bloc: BlocProvider.of<HomePageBloc>(context),
             event: state.event,
           );
         }
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
   }

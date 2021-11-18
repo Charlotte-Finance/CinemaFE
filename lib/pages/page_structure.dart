@@ -1,12 +1,15 @@
+import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
+import 'more_page.dart';
+import 'my_favourites_page.dart';
 
 class PageStructure extends StatefulWidget {
-  const PageStructure({Key? key, required this.title}) : super(key: key);
-
   final String title;
+
+  const PageStructure({Key? key, required this.title}) : super(key: key);
 
   @override
   State<PageStructure> createState() => _PageStructureState();
@@ -18,13 +21,11 @@ class _PageStructureState extends State<PageStructure> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Index 1: Favorites',
-      style: optionStyle,
+    MyFavouritesPage(
+      user: null,
     ),
-    Text(
-      'Index 2: Settings',
-      style: optionStyle,
+    MorePage(
+      user: null,
     ),
   ];
 
@@ -41,14 +42,15 @@ class _PageStructureState extends State<PageStructure> {
         title: Text(widget.title),
         actions: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.person,
-                  size: 26.0,
-                ),
-              )),
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: const Icon(
+                Icons.person,
+                size: 26.0,
+              ),
+            ),
+          ),
         ],
       ),
       body: Center(

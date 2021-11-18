@@ -6,12 +6,12 @@ abstract class HomePageState extends Equatable {
 
 class HomePageEmpty extends HomePageState {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class HomePageLoading extends HomePageState {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class HomePageLoaded extends HomePageState {

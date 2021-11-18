@@ -7,6 +7,7 @@ class Movie {
   int revenue;
   int directorId;
   String categoryCode;
+  bool? liked;
 
   Movie({
     required this.id,
@@ -17,6 +18,7 @@ class Movie {
     required this.revenue,
     required this.directorId,
     required this.categoryCode,
+    this.liked,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
