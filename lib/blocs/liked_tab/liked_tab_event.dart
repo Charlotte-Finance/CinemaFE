@@ -1,14 +1,14 @@
-part of 'my_favourites_bloc.dart';
+part of 'liked_tab_bloc.dart';
 
-abstract class MyFavouritesEvent extends Equatable {
-  const MyFavouritesEvent();
+abstract class LikedTabEvent extends Equatable {
+  const LikedTabEvent();
 }
 
-class GetFavouriteMovies extends MyFavouritesEvent {
-  final User? user;
+class GetLikedMovies extends LikedTabEvent {
+  final User user;
 
-  const GetFavouriteMovies({this.user});
+  const GetLikedMovies({required this.user});
 
   @override
-  List<Object?> get props => [user];
+  List<Object> get props => [user];
 }

@@ -1,35 +1,35 @@
-part of 'more_bloc.dart';
+part of 'add_tab_bloc.dart';
 
-abstract class MoreEvent extends Equatable {
-  const MoreEvent();
+abstract class AddTabEvent extends Equatable {
+  const AddTabEvent();
 }
 
-class GetMovieForm extends MoreEvent {
+class GetMovieForm extends AddTabEvent {
   @override
   List<Object> get props => [];
 }
 
-class AddMovie extends MoreEvent {
+class AddMovie extends AddTabEvent {
   @override
   List<Object> get props => [];
 }
 
-class GetCharacterForm extends MoreEvent {
+class GetCharacterForm extends AddTabEvent {
   @override
   List<Object> get props => [];
 }
 
-class AddCharacter extends MoreEvent {
+class AddCharacter extends AddTabEvent {
   @override
   List<Object> get props => [];
 }
 
-class GetActorForm extends MoreEvent {
+class GetActorForm extends AddTabEvent {
   @override
   List<Object> get props => [];
 }
 
-class AddActor extends MoreEvent {
+class AddActor extends AddTabEvent {
   @override
   List<Object> get props => [];
 }

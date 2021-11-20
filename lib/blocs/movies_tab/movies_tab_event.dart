@@ -1,10 +1,10 @@
-part of 'home_page_bloc.dart';
+part of 'movies_tab_bloc.dart';
 
-abstract class HomePageEvent extends Equatable {
-  const HomePageEvent();
+abstract class MoviesTabEvent extends Equatable {
+  const MoviesTabEvent();
 }
 
-class GetMovies extends HomePageEvent {
+class GetMovies extends MoviesTabEvent {
   @override
   List<Object> get props => [];
 }

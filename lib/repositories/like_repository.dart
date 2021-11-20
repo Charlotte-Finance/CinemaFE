@@ -6,15 +6,22 @@ import 'package:http/http.dart' as http;
 class LikeRepository {
   final String url = "/likes/";
 
-  Future<bool> getLike(Movie movie) async {
-    User user;
-    final movies = await HttpRequest.getRequest(endpoint: url);
-    if ((movies as List)
-        .map((movie) => Movie.fromJson(movie))
-        .toList()
-        .isEmpty) {
-      return false;
-    }
-    return true;
+  Future<bool> getLike(User user, Movie movie) async {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user_id'] = user.id;
+    data['movie_id'] = movie.id;
+    final String json = data.toString();
+    final bool = await HttpRequest.postRequest(url+"is-liked/", json);
+    return bool;
   }
+
+  Future<bool> changeLike(User user, Movie movie) async {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['is_liked'] = user.id;
+    data['movie_id'] = movie.id;
+    final String json = data.toString();
+    final bool = await HttpRequest.postRequest(url+"change-like/", json);
+    return bool;
+  }
+
 }

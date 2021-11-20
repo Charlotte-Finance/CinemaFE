@@ -1,33 +1,33 @@
-part of 'my_favourites_bloc.dart';
+part of 'liked_tab_bloc.dart';
 
-abstract class MyFavouritesState extends Equatable {
-  const MyFavouritesState();
+abstract class LikedTabState extends Equatable {
+  const LikedTabState();
 }
 
-class MyFavouritesEmpty extends MyFavouritesState {
+class LikedTabEmpty extends LikedTabState {
   @override
   List<Object> get props => [];
 }
 
-class MyFavouritesLoading extends MyFavouritesState {
+class LikedTabLoading extends LikedTabState {
   @override
   List<Object> get props => [];
 }
 
-class MyFavouritesLoaded extends MyFavouritesState {
+class LikedTabLoaded extends LikedTabState {
   final List<Movie> movies;
 
-  const MyFavouritesLoaded({required this.movies});
+  const LikedTabLoaded({required this.movies});
 
   @override
   List<Object> get props => [movies];
 }
 
-class MyFavouritesError extends MyFavouritesState {
+class LikedTabError extends LikedTabState {
   final String error;
   final Equatable event;
 
-  const MyFavouritesError({
+  const LikedTabError({
     required this.error,
     required this.event,
   });

@@ -1,23 +1,40 @@
-import 'package:cinema_fe/pages/page_structure.dart';
+import 'package:cinema_fe/pages/login_page.dart';
+import 'package:cinema_fe/utils/route_generator.dart';
+import 'package:cinema_fe/utils/routing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_strategy/url_strategy.dart';
 
-import 'blocs/home_page/home_page_bloc.dart';
-import 'blocs/more/more_bloc.dart';
-import 'blocs/my_favourites/my_favourites_bloc.dart';
+import 'blocs/add_tab/add_tab_bloc.dart';
+import 'blocs/liked_tab/liked_tab_bloc.dart';
+import 'blocs/login_page/login_bloc.dart';
+import 'blocs/movies_tab/movies_tab_bloc.dart';
+
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+}
 
 void main() {
+  setPathUrlStrategy();
+  Bloc.observer = AppBlocObserver();
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<HomePageBloc>(
-          create: (BuildContext context) => HomePageBloc(),
+        BlocProvider<LoginBloc>(
+          create: (BuildContext context) => LoginBloc(),
         ),
-        BlocProvider<MyFavouritesBloc>(
-          create: (BuildContext context) => MyFavouritesBloc(),
+        BlocProvider<MoviesTabBloc>(
+          create: (BuildContext context) => MoviesTabBloc(),
         ),
-        BlocProvider<MoreBloc>(
-          create: (BuildContext context) => MoreBloc(),
+        BlocProvider<LikedTabBloc>(
+          create: (BuildContext context) => LikedTabBloc(),
+        ),
+        BlocProvider<AddTabBloc>(
+          create: (BuildContext context) => AddTabBloc(),
         ),
       ],
       child: const MyApp(),
@@ -28,7 +45,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,7 +57,20 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const PageStructure(title: 'Flutter Demo Home Page'),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      onGenerateInitialRoutes: (route) {
+        return [
+          PageRouteBuilder(
+            settings: const RouteSettings(name: LoginRoute),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const LoginPage(route: AppRoute),
+          ),
+        ];
+      },
     );
   }
 }

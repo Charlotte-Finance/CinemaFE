@@ -3,18 +3,18 @@ import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
-part 'more_event.dart';
+part 'add_tab_event.dart';
 
-part 'more_state.dart';
+part 'add_tab_state.dart';
 
-class MoreBloc extends Bloc<MoreEvent, MoreState> {
+class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   final MovieRepository movieRepository = MovieRepository();
 
-  MoreBloc() : super(MoreLoaded());
+  AddTabBloc() : super(AddTabLoaded());
 
   @override
-  Stream<MoreState> mapEventToState(
-    MoreEvent event,
+  Stream<AddTabState> mapEventToState(
+    AddTabEvent event,
   ) async* {
     if (event is GetMovieForm) {
       yield* _mapGetMovieForm(event);
@@ -36,68 +36,68 @@ class MoreBloc extends Bloc<MoreEvent, MoreState> {
     }
   }
 
-  Stream<MoreState> _mapGetMovieForm(GetMovieForm event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapGetMovieForm(GetMovieForm event) async* {
+    yield AddTabLoading();
     try {
       yield MovieForm();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
-  Stream<MoreState> _mapAddMovie(AddMovie event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapAddMovie(AddMovie event) async* {
+    yield AddTabLoading();
     try {
-      yield MoreLoaded();
+      yield AddTabLoaded();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
 
-  Stream<MoreState> _mapGetActorForm(GetActorForm event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapGetActorForm(GetActorForm event) async* {
+    yield AddTabLoading();
     try {
       yield ActorForm();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
-  Stream<MoreState> _mapAddActor(AddActor event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapAddActor(AddActor event) async* {
+    yield AddTabLoading();
     try {
-      yield MoreLoaded();
+      yield AddTabLoaded();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
-  Stream<MoreState> _mapGetCharacterForm(GetCharacterForm event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapGetCharacterForm(GetCharacterForm event) async* {
+    yield AddTabLoading();
     try {
       yield CharacterForm();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
-  Stream<MoreState> _mapAddCharacter(AddCharacter event) async* {
-    yield MoreLoading();
+  Stream<AddTabState> _mapAddCharacter(AddCharacter event) async* {
+    yield AddTabLoading();
     try {
-      yield MoreLoaded();
+      yield AddTabLoaded();
     } catch (_) {
-      yield MoreError(
+      yield AddTabError(
         error: "Something went wrong...",
         event: event,
       );

@@ -1,60 +1,53 @@
-import 'package:cinema_fe/blocs/home_page/home_page_bloc.dart';
+import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/error_message.dart';
+import 'package:cinema_fe/models/category.dart';
+import 'package:cinema_fe/models/movie.dart';
+import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+import '../movie_card.dart';
+
+class MoviesTab extends StatelessWidget {
+  final User user;
+
+  const MoviesTab({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomePageBloc, HomePageState>(
+    return BlocBuilder<MoviesTabBloc, MoviesTabState>(
       builder: (context, state) {
-        if (state is HomePageEmpty) {
-          context.watch<HomePageBloc>().add(GetMovies());
-        } else if (state is HomePageLoaded) {
+        if (state is MoviesTabEmpty) {
+          context.watch<MoviesTabBloc>().add(GetMovies());
+        } else if (state is MoviesTabLoaded) {
           return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text(
-                'Headline',
-                style: TextStyle(fontSize: 18),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: state.movies.length,
-                  itemBuilder: (BuildContext context, int index) => const Card(
-                    child: Center(child: Text('Dummy Card Text')),
+            children: [
+              for (List<Movie> movies in state.movies.values) ...[
+                for (Movie movie in movies) ...[
+                  Text(movie.title),
+                ]
+              ],
+              for (Category category in state.movies.keys) ...[
+                const SizedBox(height: 50),
+                Text(category.label),
+                for (Movie movie in state.movies[category]) ...[
+                  BlocProvider(
+                    create: (BuildContext context) => MovieBloc(),
+                    child: MovieCard(
+                      user: user,
+                      movie: movie,
+                    ),
                   ),
-                ),
-              ),
-              const Text(
-                'Demo Headline 2',
-                style: TextStyle(fontSize: 18),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, index) {
-                    return Card(
-                      child: ListTile(
-                        title: Text('Motivation $index'),
-                        subtitle: const Text(
-                            'this is a description of the motivation'),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                ],
+              ],
             ],
           );
-        } else if (state is HomePageError) {
+        } else if (state is MoviesTabError) {
           return ErrorMessage(
             error: state.error,
-            bloc: BlocProvider.of<HomePageBloc>(context),
+            bloc: BlocProvider.of<MoviesTabBloc>(context),
             event: state.event,
           );
         }

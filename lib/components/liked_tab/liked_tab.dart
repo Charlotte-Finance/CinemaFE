@@ -1,5 +1,4 @@
-import 'package:cinema_fe/blocs/home_page/home_page_bloc.dart';
-import 'package:cinema_fe/blocs/my_favourites/my_favourites_bloc.dart';
+import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/error_message.dart';
 import 'package:cinema_fe/components/movie_card.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -7,33 +6,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyFavouritesPage extends StatelessWidget {
-  final User? user;
+class LikedTab extends StatelessWidget {
+  final User user;
 
-  const MyFavouritesPage({Key? key, required this.user}) : super(key: key);
+  const LikedTab({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MyFavouritesBloc, MyFavouritesState>(
+    return BlocBuilder<LikedTabBloc, LikedTabState>(
       builder: (context, state) {
-        if (state is MyFavouritesEmpty) {
-          context.watch<MyFavouritesBloc>().add(const GetFavouriteMovies());
-        } else if (state is MyFavouritesLoaded) {
+        if (state is LikedTabEmpty) {
+          context.watch<LikedTabBloc>().add(GetLikedMovies(user: user));
+        } else if (state is LikedTabLoaded) {
           return ListView.builder(
             shrinkWrap: true,
             itemCount: state.movies.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  MovieCard(movie: state.movies[index]),
+                  MovieCard(user: user, movie: state.movies[index]),
                 ],
               );
             },
           );
-        } else if (state is MyFavouritesError) {
+        } else if (state is LikedTabError) {
           return ErrorMessage(
             error: state.error,
-            bloc: BlocProvider.of<MyFavouritesBloc>(context),
+            bloc: BlocProvider.of<LikedTabBloc>(context),
             event: state.event,
           );
         }

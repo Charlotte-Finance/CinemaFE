@@ -1,33 +1,33 @@
-part of 'home_page_bloc.dart';
+part of 'movies_tab_bloc.dart';
 
-abstract class HomePageState extends Equatable {
-  const HomePageState();
+abstract class MoviesTabState extends Equatable {
+  const MoviesTabState();
 }
 
-class HomePageEmpty extends HomePageState {
+class MoviesTabEmpty extends MoviesTabState {
   @override
   List<Object> get props => [];
 }
 
-class HomePageLoading extends HomePageState {
+class MoviesTabLoading extends MoviesTabState {
   @override
   List<Object> get props => [];
 }
 
-class HomePageLoaded extends HomePageState {
+class MoviesTabLoaded extends MoviesTabState {
   final HashMap movies;
 
-  const HomePageLoaded({required this.movies});
+  const MoviesTabLoaded({required this.movies});
 
   @override
   List<Object> get props => [movies];
 }
 
-class HomePageError extends HomePageState {
+class MoviesTabError extends MoviesTabState {
   final String error;
   final Equatable event;
 
-  const HomePageError({
+  const MoviesTabError({
     required this.error,
     required this.event,
   });

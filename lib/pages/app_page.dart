@@ -1,33 +1,22 @@
+import 'package:cinema_fe/components/add_tab/add_tab.dart';
+import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
+import 'package:cinema_fe/components/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
-import 'more_page.dart';
-import 'my_favourites_page.dart';
+class AppPage extends StatefulWidget {
+  final User user;
 
-class PageStructure extends StatefulWidget {
-  final String title;
-
-  const PageStructure({Key? key, required this.title}) : super(key: key);
+  const AppPage({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<PageStructure> createState() => _PageStructureState();
+  State<AppPage> createState() => _AppPageState();
 }
 
-class _PageStructureState extends State<PageStructure> {
+class _AppPageState extends State<AppPage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    MyFavouritesPage(
-      user: null,
-    ),
-    MorePage(
-      user: null,
-    ),
-  ];
+  List<Widget> _widgetOptions = <Widget>[];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,10 +25,26 @@ class _PageStructureState extends State<PageStructure> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _widgetOptions = [
+      MoviesTab(
+        user: widget.user,
+      ),
+      LikedTab(
+        user: widget.user,
+      ),
+      AddTab(
+        user: widget.user,
+      ),
+    ];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("CineMovies"),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -67,12 +72,12 @@ class _PageStructureState extends State<PageStructure> {
             label: 'Favorite',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            label: 'More',
+            icon: Icon(Icons.add_circle),
+            label: 'Add Data',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
+        //selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

@@ -1,39 +1,39 @@
-part of 'more_bloc.dart';
+part of 'add_tab_bloc.dart';
 
-abstract class MoreState extends Equatable {
-  const MoreState();
+abstract class AddTabState extends Equatable {
+  const AddTabState();
 }
 
-class MoreLoading extends MoreState {
+class AddTabLoading extends AddTabState {
   @override
   List<Object> get props => [];
 }
 
-class MoreLoaded extends MoreState {
+class AddTabLoaded extends AddTabState {
   @override
   List<Object> get props => [];
 }
 
-class MovieForm extends MoreState {
+class MovieForm extends AddTabState {
   @override
   List<Object> get props => [];
 }
 
-class ActorForm extends MoreState {
+class ActorForm extends AddTabState {
   @override
   List<Object> get props => [];
 }
 
-class CharacterForm extends MoreState {
+class CharacterForm extends AddTabState {
   @override
   List<Object> get props => [];
 }
 
-class MoreError extends MoreState {
+class AddTabError extends AddTabState {
   final String error;
   final Equatable event;
 
-  const MoreError({
+  const AddTabError({
     required this.error,
     required this.event,
   });

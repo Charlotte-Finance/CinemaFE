@@ -5,9 +5,11 @@ abstract class MovieEvent extends Equatable {
 }
 
 class FetchLike extends MovieEvent {
+  final User user;
   final Movie movie;
 
   const FetchLike({
+    required this.user,
     required this.movie,
   });
 
@@ -16,11 +18,12 @@ class FetchLike extends MovieEvent {
 }
 
 class LikeMovie extends MovieEvent {
+  final User user;
   final Movie movie;
-  final bool liked;
+  final bool isLiked;
 
-  const LikeMovie({required this.movie, required this.liked});
+  const LikeMovie({required this.user, required this.movie, required this.isLiked});
 
   @override
-  List<Object> get props => [movie, liked];
+  List<Object> get props => [movie, isLiked];
 }

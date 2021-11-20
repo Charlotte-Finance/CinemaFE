@@ -17,11 +17,12 @@ class MovieLoading extends MovieState {
 
 class MovieLoaded extends MovieState {
   final Movie movie;
+  final bool isLiked;
 
-  const MovieLoaded({required this.movie});
+  const MovieLoaded({required this.movie, required this.isLiked});
 
   @override
-  List<Object> get props => [movie];
+  List<Object> get props => [movie, isLiked];
 }
 
 class MovieError extends MovieState {

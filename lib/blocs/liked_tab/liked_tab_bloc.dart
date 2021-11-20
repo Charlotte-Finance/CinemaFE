@@ -4,33 +4,32 @@ import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
-part 'my_favourites_event.dart';
+part 'liked_tab_event.dart';
 
-part 'my_favourites_state.dart';
+part 'liked_tab_state.dart';
 
 
-class MyFavouritesBloc extends Bloc<MyFavouritesEvent, MyFavouritesState> {
+class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   final MovieRepository movieRepository = MovieRepository();
 
-  MyFavouritesBloc() : super(MyFavouritesEmpty());
+  LikedTabBloc() : super(LikedTabEmpty());
 
   @override
-  Stream<MyFavouritesState> mapEventToState(
-    MyFavouritesEvent event,
+  Stream<LikedTabState> mapEventToState(
+    LikedTabEvent event,
   ) async* {
-    if (event is GetFavouriteMovies) {
-      yield* _mapGetFavouriteMovies(event);
+    if (event is GetLikedMovies) {
+      yield* _mapGetLikedMovies(event);
     }
   }
 
-  Stream<MyFavouritesState> _mapGetFavouriteMovies(GetFavouriteMovies event) async* {
-    yield MyFavouritesLoading();
+  Stream<LikedTabState> _mapGetLikedMovies(GetLikedMovies event) async* {
+    yield LikedTabLoading();
     try {
-      User user = User(id: 1, username: "username", password: "password", role: "role");
-      List<Movie> movies = await movieRepository.getFavouriteMovies(user);
-      yield MyFavouritesLoaded(movies: movies);
+      List<Movie> movies = await movieRepository.getLikedMovies(event.user);
+      yield LikedTabLoaded(movies: movies);
     } catch (_) {
-      yield MyFavouritesError(
+      yield LikedTabError(
         error: "Something went wrong...",
         event: event,
       );

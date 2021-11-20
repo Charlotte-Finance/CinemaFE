@@ -35,7 +35,6 @@ class HttpRequest {
     final response = await http.get(
       httpRequest,
     );
-    print("AAAAAAAAAAAAAAAAAAAAAAAA");
     if (response.statusCode == 200) {
       return (json.decode(response.body.toString()));
     } else {
