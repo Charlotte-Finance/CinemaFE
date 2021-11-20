@@ -41,9 +41,10 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (ctx, index) {
                     return Card(
                       child: ListTile(
-                          title: Text('Motivation $index'),
-                          subtitle: const Text(
-                              'this is a description of the motivation')),
+                        title: Text('Motivation $index'),
+                        subtitle: const Text(
+                            'this is a description of the motivation'),
+                      ),
                     );
                   },
                 ),

@@ -26,7 +26,8 @@ class MyFavouritesBloc extends Bloc<MyFavouritesEvent, MyFavouritesState> {
   Stream<MyFavouritesState> _mapGetFavouriteMovies(GetFavouriteMovies event) async* {
     yield MyFavouritesLoading();
     try {
-      List<Movie> movies = await movieRepository.getFavouriteMovies();
+      User user = User(id: 1, username: "username", password: "password", role: "role");
+      List<Movie> movies = await movieRepository.getFavouriteMovies(user);
       yield MyFavouritesLoaded(movies: movies);
     } catch (_) {
       yield MyFavouritesError(

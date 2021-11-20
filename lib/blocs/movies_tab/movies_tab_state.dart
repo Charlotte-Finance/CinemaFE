@@ -15,7 +15,7 @@ class HomePageLoading extends HomePageState {
 }
 
 class HomePageLoaded extends HomePageState {
-  final List<Movie> movies;
+  final HashMap movies;
 
   const HomePageLoaded({required this.movies});
 
