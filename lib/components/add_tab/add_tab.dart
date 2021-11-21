@@ -1,9 +1,15 @@
 import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
-import 'package:cinema_fe/components/error_message.dart';
+import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'add_actor.dart';
+import 'add_character.dart';
+import 'add_director.dart';
+import 'add_movie.dart';
+import 'add_section.dart';
 
 class AddTab extends StatelessWidget {
   final User user;
@@ -17,41 +23,53 @@ class AddTab extends StatelessWidget {
         if (state is AddTabLoaded) {
           return Column(
             children: [
-              Expanded(
-                child: Container(
-                  color: Colors.red,
-                ),
+              AddSection(
+                path: "add_movies.jpg",
+                event: GetMovieForm(),
+                text: "Add a movie",
+                beginAlignment: Alignment.centerLeft,
+                endAlignment: Alignment.centerRight,
               ),
-              Expanded(
-                child: Container(
-                  color: Colors.blue,
-                ),
+              const SizedBox(height: 3),
+              AddSection(
+                path: "add_actors.jpg",
+                event: GetActorForm(),
+                text: "Add an actor",
+                beginAlignment: Alignment.centerRight,
+                endAlignment: Alignment.centerLeft,
               ),
-              Expanded(
-                child: Container(
-                  color: Colors.green,
-                ),
+              const SizedBox(height: 3),
+              AddSection(
+                path: "add_characters.jpg",
+                event: GetCharacterForm(),
+                text: "Add a character",
+                beginAlignment: Alignment.centerLeft,
+                endAlignment: Alignment.centerRight,
               ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     context.watch<AddTabBloc>().add(GetMovieForm());
-              //   },
-              //   child: const Text("Add a movie"),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     context.watch<AddTabBloc>().add(GetActorForm());
-              //   },
-              //   child: const Text("Add an actor"),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     context.watch<AddTabBloc>().add(GetCharacterForm());
-              //   },
-              //   child: const Text("Add a character"),
-              // ),
+              const SizedBox(height: 3),
+              AddSection(
+                path: "add_directors.jpg",
+                event: GetDirectorForm(),
+                text: "Add a director",
+                beginAlignment: Alignment.centerRight,
+                endAlignment: Alignment.centerLeft,
+              ),
             ],
           );
+        } else if (state is MovieForm) {
+          return AddMovieForm(
+            directors: state.directors,
+            categories: state.categories,
+          );
+        } else if (state is ActorForm) {
+          return const AddActorForm();
+        } else if (state is CharacterForm) {
+          return AddCharacterForm(
+            actors: state.actors,
+            movies: state.movies,
+          );
+        } else if (state is DirectorForm) {
+          return const AddDirectorForm();
         } else if (state is AddTabError) {
           return ErrorMessage(
             error: state.error,

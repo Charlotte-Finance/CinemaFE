@@ -1,12 +1,12 @@
 class Actor {
-  int id;
-  String name;
-  String firstname;
-  String birth;
-  DateTime? death;
+  final int? id;
+  final String name;
+  final String firstname;
+  final DateTime birth;
+  final DateTime? death;
 
   Actor({
-    required this.id,
+    this.id,
     required this.name,
     required this.firstname,
     required this.birth,

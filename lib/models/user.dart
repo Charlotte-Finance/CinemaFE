@@ -1,11 +1,11 @@
 class User {
-  int id;
-  String username;
-  String password;
-  String role;
+  final int? id;
+  final String username;
+  final String password;
+  final String role;
 
   User({
-    required this.id,
+    this.id,
     required this.username,
     required this.password,
     required this.role,

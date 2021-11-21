@@ -1,7 +1,7 @@
 class Category {
-  String code;
-  String label;
-  String picture;
+  final String code;
+  final String label;
+  final String picture;
 
 
   Category({

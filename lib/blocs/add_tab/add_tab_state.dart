@@ -15,8 +15,19 @@ class AddTabLoaded extends AddTabState {
 }
 
 class MovieForm extends AddTabState {
+  final List<Director> directors;
+  final List<Category> categories;
+
+  const MovieForm({
+    required this.directors,
+    required this.categories,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+        directors,
+        categories,
+      ];
 }
 
 class ActorForm extends AddTabState {
@@ -25,10 +36,24 @@ class ActorForm extends AddTabState {
 }
 
 class CharacterForm extends AddTabState {
+  final List<Actor> actors;
+  final List<Movie> movies;
+
+  const CharacterForm({
+    required this.actors,
+    required this.movies,
+  });
+
+  @override
+  List<Object> get props => [
+        actors,
+        movies,
+      ];
+}
+class DirectorForm extends AddTabState {
   @override
   List<Object> get props => [];
 }
-
 class AddTabError extends AddTabState {
   final String error;
   final Equatable event;

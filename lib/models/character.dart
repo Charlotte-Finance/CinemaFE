@@ -1,11 +1,11 @@
 class Character {
-  int id;
-  int actorId;
-  int movieId;
-  String name;
+  final int? id;
+  final int actorId;
+  final int movieId;
+  final String name;
 
   Character({
-    required this.id,
+    this.id,
     required this.actorId,
     required this.movieId,
     required this.name,

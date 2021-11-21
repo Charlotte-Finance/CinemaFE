@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/login_page/login_bloc.dart';
+import 'package:cinema_fe/blocs/login/login_bloc.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
 import 'package:cinema_fe/utils/text_styles.dart';
 import 'package:cinema_fe/utils/texts.dart';
@@ -110,7 +110,7 @@ class _State extends State<LoginPage> {
               ),
             );
           } else if (state is Logged) {
-            WidgetsBinding.instance!.addPostFrameCallback((_){
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 widget.route,
@@ -118,9 +118,7 @@ class _State extends State<LoginPage> {
                 arguments: UserArgument(user: state.user),
               );
               // Add Your Code here.
-
             });
-
           }
           return const CircularProgressIndicator();
         },

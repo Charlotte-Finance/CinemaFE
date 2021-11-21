@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -16,15 +18,22 @@ class MovieRepository {
     return Movie.fromJson(movie);
   }
 
-  Future<List<Movie>> getLikedMovies(User user) async {
-    final movies =
-        await HttpRequest.getRequest(endpoint: url + "liked/${user.id}");
-    return (movies as List).map((movie) => Movie.fromJson(movie)).toList();
-  }
 
   Future<List<Movie>> getMoviesByCategory(Category category) async {
     final movies = await HttpRequest.getRequest(
         endpoint: url + "category/${category.code}");
     return (movies as List).map((movie) => Movie.fromJson(movie)).toList();
+  }
+
+  Future<List<Movie>> getLikedMovies(User user) async {
+    final movies =
+    await HttpRequest.getRequest(endpoint: url + "liked/${user.id}");
+    return (movies as List).map((movie) => Movie.fromJson(movie)).toList();
+  }
+
+  Future<Movie> post(Movie movie) async {
+    final String json = jsonEncode(movie);
+    final response = await HttpRequest.postRequest(url, json);
+    return Movie.fromJson(response);
   }
 }

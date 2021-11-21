@@ -38,11 +38,13 @@ class MovieCard extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    context.watch<MovieBloc>().add(LikeMovie(
-                          user: user,
-                          movie: movie,
-                          isLiked: !(state.isLiked),
-                        ));
+                    context.watch<MovieBloc>().add(
+                          LikeMovie(
+                            user: user,
+                            movie: movie,
+                            isLiked: !(state.isLiked),
+                          ),
+                        );
                   },
                   child: state.isLiked ? likedIcon : unlikedIcon,
                 ),

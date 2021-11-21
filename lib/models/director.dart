@@ -1,10 +1,10 @@
 class Director {
-  int id;
-  String name;
-  String firstname;
+  final int? id;
+  final String name;
+  final String firstname;
 
   Director({
-    required this.id,
+    this.id,
     required this.name,
     required this.firstname,
   });

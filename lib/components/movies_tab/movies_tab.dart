@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
-import 'package:cinema_fe/components/error_message.dart';
+import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../movie_card.dart';
+import '../widgets/movie_card.dart';
 
 class MoviesTab extends StatelessWidget {
   final User user;

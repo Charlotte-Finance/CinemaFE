@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
-import 'package:cinema_fe/components/error_message.dart';
-import 'package:cinema_fe/components/movie_card.dart';
+import 'package:cinema_fe/components/widgets/error_message.dart';
+import 'package:cinema_fe/components/widgets/movie_card.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

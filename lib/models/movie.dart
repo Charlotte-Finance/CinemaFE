@@ -1,15 +1,15 @@
 class Movie {
-  int id;
-  String title;
-  int duration;
-  DateTime release;
-  int budget;
-  int revenue;
-  int directorId;
-  String categoryCode;
+  final int? id;
+  final String title;
+  final int duration;
+  final DateTime release;
+  final int budget;
+  final int revenue;
+  final int directorId;
+  final String categoryCode;
 
   Movie({
-    required this.id,
+    this.id,
     required this.title,
     required this.duration,
     required this.release,
