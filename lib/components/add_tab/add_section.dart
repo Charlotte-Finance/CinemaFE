@@ -26,57 +26,56 @@ class AddSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AddTabBloc, AddTabState>(
       builder: (context, state) {
-        return Expanded(
-          child: GestureDetector(
-            onTap: () {
-              context.read<AddTabBloc>().add(event);
-            },
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/assets/backgrounds/$path'),
-                      fit: BoxFit.cover,
-                    ),
+        return GestureDetector(
+          onTap: () {
+            context.read<AddTabBloc>().add(event);
+          },
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height * 0.25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('lib/assets/backgrounds/$path'),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Align(
-                  child: Container(
+              ),
+              Align(
+                child: Container(
                     padding: const EdgeInsets.all(20),
-                      height: 350.0,
-                      alignment: beginAlignment,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                              begin: beginAlignment,
-                              end: endAlignment,
-                              colors: [
-                                Colors.white.withOpacity(0.9),
-                                Colors.white.withOpacity(0.0),
-                              ],
-                              stops: const [
-                                0.0,
-                                1.0
-                              ])),
-                      child: Stack(
-                        children: <Widget>[
-                          // Stroked text as border.
-                          Text(
-                            text,
-                            style: addSectionStyle,
-                          ),
-                          // Solid text as fill.
-                          Text(
-                            text,
-                            style: addSectionBorderStyle,
-                          ),
-                        ],
-                      )),
-                ),
-              ],
-            ),
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    alignment: beginAlignment,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                            begin: beginAlignment,
+                            end: endAlignment,
+                            colors: [
+                              Colors.white.withOpacity(0.9),
+                              Colors.white.withOpacity(0.0),
+                            ],
+                            stops: const [
+                              0.0,
+                              1.0
+                            ])),
+                    child: Stack(
+                      children: <Widget>[
+                        // Stroked text as border.
+                        Text(
+                          text,
+                          style: addSectionStyle,
+                        ),
+                        // Solid text as fill.
+                        Text(
+                          text,
+                          style: addSectionBorderStyle,
+                        ),
+                      ],
+                    )),
+              ),
+            ],
           ),
         );
       },

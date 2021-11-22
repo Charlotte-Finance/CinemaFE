@@ -60,6 +60,24 @@ class HttpRequest {
     }
   }
 
+  static Future<dynamic> deleteRequest(String endpoint, String jsonBody) async {
+    Uri httpRequest = Uri(path: endpoint, port: _port, host: _address);
+    final response = await http.delete(
+      httpRequest,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonBody,
+    );
+    if (response.statusCode != 201 && response.statusCode != 200) {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed');
+    } else {
+      return json.decode(response.body.toString());
+    }
+  }
+
   static Future<dynamic> putRequest(String endpoint, String jsonBody) async {
     Uri httpRequest = Uri(path: endpoint, port: _port, host: _address);
     final response = await http.put(

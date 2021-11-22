@@ -1,16 +1,16 @@
 class Actor {
-  final int? id;
-  final String name;
-  final String firstname;
-  final DateTime birth;
-  final DateTime? death;
+  int? id;
+  String? name;
+  String? firstname;
+  DateTime? birth;
+  DateTime? death;
 
   Actor({
     this.id,
-    required this.name,
-    required this.firstname,
-    required this.birth,
-    required this.death,
+    this.name,
+    this.firstname,
+    this.birth,
+    this.death,
   });
 
   factory Actor.fromJson(Map<String, dynamic> json) {

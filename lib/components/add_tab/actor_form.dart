@@ -1,41 +1,46 @@
 import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
+import 'package:cinema_fe/models/actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 
-class AddActorForm extends StatefulWidget {
-  const AddActorForm({
+class ActorForm extends StatefulWidget {
+  final Actor actor;
+  final bool create;
+
+  const ActorForm({
+    required this.actor,
+    required this.create,
     Key? key,
   }) : super(key: key);
 
   @override
-  AddActorFormState createState() {
-    return AddActorFormState();
-  }
+  _ActorFormState createState() => _ActorFormState();
 }
 
-class AddActorFormState extends State<AddActorForm> {
-  late String name;
-  late String firstname;
+class _ActorFormState extends State<ActorForm> {
   late TextEditingController birthCtl;
-  DateTime? birth;
   late TextEditingController deathCtl;
-  DateTime? death;
   final _formKey = GlobalKey<FormState>();
   final formatDate = DateFormat('yyyy-MM-dd');
-  bool isChecked = false;
+  late bool isChecked;
 
   @override
   void initState() {
     super.initState();
+    isChecked = widget.actor.death != null;
     birthCtl = TextEditingController(
-      text: birth.toString() == "null" ? null : birth.toString(),
+      text: widget.actor.birth.toString() == "null"
+          ? null
+          : widget.actor.birth.toString(),
     );
     deathCtl = TextEditingController(
-      text: death.toString() == "null" ? null : death.toString(),
+      text: widget.actor.death.toString() == "null"
+          ? null
+          : widget.actor.death.toString(),
     );
   }
 
@@ -49,19 +54,22 @@ class AddActorFormState extends State<AddActorForm> {
           children: [
             TextFormQuestion(
               question: "Name",
-              onChanged: (answer) => name = answer,
-              onSaved: (answer) => name = answer,
+              initialValue: widget.actor.name,
+              onChanged: (answer) => widget.actor.name = answer,
+              onSaved: (answer) => widget.actor.name = answer,
             ),
             TextFormQuestion(
               question: "Firstname",
-              onChanged: (answer) => firstname = answer,
-              onSaved: (answer) => firstname = answer,
+              initialValue: widget.actor.firstname,
+              onChanged: (answer) => widget.actor.firstname = answer,
+              onSaved: (answer) => widget.actor.firstname = answer,
             ),
             DateFormQuestion(
               question: "Birth date",
-              onChanged: (date) => setState(() => birth =
+              initialValue: widget.actor.birth,
+              onChanged: (date) => setState(() => widget.actor.birth =
                   DateTime.parse(formatDate.format(DateTime.parse(date!)))),
-              onSaved: (date) => setState(() => birth =
+              onSaved: (date) => setState(() => widget.actor.birth =
                   DateTime.parse(formatDate.format(DateTime.parse(date!)))),
               controller: birthCtl,
             ),
@@ -84,9 +92,10 @@ class AddActorFormState extends State<AddActorForm> {
             if (isChecked)
               DateFormQuestion(
                 question: "Death date",
-                onChanged: (date) => setState(() => death =
+                initialValue: widget.actor.death,
+                onChanged: (date) => setState(() => widget.actor.death =
                     DateTime.parse(formatDate.format(DateTime.parse(date!)))),
-                onSaved: (date) => setState(() => death =
+                onSaved: (date) => setState(() => widget.actor.death =
                     DateTime.parse(formatDate.format(DateTime.parse(date!)))),
                 controller: deathCtl,
               ),
@@ -94,14 +103,16 @@ class AddActorFormState extends State<AddActorForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Provider.of<AddTabBloc>(context, listen: false).add(
-                    AddActor(
-                      name: name,
-                      firstname: firstname,
-                      birth: birth!,
-                      death: death,
-                    ),
-                  );
+
+                  if (widget.create) {
+                    Provider.of<AddTabBloc>(context, listen: false).add(
+                      AddActor(actor: widget.actor),
+                    );
+                  } else {
+                    Provider.of<MoviesTabBloc>(context, listen: false).add(
+                      EditActor(actor: widget.actor),
+                    );
+                  }
                 }
               },
               child: const Text("Add the actor"),

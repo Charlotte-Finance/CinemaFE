@@ -17,13 +17,21 @@ class FetchLike extends MovieEvent {
   List<Object> get props => [movie];
 }
 
-class LikeMovie extends MovieEvent {
+class LikeMovieWhenLoaded extends MovieEvent {
   final User user;
   final Movie movie;
   final bool isLiked;
 
-  const LikeMovie({required this.user, required this.movie, required this.isLiked});
+  const LikeMovieWhenLoaded({
+    required this.user,
+    required this.movie,
+    required this.isLiked,
+  });
 
   @override
-  List<Object> get props => [movie, isLiked];
+  List<Object> get props => [
+        user,
+        movie,
+        isLiked,
+      ];
 }

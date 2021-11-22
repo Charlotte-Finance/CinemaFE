@@ -1,6 +1,5 @@
 part of 'movie_bloc.dart';
 
-
 abstract class MovieState extends Equatable {
   const MovieState();
 }
@@ -17,13 +16,13 @@ class MovieLoading extends MovieState {
 
 class MovieLoaded extends MovieState {
   final Movie movie;
-  final bool isLiked;
 
-  const MovieLoaded({required this.movie, required this.isLiked});
+  const MovieLoaded({required this.movie});
 
   @override
-  List<Object> get props => [movie, isLiked];
+  List<Object> get props => [movie];
 }
+
 
 class MovieError extends MovieState {
   final String error;

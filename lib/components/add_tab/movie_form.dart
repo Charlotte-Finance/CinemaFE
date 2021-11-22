@@ -1,35 +1,38 @@
+import 'dart:collection';
+
 import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/director.dart';
+import 'package:cinema_fe/models/movie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 
-class AddMovieForm extends StatefulWidget {
+class MovieForm extends StatefulWidget {
+  final HashMap? movies;
+  final Movie movie;
   final List<Director> directors;
   final List<Category> categories;
+  final bool create;
 
-  const AddMovieForm(
-      {Key? key, required this.directors, required this.categories})
-      : super(key: key);
+  const MovieForm({
+    Key? key,
+    this.movies,
+    required this.movie,
+    required this.directors,
+    required this.categories,
+    required this.create,
+  }) : super(key: key);
 
   @override
-  AddMovieFormState createState() {
-    return AddMovieFormState();
-  }
+  _MovieFormState createState() => _MovieFormState();
 }
 
-class AddMovieFormState extends State<AddMovieForm> {
-  late String title;
-  late int duration;
+class _MovieFormState extends State<MovieForm> {
   late TextEditingController releaseCtl;
-  DateTime? release;
-  late int budget;
-  late int revenue;
-  late int directorId;
-  late String categoryCode;
   final _formKey = GlobalKey<FormState>();
   final formatDate = DateFormat('yyyy-MM-dd');
 
@@ -37,7 +40,9 @@ class AddMovieFormState extends State<AddMovieForm> {
   void initState() {
     super.initState();
     releaseCtl = TextEditingController(
-      text: release.toString() == "null" ? null : release.toString(),
+      text: widget.movie.release.toString() == "null"
+          ? null
+          : widget.movie.release.toString(),
     );
   }
 
@@ -51,39 +56,45 @@ class AddMovieFormState extends State<AddMovieForm> {
           children: [
             TextFormQuestion(
               question: "Title",
-              onChanged: (answer) => title = answer,
-              onSaved: (answer) => title = answer,
+              initialValue: widget.movie.title,
+              onChanged: (answer) => widget.movie.title = answer,
+              onSaved: (answer) => widget.movie.title = answer,
             ),
             NumberFormQuestion(
               question: "Duration",
-              onChanged: (answer) => duration = int.parse(answer),
-              onSaved: (answer) => duration = int.parse(answer),
+              initialValue: widget.movie.duration.toString(),
+              onChanged: (answer) => widget.movie.duration = int.parse(answer),
+              onSaved: (answer) => widget.movie.duration = int.parse(answer),
             ),
             DateFormQuestion(
               question: "Release",
-              onChanged: (date) => setState(() => release =
+              initialValue: widget.movie.release,
+              onChanged: (date) => setState(() => widget.movie.release =
                   DateTime.parse(formatDate.format(DateTime.parse(date!)))),
-              onSaved: (date) => setState(() => release =
+              onSaved: (date) => setState(() => widget.movie.release =
                   DateTime.parse(formatDate.format(DateTime.parse(date!)))),
               controller: releaseCtl,
             ),
             NumberFormQuestion(
               question: "Budget",
-              onChanged: (answer) => budget = int.parse(answer),
-              onSaved: (answer) => budget = int.parse(answer),
+              initialValue: widget.movie.budget.toString(),
+              onChanged: (answer) => widget.movie.budget = int.parse(answer),
+              onSaved: (answer) => widget.movie.budget = int.parse(answer),
             ),
             NumberFormQuestion(
               question: "Revenue",
-              onChanged: (answer) => revenue = int.parse(answer),
-              onSaved: (answer) => revenue = int.parse(answer),
+              initialValue: widget.movie.revenue.toString(),
+              onChanged: (answer) => widget.movie.revenue = int.parse(answer),
+              onSaved: (answer) => widget.movie.revenue = int.parse(answer),
             ),
             DropDownFormQuestion(
               question: "Director",
               category: "director",
+              selectedItem: widget.movie.director,
               items: widget.directors,
               itemAsString: (items) => "${items.firstname} ${items.name}",
               onSaved: (director) => setState(() {
-                directorId = director.id;
+                widget.movie.directorId = director.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -95,10 +106,11 @@ class AddMovieFormState extends State<AddMovieForm> {
             DropDownFormQuestion(
               question: "Category",
               category: "category",
+              selectedItem: widget.movie.category,
               items: widget.categories,
               itemAsString: (items) => "${items.label}",
               onSaved: (category) => setState(() {
-                categoryCode = category.code;
+                widget.movie.categoryCode = category.code;
               }),
               validator: (value) {
                 if (value == null) {
@@ -111,17 +123,15 @@ class AddMovieFormState extends State<AddMovieForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Provider.of<AddTabBloc>(context, listen: false).add(
-                    AddMovie(
-                      title: title,
-                      duration: duration,
-                      release: release!,
-                      budget: budget,
-                      revenue: revenue,
-                      directorId: directorId,
-                      categoryCode: categoryCode,
-                    ),
-                  );
+                  if (widget.create) {
+                    Provider.of<AddTabBloc>(context, listen: false).add(
+                      AddMovie(movie: widget.movie),
+                    );
+                  } else {
+                    Provider.of<MoviesTabBloc>(context, listen: false).add(
+                      EditMovie(movie: widget.movie),
+                    );
+                  }
                 }
               },
               child: const Text("Add the movie"),

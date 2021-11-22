@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cinema_fe/components/add_tab/director_form.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/character.dart';
@@ -70,7 +71,7 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
       Director(id: 2, name: "Besson", firstname: "Luc"),
     ];
     try {
-      yield MovieForm(directors: directors, categories: categories);
+      yield MovieFormState(directors: directors, categories: categories);
     } catch (_) {
       yield AddTabError(
         error: "Something went wrong...",
@@ -82,15 +83,6 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapAddMovie(AddMovie event) async* {
     yield AddTabLoading();
     try {
-      Movie movie = Movie(
-        title: event.title,
-        duration: event.duration,
-        release: event.release,
-        budget: event.budget,
-        revenue: event.revenue,
-        directorId: event.directorId,
-        categoryCode: event.categoryCode,
-      );
       //await movieRepository.post(movie);
       yield AddTabLoaded();
     } catch (_) {
@@ -104,7 +96,7 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapGetActorForm(GetActorForm event) async* {
     yield AddTabLoading();
     try {
-      yield ActorForm();
+      yield ActorFormState();
     } catch (_) {
       yield AddTabError(
         error: "Something went wrong...",
@@ -116,12 +108,6 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapAddActor(AddActor event) async* {
     yield AddTabLoading();
     try {
-      Actor actor = Actor(
-        name: event.name,
-        firstname: event.firstname,
-        birth: event.birth,
-        death: event.death,
-      );
       //await actorRepository.post(actor);
       yield AddTabLoaded();
     } catch (_) {
@@ -174,7 +160,7 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
           categoryCode: "AC",
         ),
       ];
-      yield CharacterForm(actors: actors, movies: movies);
+      yield CharacterFormState(actors: actors, movies: movies);
     } catch (_) {
       yield AddTabError(
         error: "Something went wrong...",
@@ -186,11 +172,6 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapAddCharacter(AddCharacter event) async* {
     yield AddTabLoading();
     try {
-      Character character = Character(
-        name: event.name,
-        actorId: event.actorId,
-        movieId: event.movieId,
-      );
       //await characterRepository.post(character);
       yield AddTabLoaded();
     } catch (_) {
@@ -201,11 +182,10 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
     }
   }
 
-
   Stream<AddTabState> _mapGetDirectorForm(GetDirectorForm event) async* {
     yield AddTabLoading();
     try {
-      yield DirectorForm();
+      yield DirectorFormState();
     } catch (_) {
       yield AddTabError(
         error: "Something went wrong...",
@@ -217,10 +197,6 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapAddDirector(AddDirector event) async* {
     yield AddTabLoading();
     try {
-      Director director = Director(
-        name: event.name,
-        firstname: event.firstname,
-      );
       //await directorRepository.post(director);
       yield AddTabLoaded();
     } catch (_) {
@@ -230,5 +206,4 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
       );
     }
   }
-
 }

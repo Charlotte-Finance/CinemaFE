@@ -1,35 +1,32 @@
 import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/models/category.dart';
-import 'package:cinema_fe/models/director.dart';
+import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 
-class AddCharacterForm extends StatefulWidget {
+class CharacterForm extends StatefulWidget {
+  final Character character;
+  final bool create;
   final List<Actor> actors;
   final List<Movie> movies;
 
-  const AddCharacterForm({
+  const CharacterForm({
     Key? key,
+    required this.character,
+    required this.create,
     required this.actors,
     required this.movies,
   }) : super(key: key);
 
   @override
-  AddCharacterFormState createState() {
-    return AddCharacterFormState();
-  }
+  _CharacterFormState createState() => _CharacterFormState();
 }
 
-class AddCharacterFormState extends State<AddCharacterForm> {
-  late String name;
-  late int actorId;
-  late int movieId;
+class _CharacterFormState extends State<CharacterForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -42,19 +39,21 @@ class AddCharacterFormState extends State<AddCharacterForm> {
           children: [
             TextFormQuestion(
               question: "Name",
-              onChanged: (answer) => name = answer,
-              onSaved: (answer) => name = answer,
+              initialValue: widget.character.name,
+              onChanged: (answer) => widget.character.name = answer,
+              onSaved: (answer) => widget.character.name = answer,
             ),
             DropDownFormQuestion(
               question: "Actor",
               category: "actor",
+              selectedItem: widget.character.actor,
               items: widget.actors,
               itemAsString: (items) => "${items.firstname} ${items.name}",
               onChanged: (actor) => setState(() {
-                actorId = actor.id;
+                widget.character.actorId = actor.id;
               }),
               onSaved: (actor) => setState(() {
-                actorId = actor.id;
+                widget.character.actorId = actor.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -66,13 +65,14 @@ class AddCharacterFormState extends State<AddCharacterForm> {
             DropDownFormQuestion(
               question: "Movie",
               category: "movie",
+              selectedItem: widget.character.movie,
               items: widget.movies,
               itemAsString: (items) => "${items.title}",
               onChanged: (movie) => setState(() {
-                movieId = movie.id;
+                widget.character.movieId = movie.id;
               }),
               onSaved: (movie) => setState(() {
-                movieId = movie.id;
+                widget.character.movieId = movie.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -85,13 +85,16 @@ class AddCharacterFormState extends State<AddCharacterForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Provider.of<AddTabBloc>(context, listen: false).add(
-                    AddCharacter(
-                      name: name,
-                      actorId: actorId,
-                      movieId: movieId,
-                    ),
-                  );
+
+                  if (widget.create) {
+                    Provider.of<AddTabBloc>(context, listen: false).add(
+                      AddCharacter(character: widget.character),
+                    );
+                  } else {
+                    Provider.of<MoviesTabBloc>(context, listen: false).add(
+                      EditCharacter(character: widget.character),
+                    );
+                  }
                 }
               },
               child: const Text("Add the character"),

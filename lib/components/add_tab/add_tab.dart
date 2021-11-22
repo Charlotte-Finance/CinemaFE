@@ -1,15 +1,19 @@
 import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
+import 'package:cinema_fe/models/actor.dart';
+import 'package:cinema_fe/models/character.dart';
+import 'package:cinema_fe/models/director.dart';
+import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'add_actor.dart';
-import 'add_character.dart';
-import 'add_director.dart';
-import 'add_movie.dart';
+import 'actor_form.dart';
 import 'add_section.dart';
+import 'character_form.dart';
+import 'director_form.dart';
+import 'movie_form.dart';
 
 class AddTab extends StatelessWidget {
   final User user;
@@ -56,20 +60,29 @@ class AddTab extends StatelessWidget {
               ),
             ],
           );
-        } else if (state is MovieForm) {
-          return AddMovieForm(
+        } else if (state is MovieFormState) {
+          return MovieForm(
             directors: state.directors,
             categories: state.categories,
+            create: true,
+            movie: Movie(),
           );
-        } else if (state is ActorForm) {
-          return const AddActorForm();
-        } else if (state is CharacterForm) {
-          return AddCharacterForm(
+        } else if (state is ActorFormState) {
+          return ActorForm(
+            actor: Actor(),
+            create: true,
+          );
+        } else if (state is CharacterFormState) {
+          return CharacterForm(
+            character: Character(),
+            create: true,
             actors: state.actors,
             movies: state.movies,
           );
-        } else if (state is DirectorForm) {
-          return const AddDirectorForm();
+        } else if (state is DirectorFormState) {
+          return DirectorForm(
+            director: Director(), create: true,
+          );
         } else if (state is AddTabError) {
           return ErrorMessage(
             error: state.error,

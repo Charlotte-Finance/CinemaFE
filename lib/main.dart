@@ -8,6 +8,7 @@ import 'package:url_strategy/url_strategy.dart';
 import 'blocs/add_tab/add_tab_bloc.dart';
 import 'blocs/liked_tab/liked_tab_bloc.dart';
 import 'blocs/login/login_bloc.dart';
+import 'blocs/movie/movie_bloc.dart';
 import 'blocs/movies_tab/movies_tab_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -36,6 +37,9 @@ void main() {
         BlocProvider<AddTabBloc>(
           create: (BuildContext context) => AddTabBloc(),
         ),
+        BlocProvider<MovieBloc>(
+          create: (BuildContext context) => MovieBloc(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -51,14 +55,13 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.cyan,
-        accentColor: Colors.cyan,
+        primaryColor: Colors.orange,
+        accentColor: Colors.orange,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            primary: Colors.cyan,
+            primary: Colors.orange,
           ),
         ),
-
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
       onGenerateInitialRoutes: (route) {

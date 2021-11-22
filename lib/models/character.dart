@@ -1,14 +1,19 @@
+import 'actor.dart';
+import 'movie.dart';
+
 class Character {
-  final int? id;
-  final int actorId;
-  final int movieId;
-  final String name;
+  int? id;
+  int? actorId;
+  int? movieId;
+  String? name;
+  Actor? actor;
+  Movie? movie;
 
   Character({
     this.id,
-    required this.actorId,
-    required this.movieId,
-    required this.name,
+    this.actorId,
+    this.movieId,
+    this.name,
   });
 
   factory Character.fromJson(Map<String, dynamic> json) {

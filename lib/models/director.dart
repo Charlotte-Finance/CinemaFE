@@ -1,12 +1,12 @@
 class Director {
-  final int? id;
-  final String name;
-  final String firstname;
+  int? id;
+  String? name;
+  String? firstname;
 
   Director({
     this.id,
-    required this.name,
-    required this.firstname,
+    this.name,
+    this.firstname,
   });
 
   factory Director.fromJson(Map<String, dynamic> json) {

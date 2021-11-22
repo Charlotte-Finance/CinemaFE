@@ -1,22 +1,32 @@
+import 'actor.dart';
+import 'category.dart';
+import 'character.dart';
+import 'director.dart';
+
 class Movie {
-  final int? id;
-  final String title;
-  final int duration;
-  final DateTime release;
-  final int budget;
-  final int revenue;
-  final int directorId;
-  final String categoryCode;
+  int? id;
+  String? title;
+  int? duration;
+  DateTime? release;
+  int? budget;
+  int? revenue;
+  int? directorId;
+  String? categoryCode;
+  Director? director;
+  Category? category;
+  bool? isLiked = false;
+  List<Actor>? actors;
+  List<Character>? characters;
 
   Movie({
     this.id,
-    required this.title,
-    required this.duration,
-    required this.release,
-    required this.budget,
-    required this.revenue,
-    required this.directorId,
-    required this.categoryCode,
+    this.title,
+    this.duration,
+    this.release,
+    this.budget,
+    this.revenue,
+    this.directorId,
+    this.categoryCode,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {

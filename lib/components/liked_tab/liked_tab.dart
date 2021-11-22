@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
+import 'package:cinema_fe/components/movies_tab/movie_card.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
-import 'package:cinema_fe/components/widgets/movie_card.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class LikedTab extends StatelessWidget {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  MovieCard(user: user, movie: state.movies[index]),
+                  MovieCard(user: user, movies: state.movies, movie: state.movies[index]),
                 ],
               );
             },

@@ -10,34 +10,12 @@ class GetMovieForm extends AddTabEvent {
 }
 
 class AddMovie extends AddTabEvent {
-  final String title;
-  final int duration;
-  final DateTime release;
-  final int budget;
-  final int revenue;
-  final int directorId;
-  final String categoryCode;
+  final Movie movie;
 
-  const AddMovie({
-    required this.title,
-    required this.duration,
-    required this.release,
-    required this.budget,
-    required this.revenue,
-    required this.directorId,
-    required this.categoryCode,
-  });
+  const AddMovie({required this.movie});
 
   @override
-  List<Object> get props => [
-        title,
-        duration,
-        release,
-        budget,
-        revenue,
-        directorId,
-        categoryCode,
-      ];
+  List<Object> get props => [movie];
 }
 
 class GetCharacterForm extends AddTabEvent {
@@ -46,15 +24,13 @@ class GetCharacterForm extends AddTabEvent {
 }
 
 class AddCharacter extends AddTabEvent {
-  final String name;
-  final int actorId;
-  final int movieId;
+  final Character character;
 
   const AddCharacter(
-      {required this.name, required this.actorId, required this.movieId});
+      {required this.character});
 
   @override
-  List<Object> get props => [name, actorId, movieId];
+  List<Object> get props => [character];
 }
 
 class GetActorForm extends AddTabEvent {
@@ -63,25 +39,14 @@ class GetActorForm extends AddTabEvent {
 }
 
 class AddActor extends AddTabEvent {
-  final String name;
-  final String firstname;
-  final DateTime birth;
-  final DateTime? death;
+  final Actor actor;
 
   const AddActor({
-    required this.name,
-    required this.firstname,
-    required this.birth,
-    required this.death,
+    required this.actor,
   });
 
   @override
-  List<Object?> get props => [
-        name,
-        firstname,
-        birth,
-        death,
-      ];
+  List<Object?> get props => [actor];
 }
 
 class GetDirectorForm extends AddTabEvent {
@@ -90,18 +55,15 @@ class GetDirectorForm extends AddTabEvent {
 }
 
 class AddDirector extends AddTabEvent {
-  final String name;
-  final String firstname;
+  final Director director;
 
   const AddDirector({
-    required this.name,
-    required this.firstname,
+    required this.director
   });
 
   @override
   List<Object> get props => [
-        name,
-        firstname,
+    director
       ];
 }
 

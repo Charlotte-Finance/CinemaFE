@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cinema_fe/models/character.dart';
+import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/utils/http_request.dart';
 
 class CharacterRepository {
@@ -18,6 +19,13 @@ class CharacterRepository {
     return Character.fromJson(character);
   }
 
+  Future<List<Character>> getByMovie(Movie movie) async {
+    final Map<String, String> _queryParameters = <String, String>{
+      'movie_id': movie.id.toString()
+    };
+    final characters = await HttpRequest.getRequest(parameters: _queryParameters, endpoint: url + "by_movie/");
+    return (characters as List).map((p) => Character.fromJson(p)).toList();
+  }
   Future<Character> post(Character character) async {
     final String json = jsonEncode(character);
     final response = await HttpRequest.postRequest(url, json);

@@ -18,7 +18,6 @@ class MovieRepository {
     return Movie.fromJson(movie);
   }
 
-
   Future<List<Movie>> getMoviesByCategory(Category category) async {
     final movies = await HttpRequest.getRequest(
         endpoint: url + "category/${category.code}");
@@ -27,13 +26,26 @@ class MovieRepository {
 
   Future<List<Movie>> getLikedMovies(User user) async {
     final movies =
-    await HttpRequest.getRequest(endpoint: url + "liked/${user.id}");
+        await HttpRequest.getRequest(endpoint: url + "liked/${user.id}");
     return (movies as List).map((movie) => Movie.fromJson(movie)).toList();
   }
 
   Future<Movie> post(Movie movie) async {
     final String json = jsonEncode(movie);
     final response = await HttpRequest.postRequest(url, json);
+    return Movie.fromJson(response);
+  }
+
+  Future<Movie> put(Movie movie) async {
+    final String json = jsonEncode(movie);
+    final response = await HttpRequest.putRequest(url, json);
+    return Movie.fromJson(response);
+  }
+
+
+  Future<Movie> delete(Movie movie) async {
+    final String json = jsonEncode(movie);
+    final response = await HttpRequest.deleteRequest(url, json);
     return Movie.fromJson(response);
   }
 }
