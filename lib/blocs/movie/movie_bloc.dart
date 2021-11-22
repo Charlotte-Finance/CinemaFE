@@ -1,9 +1,4 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/models/character.dart';
-import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/repositories/actor_repository.dart';
@@ -14,6 +9,7 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movie_event.dart';
+
 part 'movie_state.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
@@ -40,13 +36,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Stream<MovieState> _mapFetchLike(FetchLike event) async* {
     yield MovieLoading();
     try {
-      //bool isLiked = await likeRepository.getLike(event.user, event.movie);
-      Random r = Random();
-      double falseProbability = .3;
-      bool isLiked = r.nextDouble() > falseProbability;
+      bool isLiked = await likeRepository.getLike(event.user, event.movie);
       event.movie.isLiked = isLiked;
       yield MovieLoaded(movie: event.movie);
     } catch (_) {
+      print(_);
       yield MovieError(
         error: "Something went wrong...",
         event: event,
@@ -57,16 +51,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Stream<MovieState> _mapLikeMovieWhenLoaded(LikeMovieWhenLoaded event) async* {
     yield MovieLoading();
     try {
-      //await likeRepository.changeLike(event.user, event.movie);
+      await likeRepository.changeLike(event.user, event.movie);
       event.movie.isLiked = event.isLiked;
       yield MovieLoaded(movie: event.movie);
     } catch (_) {
+      print(_);
       yield MovieError(
         error: "Something went wrong...",
         event: event,
       );
     }
   }
-
-
 }

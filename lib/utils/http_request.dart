@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class HttpRequest {
-  //static const String _address = "10.0.2.2"; // Emulator
-  static const String _address = "127.0.0.1"; // Web
+  static const String _address = "10.0.2.2"; // Emulator
+  //static const String _address = "127.0.0.1"; // Web
   static const int _port = 8080;
 
   static Future<dynamic> getEntireRequest(
@@ -26,24 +27,30 @@ class HttpRequest {
   static Future<dynamic> getRequest(
       {Map<String, dynamic>? parameters, required String endpoint}) async {
     Uri httpRequest = Uri(
+      scheme: "http",
       path: endpoint,
       port: _port,
       host: _address,
       queryParameters: parameters,
     );
     print(httpRequest.toString());
-    final response = await http.get(
-      httpRequest,
-    );
-    if (response.statusCode == 200) {
-      return (json.decode(response.body.toString()));
-    } else {
-      throw Exception('Failed');
+    try {
+      final response = await http.get(
+        httpRequest,
+      );
+      if (response.statusCode == 200) {
+        return (json.decode(response.body.toString()));
+      } else {
+        throw Exception('Failed');
+      }
+    } catch (_) {
+      print(_.toString());
     }
   }
 
   static Future<dynamic> postRequest(String endpoint, String jsonBody) async {
-    Uri httpRequest = Uri(path: endpoint, port: _port, host: _address);
+    Uri httpRequest =
+        Uri(scheme: "http", path: endpoint, port: _port, host: _address);
     final response = await http.post(
       httpRequest,
       headers: <String, String>{
@@ -61,7 +68,8 @@ class HttpRequest {
   }
 
   static Future<dynamic> deleteRequest(String endpoint, String jsonBody) async {
-    Uri httpRequest = Uri(path: endpoint, port: _port, host: _address);
+    Uri httpRequest =
+        Uri(scheme: "http", path: endpoint, port: _port, host: _address);
     final response = await http.delete(
       httpRequest,
       headers: <String, String>{
@@ -79,7 +87,8 @@ class HttpRequest {
   }
 
   static Future<dynamic> putRequest(String endpoint, String jsonBody) async {
-    Uri httpRequest = Uri(path: endpoint, port: _port, host: _address);
+    Uri httpRequest =
+        Uri(scheme: "http", path: endpoint, port: _port, host: _address);
     final response = await http.put(
       httpRequest,
       headers: <String, String>{

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:cinema_fe/components/add_tab/director_form.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/character.dart';
@@ -121,45 +120,9 @@ class AddTabBloc extends Bloc<AddTabEvent, AddTabState> {
   Stream<AddTabState> _mapGetCharacterForm(GetCharacterForm event) async* {
     yield AddTabLoading();
     try {
-      //List<Actor> actors = await actorRepository.getActors();
-      //List<Movie> movies = await movieRepository.getMovies();
-      List<Actor> actors = [
-        Actor(
-          id: 1,
-          name: "Dujardin",
-          firstname: "Jean",
-          birth: DateTime.now(),
-          death: null,
-        ),
-        Actor(
-          id: 2,
-          name: "Dicaprio",
-          firstname: "Leonardo",
-          birth: DateTime.now(),
-          death: null,
-        ),
-      ];
-      List<Movie> movies = [
-        Movie(
-            id: 1,
-            title: "Leon",
-            duration: 1,
-            release: DateTime.now(),
-            budget: 1,
-            revenue: 1,
-            directorId: 1,
-            categoryCode: "AC"),
-        Movie(
-          id: 2,
-          title: "Cash",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-      ];
+      List<Actor> actors = await actorRepository.getActors();
+      List<Movie> movies = await movieRepository.getMovies();
+
       yield CharacterFormState(actors: actors, movies: movies);
     } catch (_) {
       yield AddTabError(

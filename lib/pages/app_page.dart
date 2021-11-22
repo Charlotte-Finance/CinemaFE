@@ -5,10 +5,6 @@ import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/add_tab/add_tab.dart';
 import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/movies_tab/movies_tab.dart';
-import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/models/category.dart';
-import 'package:cinema_fe/models/character.dart';
-import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +28,6 @@ class _AppPageState extends State<AppPage> {
   bool arrow2 = false;
   late HashMap movies;
   late Movie movie;
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -93,11 +88,11 @@ class _AppPageState extends State<AppPage> {
                     return IconButton(
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
-                        Provider.of<MoviesTabBloc>(context, listen: false).add(
-                            GoBackMovie(
-                                movies: movies,
-                                movie: movie,
-                                ));
+                        Provider.of<MoviesTabBloc>(context, listen: false)
+                            .add(GoBackMovie(
+                          movies: movies,
+                          movie: movie,
+                        ));
                       },
                       tooltip: MaterialLocalizations.of(context)
                           .openAppDrawerTooltip,

@@ -70,9 +70,9 @@ class _MovieFormState extends State<MovieForm> {
               question: "Release",
               initialValue: widget.movie.release,
               onChanged: (date) => setState(() => widget.movie.release =
-                  DateTime.parse(formatDate.format(DateTime.parse(date!)))),
+                  formatDate.format(DateTime.parse(date!))),
               onSaved: (date) => setState(() => widget.movie.release =
-                  DateTime.parse(formatDate.format(DateTime.parse(date!)))),
+                  formatDate.format(DateTime.parse(date!))),
               controller: releaseCtl,
             ),
             NumberFormQuestion(

@@ -79,92 +79,18 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
   Stream<MoviesTabState> _mapGetMovies(GetMovies event) async* {
     yield MoviesTabLoading();
     try {
-      //List<Category> categories = await categoryRepository.getCategories();
+      List<Category> categories = await categoryRepository.getCategories();
       HashMap movies = HashMap<Category, List<Movie>>();
-      // for (Category category in categories){
-      //   List<Movie> moviesCategory = await movieRepository.getMoviesByCategory(category);
-      //   movies.putIfAbsent(category, () => moviesCategory);
-      // }
-      List<Movie> actionMovies = [
-        Movie(
-          id: 1,
-          title: "Leon",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-        Movie(
-          id: 2,
-          title: "Cash",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-        Movie(
-          id: 1,
-          title: "Leon",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-        Movie(
-          id: 2,
-          title: "Cash",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-      ];
-      List<Movie> horrorMovies = [
-        Movie(
-          id: 3,
-          title: "Vadrouille",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-        Movie(
-          id: 4,
-          title: "Subway",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-      ];
-      movies.putIfAbsent(
-          Category(
-            code: "AC",
-            label: "Action",
-            picture: "None",
-          ),
-          () => actionMovies);
-      movies.putIfAbsent(
-          Category(
-            code: "HR",
-            label: "Horror",
-            picture: "None",
-          ),
-          () => horrorMovies);
+      for (Category category in categories){
+        List<Movie> moviesCategory = await movieRepository.getMoviesByCategory(category);
+        movies.putIfAbsent(category, () => moviesCategory);
+      }
+
+
+
       yield MoviesTabLoaded(movies: movies);
     } catch (_) {
+      print(_);
       yield MoviesTabError(
         error: "Something went wrong...",
         event: event,
@@ -326,29 +252,9 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
       FetchCharacterForm event) async* {
     yield MoviesTabLoading();
     try {
-      //List<Movie> allMovies = await movieRepository.getMovies();
+      List<Movie> allMovies = await movieRepository.getMovies();
 
-      List<Movie> allMovies = [
-        Movie(
-            id: 3,
-            title: "Vadrouille",
-            duration: 1,
-            release: DateTime.now(),
-            budget: 1,
-            revenue: 1,
-            directorId: 1,
-            categoryCode: "AC"),
-        Movie(
-          id: 4,
-          title: "Subway",
-          duration: 1,
-          release: DateTime.now(),
-          budget: 1,
-          revenue: 1,
-          directorId: 1,
-          categoryCode: "AC",
-        ),
-      ];
+
       // List<Actor> actors = await actorRepository.getByMovie(event.movie);
       // Actor actor = await actorRepository.getActor(event.character.actorId);
 

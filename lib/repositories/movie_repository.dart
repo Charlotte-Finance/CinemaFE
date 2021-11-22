@@ -6,7 +6,7 @@ import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/http_request.dart';
 
 class MovieRepository {
-  final String url = "/movies_tab/";
+  final String url = "/movies/";
 
   Future<List<Movie>> getMovies() async {
     final movies = await HttpRequest.getRequest(endpoint: url);

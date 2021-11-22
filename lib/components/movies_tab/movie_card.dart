@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/models/movie.dart';
@@ -57,8 +55,8 @@ class MovieCard extends StatelessWidget {
                     ),
                   );
                 },
-                child: Image(
-                  image: AssetImage('lib/assets/movies/${movie.id}.jpg'),
+                child: const Image(
+                  image: AssetImage('lib/assets/movies/1.jpg'),
                 ),
               ),
               GestureDetector(

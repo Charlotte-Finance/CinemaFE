@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import 'package:cinema_fe/components/movies_tab/movie_card.dart';
@@ -24,8 +23,7 @@ class CategoryMovies extends StatelessWidget {
       shrinkWrap: true,
       itemCount: movies.keys.length,
       itemBuilder: (ctx, indexCategory) {
-        Category category =
-        movies.keys.elementAt(indexCategory);
+        Category category = movies.keys.elementAt(indexCategory);
         return Column(
           children: [
             const SizedBox(height: 50),

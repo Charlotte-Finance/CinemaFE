@@ -7,7 +7,7 @@ class Movie {
   int? id;
   String? title;
   int? duration;
-  DateTime? release;
+  String? release;
   int? budget;
   int? revenue;
   int? directorId;
