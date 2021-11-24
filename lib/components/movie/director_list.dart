@@ -1,23 +1,21 @@
-import 'dart:collection';
-
-import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
+import 'package:cinema_fe/blocs/director/director_bloc.dart';
+import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/models/director.dart';
-import 'package:cinema_fe/models/movie.dart';
+import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/route_arguments.dart';
+import 'package:cinema_fe/utils/routing_constants.dart';
 import 'package:cinema_fe/utils/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DirectorList extends StatelessWidget {
-  final HashMap movies;
-  final Movie movie;
+  final User user;
   final List<Director> directors;
 
   const DirectorList({
     Key? key,
-    required this.movies,
-    required this.movie,
+    required this.user,
     required this.directors,
   }) : super(key: key);
 
@@ -71,22 +69,31 @@ class DirectorList extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
-                              Provider.of<MoviesTabBloc>(context, listen: false)
-                                  .add(
-                                FetchDirectorForm(
-                                    movies: movies, director: directors[index], movie:movie),
+                              BlocProvider.of<FormsBloc>(context).add(
+                                GetDirectorForm(director: directors[index]),
+                              );
+                              WidgetsBinding.instance!.addPostFrameCallback(
+                                    (_) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    FormRoute,
+                                    ModalRoute.withName(FormRoute),
+                                    arguments: UserArgument(user: user),
+                                  );
+                                },
                               );
                             },
                           ),
                           Text(
-                            directors[index].firstname! + " " +
+                            directors[index].firstname! +
+                                " " +
                                 directors[index].name!,
                             style: const TextStyle(fontSize: 20),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              Provider.of<MoviesTabBloc>(context, listen: false)
+                              BlocProvider.of<DirectorBloc>(context)
                                   .add(
                                 DeleteDirector(director: directors[index]),
                               );

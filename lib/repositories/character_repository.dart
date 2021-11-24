@@ -21,14 +21,23 @@ class CharacterRepository {
 
   Future<List<Character>> getByMovie(Movie movie) async {
     final Map<String, String> _queryParameters = <String, String>{
-      'movie_id': movie.id.toString()
+      'movieId': movie.id.toString()
     };
-    final characters = await HttpRequest.getRequest(parameters: _queryParameters, endpoint: url + "by_movie/");
+    final characters = await HttpRequest.getRequest(
+        parameters: _queryParameters, endpoint: url + "by-movie/");
     return (characters as List).map((p) => Character.fromJson(p)).toList();
   }
+
   Future<Character> post(Character character) async {
     final String json = jsonEncode(character);
     final response = await HttpRequest.postRequest(url, json);
+    return Character.fromJson(response);
+  }
+
+
+  Future<Character> delete(Character character) async {
+    final String json = jsonEncode(character);
+    final response = await HttpRequest.deleteRequest(url, json);
     return Character.fromJson(response);
   }
 }

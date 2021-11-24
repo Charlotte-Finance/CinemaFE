@@ -17,6 +17,7 @@ class HttpRequest {
         'connection': 'Keep-Alive',
       },
     );
+    print(httpRequest.toString());
     if (response.statusCode == 200) {
       return (json.decode(response.body.toString()));
     } else {
@@ -33,11 +34,12 @@ class HttpRequest {
       host: _address,
       queryParameters: parameters,
     );
-    print(httpRequest.toString());
     try {
       final response = await http.get(
         httpRequest,
       );
+      print(httpRequest.toString());
+
       if (response.statusCode == 200) {
         return (json.decode(response.body.toString()));
       } else {
@@ -58,6 +60,8 @@ class HttpRequest {
       },
       body: jsonBody,
     );
+    print(httpRequest.toString());
+
     if (response.statusCode != 201 && response.statusCode != 200) {
       // If the server did not return a 200 OK response,
       // then throw an exception.

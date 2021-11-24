@@ -18,8 +18,8 @@ class Actor {
       id: json['id'],
       name: json['name'],
       firstname: json['firstname'],
-      birth: json['birth'],
-      death: json['death'],
+      birth: DateTime.parse(json['birth']),
+      death: json['death'] == null ? null : DateTime.parse(json['death']),
     );
   }
 

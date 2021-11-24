@@ -1,16 +1,12 @@
 import 'dart:collection';
 
-import 'package:cinema_fe/blocs/add_tab/add_tab_bloc.dart';
-import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
-import 'package:cinema_fe/components/add_tab/add_tab.dart';
-import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
-import 'package:cinema_fe/components/movies_tab/movies_tab.dart';
+import 'package:cinema_fe/components/tabs/add_tab/add_tab.dart';
+import 'package:cinema_fe/components/tabs/liked_tab/liked_tab.dart';
+import 'package:cinema_fe/components/tabs/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/src/provider.dart';
 
 class AppPage extends StatefulWidget {
   final User user;
@@ -56,78 +52,6 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("CineMovies"),
-        leading: _selectedIndex == 0
-            ? BlocConsumer<MoviesTabBloc, MoviesTabState>(
-                listener: (context, state) {
-                  if (state is DescriptionLoaded) {
-                    movies = state.movies;
-                    movie = state.movie;
-                    arrow = true;
-                    arrow2 = false;
-                  } else if (state is EditForm) {
-                    movies = state.movies;
-                    arrow = false;
-                    arrow2 = true;
-                  } else {
-                    arrow = false;
-                    arrow2 = false;
-                  }
-                },
-                builder: (context, state) {
-                  if (arrow) {
-                    return IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Provider.of<MoviesTabBloc>(context, listen: false)
-                            .add(GoBackMovies(movies: movies));
-                      },
-                      tooltip: MaterialLocalizations.of(context)
-                          .openAppDrawerTooltip,
-                    );
-                  } else if (arrow2) {
-                    return IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Provider.of<MoviesTabBloc>(context, listen: false)
-                            .add(GoBackMovie(
-                          movies: movies,
-                          movie: movie,
-                        ));
-                      },
-                      tooltip: MaterialLocalizations.of(context)
-                          .openAppDrawerTooltip,
-                    );
-                  }
-                  return Container();
-                },
-              )
-            : _selectedIndex == 2
-                ? BlocConsumer<AddTabBloc, AddTabState>(
-                    listener: (context, state) {
-                      if (state is AddTabLoaded) {
-                        arrow = false;
-                        arrow2 = false;
-                      } else {
-                        arrow = true;
-                        arrow2 = false;
-                      }
-                    },
-                    builder: (context, state) {
-                      if (arrow) {
-                        return IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Provider.of<AddTabBloc>(context, listen: false)
-                                .add(GoBack());
-                          },
-                          tooltip: MaterialLocalizations.of(context)
-                              .openAppDrawerTooltip,
-                        );
-                      }
-                      return Container();
-                    },
-                  )
-                : null,
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

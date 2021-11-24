@@ -23,4 +23,10 @@ class DirectorRepository {
     final response = await HttpRequest.postRequest(url, json);
     return Director.fromJson(response);
   }
+
+  Future<Director> delete(Director director) async {
+    final String json = jsonEncode(director);
+    final response = await HttpRequest.deleteRequest(url, json);
+    return Director.fromJson(response);
+  }
 }

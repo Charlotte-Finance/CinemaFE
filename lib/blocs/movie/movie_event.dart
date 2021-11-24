@@ -4,6 +4,20 @@ abstract class MovieEvent extends Equatable {
   const MovieEvent();
 }
 
+
+class FetchDescription extends MovieEvent {
+  final Movie movie;
+
+  const FetchDescription({
+    required this.movie,
+  });
+
+  @override
+  List<Object> get props => [
+    movie,
+  ];
+}
+
 class FetchLike extends MovieEvent {
   final User user;
   final Movie movie;
@@ -17,12 +31,12 @@ class FetchLike extends MovieEvent {
   List<Object> get props => [movie];
 }
 
-class LikeMovieWhenLoaded extends MovieEvent {
+class LikeMovie extends MovieEvent {
   final User user;
   final Movie movie;
   final bool isLiked;
 
-  const LikeMovieWhenLoaded({
+  const LikeMovie({
     required this.user,
     required this.movie,
     required this.isLiked,
@@ -35,3 +49,26 @@ class LikeMovieWhenLoaded extends MovieEvent {
         isLiked,
       ];
 }
+
+class AddMovie extends MovieEvent {
+  final Movie movie;
+
+  const AddMovie({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
+
+class DeleteMovie extends MovieEvent {
+  final Movie movie;
+
+  const DeleteMovie({
+    required this.movie,
+  });
+
+  @override
+  List<Object> get props => [
+        movie,
+      ];
+}
+

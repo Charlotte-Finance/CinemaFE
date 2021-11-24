@@ -37,8 +37,8 @@ class Movie {
       release: json['release'],
       budget: json['budget'],
       revenue: json['revenue'],
-      directorId: json['director_id'],
-      categoryCode: json['category_code'],
+      directorId: json['directorId'],
+      categoryCode: json['categoryCode'],
     );
   }
 
@@ -50,8 +50,8 @@ class Movie {
     data['release'] = release;
     data['budget'] = budget;
     data['revenue'] = revenue;
-    data['director_id'] = directorId;
-    data['category_code'] = categoryCode;
+    data['directorId'] = directorId;
+    data['categoryCode'] = categoryCode;
     return data;
   }
 }

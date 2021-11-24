@@ -17,11 +17,12 @@ class LikeRepository {
   }
 
   Future<bool> changeLike(User user, Movie movie) async {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['is_liked'] = user.id;
-    data['movie_id'] = movie.id;
-    final String json = data.toString();
-    final bool = await HttpRequest.postRequest(url + "change-like/", json);
+    Map<String, dynamic> parameters = {
+      'userId': user.id.toString(),
+      'movieId': movie.id.toString()
+    };
+    final bool = await HttpRequest.getRequest(
+        parameters: parameters, endpoint: url + "change-like");
     return bool;
   }
 }

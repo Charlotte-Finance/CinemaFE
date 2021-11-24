@@ -1,2 +1,4 @@
 const String LoginRoute = '/login';
-const String AppRoute = '/app';
+const String AppRoute = '/tabs';
+const String MovieRoute = '/movie';
+const String FormRoute = '/forms';

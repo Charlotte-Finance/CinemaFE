@@ -1,31 +1,27 @@
-import 'dart:collection';
-
+import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
-import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
-
+import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
+import 'package:cinema_fe/components/tabs/movies_tab/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/route_arguments.dart';
+import 'package:cinema_fe/utils/routing_constants.dart';
 import 'package:cinema_fe/utils/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../movies_tab/movie_card.dart';
+
 import 'actor_list.dart';
 import 'character_list.dart';
-import 'package:provider/src/provider.dart';
-
 import 'director_list.dart';
 
 class MovieDescription extends StatelessWidget {
   final User user;
-  final HashMap movies;
   final Movie movie;
-
 
   const MovieDescription({
     Key? key,
     required this.user,
-    required this.movies,
     required this.movie,
   }) : super(key: key);
 
@@ -56,36 +52,42 @@ class MovieDescription extends StatelessWidget {
           ),
           MovieCard(
             user: user,
-            movies: movies,
             movie: movie,
           ),
           CharacterList(
-            movies: movies,
-            movie: movie,
+            user: user,
             characters: movie.characters!,
           ),
           ActorList(
-            movies: movies,
-            movie: movie,
+            user: user,
             actors: movie.actors!,
           ),
           DirectorList(
-            movies: movies,
-            movie: movie,
+            user: user,
             directors: [movie.director!],
           ),
           GestureDetector(
             child: const Text("Edit"),
             onTap: () {
-              Provider.of<MoviesTabBloc>(context, listen: false).add(
-                FetchMovieForm(movies: movies, movie: movie),
+              BlocProvider.of<FormsBloc>(context).add(
+                GetMovieForm(movie: movie),
+              );
+              WidgetsBinding.instance!.addPostFrameCallback(
+                    (_) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    FormRoute,
+                    ModalRoute.withName(FormRoute),
+                    arguments: UserArgument(user: user),
+                  );
+                },
               );
             },
           ),
           GestureDetector(
             child: const Text("Delete"),
             onTap: () {
-              Provider.of<MoviesTabBloc>(context, listen: false).add(
+              BlocProvider.of<MovieBloc>(context).add(
                 DeleteMovie(movie: movie),
               );
             },

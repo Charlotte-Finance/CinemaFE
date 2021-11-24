@@ -1,22 +1,25 @@
 import 'dart:collection';
 
-import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
+import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
+import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/movie.dart';
+import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/route_arguments.dart';
+import 'package:cinema_fe/utils/routing_constants.dart';
 import 'package:cinema_fe/utils/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cinema_fe/blocs/character/character_bloc.dart';
 
 class CharacterList extends StatelessWidget {
-  final HashMap movies;
-  final Movie movie;
+  final User user;
   final List<Character> characters;
 
   const CharacterList({
     Key? key,
-    required this.movies,
-    required this.movie,
+    required this.user,
     required this.characters,
   }) : super(key: key);
 
@@ -70,11 +73,18 @@ class CharacterList extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
-                              Provider.of<MoviesTabBloc>(context, listen: false)
-                                  .add(
-                                FetchCharacterForm(
-                                    movies: movies,
-                                    character: characters[index], movie:movie),
+                              BlocProvider.of<FormsBloc>(context).add(
+                                GetCharacterForm(character: characters[index]),
+                              );
+                              WidgetsBinding.instance!.addPostFrameCallback(
+                                    (_) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    FormRoute,
+                                    ModalRoute.withName(FormRoute),
+                                    arguments: UserArgument(user: user),
+                                  );
+                                },
                               );
                             },
                           ),
@@ -85,7 +95,7 @@ class CharacterList extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              Provider.of<MoviesTabBloc>(context, listen: false)
+                              BlocProvider.of<CharacterBloc>(context)
                                   .add(
                                 DeleteCharacter(character: characters[index]),
                               );
