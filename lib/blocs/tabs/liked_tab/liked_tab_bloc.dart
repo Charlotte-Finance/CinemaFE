@@ -6,7 +6,6 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'liked_tab_event.dart';
-
 part 'liked_tab_state.dart';
 
 

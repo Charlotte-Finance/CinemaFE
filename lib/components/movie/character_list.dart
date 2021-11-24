@@ -1,9 +1,6 @@
-import 'dart:collection';
-
+import 'package:cinema_fe/blocs/character/character_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/models/character.dart';
-import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
 import 'package:cinema_fe/utils/routing_constants.dart';
@@ -11,7 +8,6 @@ import 'package:cinema_fe/utils/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cinema_fe/blocs/character/character_bloc.dart';
 
 class CharacterList extends StatelessWidget {
   final User user;
@@ -57,7 +53,7 @@ class CharacterList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/characters/${characters[index].id}.jpg',
+                            'lib/assets/characters/${characters[index].name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -76,15 +72,10 @@ class CharacterList extends StatelessWidget {
                               BlocProvider.of<FormsBloc>(context).add(
                                 GetCharacterForm(character: characters[index]),
                               );
-                              WidgetsBinding.instance!.addPostFrameCallback(
-                                    (_) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    FormRoute,
-                                    ModalRoute.withName(FormRoute),
-                                    arguments: UserArgument(user: user),
-                                  );
-                                },
+                              Navigator.pushNamed(
+                                context,
+                                FormRoute,
+                                arguments: UserArgument(user: user),
                               );
                             },
                           ),
@@ -95,8 +86,7 @@ class CharacterList extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              BlocProvider.of<CharacterBloc>(context)
-                                  .add(
+                              BlocProvider.of<CharacterBloc>(context).add(
                                 DeleteCharacter(character: characters[index]),
                               );
                             },

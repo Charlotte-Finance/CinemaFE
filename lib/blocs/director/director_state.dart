@@ -10,10 +10,6 @@ class DirectorEmpty extends DirectorState {
   List<Object> get props => [];
 }
 
-class DirectorLoading extends DirectorState {
-  @override
-  List<Object> get props => [];
-}
 
 class DirectorLoaded extends DirectorState {
   final Director director;

@@ -10,11 +10,6 @@ class CharacterEmpty extends CharacterState {
   List<Object> get props => [];
 }
 
-class CharacterLoading extends CharacterState {
-  @override
-  List<Object> get props => [];
-}
-
 class CharacterSent extends CharacterState {
   final Character character;
 

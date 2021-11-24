@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'blocs/actor/actor_bloc.dart';
+import 'blocs/character/character_bloc.dart';
 import 'blocs/director/director_bloc.dart';
 import 'blocs/forms/forms_bloc.dart';
 import 'blocs/login/login_bloc.dart';
 import 'blocs/movie/movie_bloc.dart';
-import 'blocs/character/character_bloc.dart';
 import 'blocs/tabs/add_tab/add_tab_bloc.dart';
 import 'blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'blocs/tabs/movies_tab/movies_tab_bloc.dart';

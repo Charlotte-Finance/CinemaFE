@@ -52,7 +52,7 @@ class _DirectorFormState extends State<DirectorForm> {
                   );
                 }
               },
-              child: const Text("Add the director"),
+              child: widget.director.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

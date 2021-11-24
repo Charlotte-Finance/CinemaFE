@@ -1,6 +1,5 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/tabs/movies_tab/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -53,6 +52,7 @@ class MovieDescription extends StatelessWidget {
           MovieCard(
             user: user,
             movie: movie,
+            enableClick: false,
           ),
           CharacterList(
             user: user,
@@ -60,7 +60,7 @@ class MovieDescription extends StatelessWidget {
           ),
           ActorList(
             user: user,
-            actors: movie.actors!,
+            characters: movie.characters!,
           ),
           DirectorList(
             user: user,

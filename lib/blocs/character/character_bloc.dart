@@ -3,9 +3,8 @@ import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/repositories/character_repository.dart';
 import 'package:equatable/equatable.dart';
 
-part 'character_state.dart';
-
 part 'character_event.dart';
+part 'character_state.dart';
 
 class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   final CharacterRepository characterRepository = CharacterRepository();
@@ -25,7 +24,6 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   }
 
   Stream<CharacterState> _mapAddCharacter(AddCharacter event) async* {
-    yield CharacterLoading();
     try {
       Character character = await characterRepository.post(event.character);
       yield CharacterSent(character: character);
@@ -38,7 +36,6 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   }
 
   Stream<CharacterState> _mapDeleteCharacter(DeleteCharacter event) async* {
-    yield CharacterLoading();
     try {
       await characterRepository.delete(event.character);
       yield CharacterEmpty();

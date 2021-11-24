@@ -10,10 +10,7 @@ class ActorEmpty extends ActorState {
   List<Object> get props => [];
 }
 
-class ActorLoading extends ActorState {
-  @override
-  List<Object> get props => [];
-}
+
 
 class ActorLoaded extends ActorState {
   final Actor actor;

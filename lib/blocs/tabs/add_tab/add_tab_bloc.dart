@@ -1,8 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/models/category.dart';
-import 'package:cinema_fe/models/director.dart';
-import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/repositories/actor_repository.dart';
 import 'package:cinema_fe/repositories/category_repository.dart';
 import 'package:cinema_fe/repositories/director_repository.dart';

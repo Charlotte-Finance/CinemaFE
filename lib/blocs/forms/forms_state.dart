@@ -4,10 +4,12 @@ abstract class FormsState extends Equatable {
   const FormsState();
 }
 
-class FormLoading extends FormsState {
+class FormEmpty extends FormsState {
   @override
   List<Object> get props => [];
 }
+
+
 
 class FormLoaded extends FormsState {
   @override

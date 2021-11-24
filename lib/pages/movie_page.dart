@@ -2,13 +2,11 @@ import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
 import 'package:cinema_fe/components/movie/movie_description.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
-import 'package:cinema_fe/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MoviePage extends StatelessWidget {
+class MoviePage extends StatefulWidget {
   final User user;
   final Movie movie;
 
@@ -19,30 +17,44 @@ class MoviePage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<MoviePage> createState() => _MoviePageState();
+}
+
+class _MoviePageState extends State<MoviePage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("${movie.title}"),
-          leading: backLeading(context, AppRoute, user),
+      appBar: AppBar(
+        title: Text("${widget.movie.title}"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            context.read<MovieBloc>().add(ResetMovie());
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
-          child: BlocBuilder<MovieBloc, MovieState>(
-            builder: (context, state) {
-              if (state is MovieEmpty) {
-                BlocProvider.of<MovieBloc>(context).add(
-                  FetchDescription(
-                    movie: movie,
-                  ),
-                );
-              } else if (state is MovieLoaded) {
+      ),
+      body: SingleChildScrollView(
+        child: BlocBuilder<MovieBloc, MovieState>(
+          builder: (context, state) {
+            if (state is MovieEmpty) {
+              BlocProvider.of<MovieBloc>(context).add(
+                FetchDescription(
+                  movie: widget.movie,
+                ),
+              );
+            } else if (state is MovieLoaded) {
+              if (state.movie == widget.movie) {
                 return MovieDescription(
-                  user: user,
+                  user: widget.user,
                   movie: state.movie,
                 );
               }
-              return const CircularProgressIndicator();
-            },
-          ),
-        ));
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+      ),
+    );
   }
 }

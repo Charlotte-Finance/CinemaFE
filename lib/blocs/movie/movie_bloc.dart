@@ -1,7 +1,4 @@
-import 'dart:collection';
-
 import 'package:bloc/bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/director.dart';
@@ -48,20 +45,24 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     if (event is DeleteMovie) {
       yield* _mapDeleteMovie(event);
     }
+    if (event is ResetMovie) {
+      yield MovieEmpty();
+    }
   }
 
   Stream<MovieState> _mapFetchDescription(FetchDescription event) async* {
-    yield MovieLoading();
     try {
-      List<Actor> actors = await actorRepository.getByMovie(event.movie);
-      List<Character> characters = await characterRepository.getByMovie(event.movie);
+      List<Character> characters =
+          await characterRepository.getByMovie(event.movie);
+      for (Character character in characters) {
+        character.actor = await actorRepository.getActor(character.id!);
+      }
       Director director =
           await directorRepository.getDirector(event.movie.directorId!);
       Category category =
           await categoryRepository.getCategory(event.movie.categoryCode!);
       event.movie.category = category;
       event.movie.director = director;
-      event.movie.actors = actors;
       event.movie.characters = characters;
       yield MovieLoaded(
         movie: event.movie,
@@ -75,7 +76,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Stream<MovieState> _mapFetchLike(FetchLike event) async* {
-    yield MovieLoading();
     try {
       bool isLiked = await likeRepository.getLike(event.user, event.movie);
       event.movie.isLiked = isLiked;
@@ -89,7 +89,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Stream<MovieState> _mapLikeMovie(LikeMovie event) async* {
-    yield MovieLoading();
     try {
       await likeRepository.changeLike(event.user, event.movie);
       event.movie.isLiked = event.isLiked;
@@ -103,7 +102,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Stream<MovieState> _mapAddMovie(AddMovie event) async* {
-    yield MovieLoading();
     try {
       await movieRepository.post(event.movie);
       yield MovieLoaded(movie: event.movie);
@@ -116,7 +114,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Stream<MovieState> _mapDeleteMovie(DeleteMovie event) async* {
-    yield MovieLoading();
     try {
       await movieRepository.delete(event.movie);
       yield MovieEmpty();

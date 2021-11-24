@@ -3,20 +3,12 @@ import 'package:cinema_fe/components/forms/actor_form.dart';
 import 'package:cinema_fe/components/forms/character_form.dart';
 import 'package:cinema_fe/components/forms/director_form.dart';
 import 'package:cinema_fe/components/forms/movie_form.dart';
-import 'package:cinema_fe/models/movie.dart';
-import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
-import 'package:cinema_fe/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FormPage extends StatelessWidget {
-  final User user;
-  final Movie movie;
   const FormPage({
-    required this.user,
-    required this.movie,
     Key? key,
   }) : super(key: key);
 
@@ -25,11 +17,15 @@ class FormPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Form'),
-        leading: backLeading(context, AppRoute, user),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              context.read<FormsBloc>().add(ResetForm());
+              Navigator.pop(context);
+            }),
       ),
       body: SingleChildScrollView(
-        child: BlocConsumer<FormsBloc, FormsState>(
-          listener: (context, state){},
+        child: BlocBuilder<FormsBloc, FormsState>(
           builder: (context, state) {
             if (state is MovieFormState) {
               return MovieForm(

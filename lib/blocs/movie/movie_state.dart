@@ -9,10 +9,6 @@ class MovieEmpty extends MovieState {
   List<Object> get props => [];
 }
 
-class MovieLoading extends MovieState {
-  @override
-  List<Object> get props => [];
-}
 
 class MovieLoaded extends MovieState {
   final Movie movie;

@@ -1,9 +1,7 @@
-import 'dart:collection';
 
 import 'package:cinema_fe/blocs/actor/actor_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/models/movie.dart';
+import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
 import 'package:cinema_fe/utils/routing_constants.dart';
@@ -14,12 +12,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActorList extends StatelessWidget {
   final User user;
-  final List<Actor> actors;
+  final List<Character> characters;
 
   const ActorList({
     Key? key,
     required this.user,
-    required this.actors,
+    required this.characters,
   }) : super(key: key);
 
   @override
@@ -44,7 +42,7 @@ class ActorList extends StatelessWidget {
           child: ListView.builder(
             shrinkWrap: false,
             scrollDirection: Axis.horizontal,
-            itemCount: actors.length,
+            itemCount: characters.length,
             itemBuilder: (ctx, index) {
               return SizedBox(
                 height: 500,
@@ -56,7 +54,7 @@ class ActorList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/actors/${actors[index].id}.jpg',
+                            'lib/assets/actors/${characters[index].actor!.firstname} ${characters[index].actor!.name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -73,31 +71,35 @@ class ActorList extends StatelessWidget {
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
                               BlocProvider.of<FormsBloc>(context).add(
-                                GetActorForm(actor: actors[index]),
+                                GetActorForm(actor: characters[index].actor!),
                               );
-                              WidgetsBinding.instance!.addPostFrameCallback(
-                                    (_) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    FormRoute,
-                                    ModalRoute.withName(FormRoute),
-                                    arguments: UserArgument(user: user),
-                                  );
-                                },
+                              Navigator.pushNamed(
+                                context,
+                                FormRoute,
+                                arguments: UserArgument(user: user),
                               );
                             },
                           ),
-                          Text(
-                            actors[index].firstname! +
-                                " " +
-                                actors[index].name!,
-                            style: const TextStyle(fontSize: 20),
+                          Column(
+                            children: [
+                              const SizedBox(height: 8,),
+                              Text(
+                                characters[index].actor!.firstname! +
+                                    " " +
+                                    characters[index].actor!.name!,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                characters[index].name!,
+                                style: const TextStyle(fontSize: 15, color: Colors.orange),
+                              ),
+                            ],
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
                               BlocProvider.of<ActorBloc>(context).add(
-                                DeleteActor(actor: actors[index]),
+                                DeleteActor(actor: characters[index].actor!),
                               );
                             },
                           ),

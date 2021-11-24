@@ -4,7 +4,6 @@ abstract class MovieEvent extends Equatable {
   const MovieEvent();
 }
 
-
 class FetchDescription extends MovieEvent {
   final Movie movie;
 
@@ -14,8 +13,8 @@ class FetchDescription extends MovieEvent {
 
   @override
   List<Object> get props => [
-    movie,
-  ];
+        movie,
+      ];
 }
 
 class FetchLike extends MovieEvent {
@@ -72,3 +71,7 @@ class DeleteMovie extends MovieEvent {
       ];
 }
 
+class ResetMovie extends MovieEvent {
+  @override
+  List<Object> get props => [];
+}

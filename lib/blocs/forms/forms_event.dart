@@ -46,3 +46,10 @@ class GetDirectorForm extends FormsEvent {
   List<Object> get props => [director];
 }
 
+class ResetForm extends FormsEvent {
+
+
+  @override
+  List<Object> get props => [];
+}
+

@@ -53,7 +53,7 @@ class DirectorList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/directors/${directors[index].id}.jpg',
+                            'lib/assets/directors/${directors[index].firstname} ${directors[index].name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -72,15 +72,10 @@ class DirectorList extends StatelessWidget {
                               BlocProvider.of<FormsBloc>(context).add(
                                 GetDirectorForm(director: directors[index]),
                               );
-                              WidgetsBinding.instance!.addPostFrameCallback(
-                                    (_) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    FormRoute,
-                                    ModalRoute.withName(FormRoute),
-                                    arguments: UserArgument(user: user),
-                                  );
-                                },
+                              Navigator.pushNamed(
+                                context,
+                                FormRoute,
+                                arguments: UserArgument(user: user),
                               );
                             },
                           ),

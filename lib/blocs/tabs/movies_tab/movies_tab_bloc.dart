@@ -1,10 +1,7 @@
 import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
-import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/category.dart';
-import 'package:cinema_fe/models/character.dart';
-import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/repositories/actor_repository.dart';
 import 'package:cinema_fe/repositories/category_repository.dart';
@@ -13,7 +10,6 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movies_tab_event.dart';
-
 part 'movies_tab_state.dart';
 
 class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {

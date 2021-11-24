@@ -1,4 +1,3 @@
-import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/http_request.dart';
 

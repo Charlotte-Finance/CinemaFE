@@ -26,6 +26,7 @@ class _State extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('CineMovies'),
+        leading: null,
       ),
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -110,15 +111,16 @@ class _State extends State<LoginPage> {
               ),
             );
           } else if (state is Logged) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                widget.route,
-                ModalRoute.withName(widget.route),
-                arguments: UserArgument(user: state.user),
-              );
-              // Add Your Code here.
-            });
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  widget.route,
+                  ModalRoute.withName(widget.route),
+                  arguments: UserArgument(user: state.user),
+                );
+              },
+            );
           }
           return const CircularProgressIndicator();
         },

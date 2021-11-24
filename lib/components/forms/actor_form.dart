@@ -106,7 +106,7 @@ class _ActorFormState extends State<ActorForm> {
                   );
                 }
               },
-              child: const Text("Add the actor"),
+              child: widget.actor.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

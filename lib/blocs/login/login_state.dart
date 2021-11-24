@@ -12,10 +12,7 @@ class LoginLoaded extends LoginState {
   List<Object> get props => [failed];
 }
 
-class LoginLoading extends LoginState {
-  @override
-  List<Object> get props => [];
-}
+
 
 class Logged extends LoginState {
   final User user;

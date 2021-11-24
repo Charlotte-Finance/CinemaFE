@@ -14,3 +14,6 @@ class MovieArgument extends UserArgument {
       {required this.movie, required User user})
       : super(user: user);
 }
+
+
+

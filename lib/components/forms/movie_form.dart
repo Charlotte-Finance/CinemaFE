@@ -121,7 +121,9 @@ class _MovieFormState extends State<MovieForm> {
                   );
                 }
               },
-              child: const Text("Add the movie"),
+              child: widget.movie.id == null
+                  ? const Text("Add")
+                  : const Text("Edit"),
             ),
           ],
         ),

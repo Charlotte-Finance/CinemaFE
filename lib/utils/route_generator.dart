@@ -1,4 +1,5 @@
 import 'package:cinema_fe/pages/app_page.dart';
+import 'package:cinema_fe/pages/form_page.dart';
 import 'package:cinema_fe/pages/login_page.dart';
 import 'package:cinema_fe/pages/movie_page.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
@@ -70,15 +71,13 @@ Route<dynamic> _movieRoute(String route, UserArgument args) {
   }
 }
 
-Route<dynamic> _formRoute(String route, UserArgument args){
+Route<dynamic> _formRoute(String route, UserArgument args) {
   return PageRouteBuilder(
     settings: const RouteSettings(name: AppRoute),
-    transitionsBuilder:
-        (context, animation, secondaryAnimation, child) {
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return child;
     },
-    pageBuilder: (context, animation, secondaryAnimation) => AppPage(
-      user: args.user,
+    pageBuilder: (context, animation, secondaryAnimation) => const FormPage(
     ),
   );
 }

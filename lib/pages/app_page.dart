@@ -20,10 +20,6 @@ class AppPage extends StatefulWidget {
 class _AppPageState extends State<AppPage> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[];
-  bool arrow = false;
-  bool arrow2 = false;
-  late HashMap movies;
-  late Movie movie;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -49,9 +45,11 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CineMovies"),
+        title: const Text("Catalogue"),
+        leading: null,
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

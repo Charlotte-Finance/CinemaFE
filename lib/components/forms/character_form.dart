@@ -1,7 +1,7 @@
+import 'package:cinema_fe/blocs/character/character_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/character.dart';
-import 'package:cinema_fe/blocs/character/character_bloc.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +87,7 @@ class _CharacterFormState extends State<CharacterForm> {
                   );
                 }
               },
-              child: const Text("Add the character"),
+              child: widget.character.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

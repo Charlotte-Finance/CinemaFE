@@ -11,7 +11,6 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'forms_event.dart';
-
 part 'forms_state.dart';
 
 class FormsBloc extends Bloc<FormsEvent, FormsState> {
@@ -38,10 +37,12 @@ class FormsBloc extends Bloc<FormsEvent, FormsState> {
     if (event is GetDirectorForm) {
       yield* _mapGetDirectorForms(event);
     }
+    if (event is ResetForm) {
+      yield FormEmpty();
+    }
   }
 
   Stream<FormsState> _mapGetMovieForms(GetMovieForm event) async* {
-    yield FormLoading();
     try {
       List<Director> directors = await directorRepository.getDirectors();
       List<Category> categories = await categoryRepository.getCategories();
@@ -67,7 +68,6 @@ class FormsBloc extends Bloc<FormsEvent, FormsState> {
   }
 
   Stream<FormsState> _mapGetActorForms(GetActorForm event) async* {
-    yield FormLoading();
     try {
       yield ActorFormState(
         actor: event.actor,
@@ -81,7 +81,6 @@ class FormsBloc extends Bloc<FormsEvent, FormsState> {
   }
 
   Stream<FormsState> _mapGetCharacterForms(GetCharacterForm event) async* {
-    yield FormLoading();
     try {
       List<Actor> actors = await actorRepository.getActors();
       List<Movie> movies = await movieRepository.getMovies();
@@ -105,7 +104,6 @@ class FormsBloc extends Bloc<FormsEvent, FormsState> {
   }
 
   Stream<FormsState> _mapGetDirectorForms(GetDirectorForm event) async* {
-    yield FormLoading();
     try {
       yield DirectorFormState(director: event.director);
     } catch (_) {
