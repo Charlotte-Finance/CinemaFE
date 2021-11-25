@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
-import 'package:cinema_fe/components/tabs/movies_tab/movie_card.dart';
+import 'package:cinema_fe/components/widgets/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';

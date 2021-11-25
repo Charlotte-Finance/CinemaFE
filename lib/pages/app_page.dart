@@ -1,9 +1,7 @@
-import 'dart:collection';
 
 import 'package:cinema_fe/components/tabs/add_tab/add_tab.dart';
 import 'package:cinema_fe/components/tabs/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/tabs/movies_tab/movies_tab.dart';
-import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

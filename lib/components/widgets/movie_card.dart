@@ -1,5 +1,4 @@
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -59,8 +58,10 @@ class _MovieCardState extends State<MovieCard> {
                     Navigator.pushNamed(
                       context,
                       MovieRoute,
-                      arguments:
-                          MovieArgument(user: widget.user, movie: widget.movie),
+                      arguments: MovieArgument(
+                        user: widget.user,
+                        movie: widget.movie,
+                      ),
                     );
                   }
                 },

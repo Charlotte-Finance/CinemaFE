@@ -50,6 +50,13 @@ class _MoviePageState extends State<MoviePage> {
                   movie: state.movie,
                 );
               }
+              else {
+                BlocProvider.of<MovieBloc>(context).add(
+                  FetchDescription(
+                    movie: widget.movie,
+                  ),
+                );
+              }
             }
             return const CircularProgressIndicator();
           },

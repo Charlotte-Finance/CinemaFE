@@ -6,7 +6,7 @@ import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'movie_card.dart';
+import '../../widgets/movie_card.dart';
 
 class MoviesCarousel extends StatelessWidget {
   final User user;
