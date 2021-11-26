@@ -13,7 +13,7 @@ class GetLikedMovies extends LikedTabEvent {
   List<Object> get props => [user];
 }
 
-class Refresh extends LikedTabEvent{
+class RefreshLike extends LikedTabEvent{
   @override
   List<Object> get props => [];
 }

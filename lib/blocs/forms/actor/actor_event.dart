@@ -7,8 +7,7 @@ abstract class ActorEvent extends Equatable {
 class AddActor extends ActorEvent {
   final Actor actor;
 
-  const AddActor(
-      {required this.actor});
+  const AddActor({required this.actor});
 
   @override
   List<Object> get props => [actor];
@@ -22,7 +21,10 @@ class DeleteActor extends ActorEvent {
   });
 
   @override
-  List<Object> get props => [
-    actor,
-  ];
+  List<Object> get props => [actor];
+}
+
+class ResetActor extends ActorEvent {
+  @override
+  List<Object> get props => [];
 }

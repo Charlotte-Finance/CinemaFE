@@ -27,6 +27,9 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
     if (event is GetMovies) {
       yield* _mapGetMovies(event);
     }
+    if (event is AddMovieToList) {
+      yield* _mapAddMovieToList(event);
+    }
   }
 
   Stream<MoviesTabState> _mapGetMovies(GetMovies event) async* {
@@ -40,6 +43,22 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
         movies.putIfAbsent(category, () => moviesCategory);
       }
       yield MoviesTabLoaded(movies: movies);
+    } catch (_) {
+      yield MoviesTabError(
+        error: "Something went wrong...",
+        event: event,
+      );
+    }
+  }
+
+
+  Stream<MoviesTabState> _mapAddMovieToList(AddMovieToList event) async* {
+    yield MoviesTabLoading();
+    try {
+      Movie movie = await movieRepository.getMovie(event.movieId);
+      Category category = await categoryRepository.getCategory(movie.categoryCode!);
+      event.movies[category].add(movie);
+      yield MoviesTabLoaded(movies: event.movies);
     } catch (_) {
       yield MoviesTabError(
         error: "Something went wrong...",

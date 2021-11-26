@@ -1,7 +1,6 @@
-
-import 'package:cinema_fe/blocs/actor/actor_bloc.dart';
+import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
-import 'package:cinema_fe/models/character.dart';
+import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
 import 'package:cinema_fe/utils/routing_constants.dart';
@@ -10,14 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ActorList extends StatelessWidget {
+class DirectorList extends StatelessWidget {
   final User user;
-  final List<Character> characters;
+  final List<Director> directors;
 
-  const ActorList({
+  const DirectorList({
     Key? key,
     required this.user,
-    required this.characters,
+    required this.directors,
   }) : super(key: key);
 
   @override
@@ -29,7 +28,7 @@ class ActorList extends StatelessWidget {
           padding: const EdgeInsets.only(left: 30.0),
           alignment: Alignment.centerLeft,
           child: Text(
-            "Actors",
+            "Directors",
             style: subtitleStyle,
           ),
         ),
@@ -42,7 +41,7 @@ class ActorList extends StatelessWidget {
           child: ListView.builder(
             shrinkWrap: false,
             scrollDirection: Axis.horizontal,
-            itemCount: characters.length,
+            itemCount: directors.length,
             itemBuilder: (ctx, index) {
               return SizedBox(
                 height: 500,
@@ -54,7 +53,7 @@ class ActorList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/actors/${characters[index].actor!.firstname} ${characters[index].actor!.name}.jpg',
+                            'lib/assets/directors/${directors[index].firstname} ${directors[index].name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -71,7 +70,7 @@ class ActorList extends StatelessWidget {
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
                               BlocProvider.of<FormsBloc>(context).add(
-                                GetActorForm(actor: characters[index].actor!),
+                                GetDirectorForm(director: directors[index]),
                               );
                               Navigator.pushNamed(
                                 context,
@@ -80,26 +79,18 @@ class ActorList extends StatelessWidget {
                               );
                             },
                           ),
-                          Column(
-                            children: [
-                              const SizedBox(height: 8,),
-                              Text(
-                                characters[index].actor!.firstname! +
-                                    " " +
-                                    characters[index].actor!.name!,
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                characters[index].name!,
-                                style: const TextStyle(fontSize: 15, color: Colors.orange),
-                              ),
-                            ],
+                          Text(
+                            directors[index].firstname! +
+                                " " +
+                                directors[index].name!,
+                            style: const TextStyle(fontSize: 20),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              BlocProvider.of<ActorBloc>(context).add(
-                                DeleteActor(actor: characters[index].actor!),
+                              BlocProvider.of<DirectorBloc>(context)
+                                  .add(
+                                DeleteDirector(director: directors[index]),
                               );
                             },
                           ),

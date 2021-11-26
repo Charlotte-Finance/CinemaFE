@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/repositories/actor_repository.dart';
+import 'package:cinema_fe/utils/texts.dart';
 import 'package:equatable/equatable.dart';
 
 part 'actor_event.dart';
+
 part 'actor_state.dart';
 
 class ActorBloc extends Bloc<ActorEvent, ActorState> {
@@ -13,24 +15,38 @@ class ActorBloc extends Bloc<ActorEvent, ActorState> {
 
   @override
   Stream<ActorState> mapEventToState(
-    ActorEvent event,
-  ) async* {
+      ActorEvent event,
+      ) async* {
     if (event is AddActor) {
       yield* _mapAddActor(event);
     }
     if (event is DeleteActor) {
       yield* _mapDeleteActor(event);
     }
+    if (event is ResetActor) {
+      yield ActorEmpty();
+    }
   }
 
   Stream<ActorState> _mapAddActor(AddActor event) async* {
     try {
       await actorRepository.post(event.actor);
-      yield ActorEmpty();
+      yield ActorActionSent(
+        succeed: true,
+        message: addToastStr(
+          event.actor,
+          event.actor.id,
+          true,
+        ),
+      );
     } catch (_) {
-      yield ActorError(
-        error: "Something went wrong...",
-        event: event,
+      yield ActorActionSent(
+        succeed: false,
+        message: addToastStr(
+          event.actor,
+          event.actor.id,
+          false,
+        ),
       );
     }
   }
@@ -38,11 +54,20 @@ class ActorBloc extends Bloc<ActorEvent, ActorState> {
   Stream<ActorState> _mapDeleteActor(DeleteActor event) async* {
     try {
       await actorRepository.delete(event.actor);
-      yield ActorEmpty();
+      yield ActorActionSent(
+        succeed: true,
+        message: deleteToastStr(
+          event.actor,
+          true,
+        ),
+      );
     } catch (_) {
-      yield ActorError(
-        error: "Something went wrong...",
-        event: event,
+      yield ActorActionSent(
+        succeed: false,
+        message: deleteToastStr(
+          event.actor,
+          false,
+        ),
       );
     }
   }

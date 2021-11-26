@@ -1,10 +1,13 @@
-
+import 'package:cinema_fe/blocs/tabs/add_tab/add_tab_bloc.dart';
+import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
+import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/tabs/add_tab/add_tab.dart';
 import 'package:cinema_fe/components/tabs/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/tabs/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppPage extends StatefulWidget {
   final User user;
@@ -43,10 +46,13 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Catalogue"),
+        title: _selectedIndex == 0
+            ? const Text("Catalogue")
+            : _selectedIndex == 1
+                ? const Text("Your Likes")
+                : const Text("Add some data"),
         leading: null,
         actions: <Widget>[
           Padding(
@@ -63,7 +69,20 @@ class _AppPageState extends State<AppPage> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<MoviesTabBloc>(
+                create: (BuildContext context) => MoviesTabBloc(),
+              ),
+              BlocProvider<LikedTabBloc>(
+                create: (BuildContext context) => LikedTabBloc(),
+              ),
+              BlocProvider<AddTabBloc>(
+                create: (BuildContext context) => AddTabBloc(),
+              ),
+            ],
+            child: _widgetOptions.elementAt(_selectedIndex),
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

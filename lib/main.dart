@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cinema_fe/pages/login_page.dart';
 import 'package:cinema_fe/utils/route_generator.dart';
 import 'package:cinema_fe/utils/routing_constants.dart';
@@ -5,21 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-import 'blocs/actor/actor_bloc.dart';
-import 'blocs/character/character_bloc.dart';
-import 'blocs/director/director_bloc.dart';
+import 'blocs/forms/actor/actor_bloc.dart';
+import 'blocs/forms/character/character_bloc.dart';
+import 'blocs/forms/director/director_bloc.dart';
 import 'blocs/forms/forms_bloc.dart';
+import 'blocs/forms/movie/movie_bloc.dart';
 import 'blocs/login/login_bloc.dart';
-import 'blocs/movie/movie_bloc.dart';
-import 'blocs/tabs/add_tab/add_tab_bloc.dart';
-import 'blocs/tabs/liked_tab/liked_tab_bloc.dart';
-import 'blocs/tabs/movies_tab/movies_tab_bloc.dart';
+import 'blocs/movie_description/movie_description_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    //print(transition);
+    print(transition);
   }
 }
 
@@ -32,17 +32,11 @@ void main() {
         BlocProvider<LoginBloc>(
           create: (BuildContext context) => LoginBloc(),
         ),
-        BlocProvider<MoviesTabBloc>(
-          create: (BuildContext context) => MoviesTabBloc(),
-        ),
-        BlocProvider<LikedTabBloc>(
-          create: (BuildContext context) => LikedTabBloc(),
-        ),
-        BlocProvider<AddTabBloc>(
-          create: (BuildContext context) => AddTabBloc(),
-        ),
         BlocProvider<FormsBloc>(
           create: (BuildContext context) => FormsBloc(),
+        ),
+        BlocProvider<MovieDescriptionBloc>(
+          create: (BuildContext context) => MovieDescriptionBloc(),
         ),
         BlocProvider<MovieBloc>(
           create: (BuildContext context) => MovieBloc(),
@@ -68,6 +62,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -95,4 +90,12 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }

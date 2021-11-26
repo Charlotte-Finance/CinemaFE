@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'actor.dart';
 import 'category.dart';
 import 'character.dart';
@@ -34,7 +36,7 @@ class Movie {
       id: json['id'],
       title: json['title'],
       duration: json['duration'],
-      release: json['release'],
+      release: json['releaseDate'],
       budget: json['budget'],
       revenue: json['revenue'],
       directorId: json['directorId'],
@@ -47,7 +49,7 @@ class Movie {
     data['id'] = id;
     data['title'] = title;
     data['duration'] = duration;
-    data['release'] = release;
+    data['releaseDate'] = release;
     data['budget'] = budget;
     data['revenue'] = revenue;
     data['directorId'] = directorId;

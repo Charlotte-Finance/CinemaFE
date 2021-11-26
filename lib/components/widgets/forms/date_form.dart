@@ -46,7 +46,7 @@ class DateFormQuestion extends StatelessWidget {
             firstDate: DateTime(1900),
             lastDate: DateTime(2100),
           );
-          controller.text = date!.toIso8601String();
+          controller.text = convertDateTimeDisplay(date!.toIso8601String())!;
         },
         onSaved: onSaved,
         validator: (value) {

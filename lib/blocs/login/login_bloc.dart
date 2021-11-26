@@ -22,11 +22,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapLogin(Login event) async* {
     try {
-      User user = await userRepository.login(event.username, event.password);
+      User user = await userRepository.login(event.user);
       yield Logged(user: user);
     } catch (_) {
-      yield Logged(user: User(id: 1, username: "cfinance", password: "azerty", role: "user"));
-      //yield const LoginLoaded(failed: true);
+      yield const LoginLoaded(failed: true);
     }
   }
 }

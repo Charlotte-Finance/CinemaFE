@@ -1,4 +1,5 @@
-import 'package:cinema_fe/blocs/character/character_bloc.dart';
+
+import 'package:cinema_fe/blocs/forms/actor/actor_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -9,11 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CharacterList extends StatelessWidget {
+class ActorList extends StatelessWidget {
   final User user;
   final List<Character> characters;
 
-  const CharacterList({
+  const ActorList({
     Key? key,
     required this.user,
     required this.characters,
@@ -28,7 +29,7 @@ class CharacterList extends StatelessWidget {
           padding: const EdgeInsets.only(left: 30.0),
           alignment: Alignment.centerLeft,
           child: Text(
-            "Characters",
+            "Actors",
             style: subtitleStyle,
           ),
         ),
@@ -53,7 +54,7 @@ class CharacterList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/characters/${characters[index].name}.jpg',
+                            'lib/assets/actors/${characters[index].actor!.firstname} ${characters[index].actor!.name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -70,7 +71,7 @@ class CharacterList extends StatelessWidget {
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
                               BlocProvider.of<FormsBloc>(context).add(
-                                GetCharacterForm(character: characters[index]),
+                                GetActorForm(actor: characters[index].actor!),
                               );
                               Navigator.pushNamed(
                                 context,
@@ -79,15 +80,26 @@ class CharacterList extends StatelessWidget {
                               );
                             },
                           ),
-                          Text(
-                            characters[index].name!,
-                            style: const TextStyle(fontSize: 20),
+                          Column(
+                            children: [
+                              const SizedBox(height: 8,),
+                              Text(
+                                characters[index].actor!.firstname! +
+                                    " " +
+                                    characters[index].actor!.name!,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                characters[index].name!,
+                                style: const TextStyle(fontSize: 15, color: Colors.orange),
+                              ),
+                            ],
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              BlocProvider.of<CharacterBloc>(context).add(
-                                DeleteCharacter(character: characters[index]),
+                              BlocProvider.of<ActorBloc>(context).add(
+                                DeleteActor(actor: characters[index].actor!),
                               );
                             },
                           ),

@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/director/director_bloc.dart';
+import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/director.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +19,13 @@ class DirectorForm extends StatefulWidget {
 
 class _DirectorFormState extends State<DirectorForm> {
   final _formKey = GlobalKey<FormState>();
+  late Director director;
+
+  @override
+  void initState() {
+    director = widget.director;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,30 +36,31 @@ class _DirectorFormState extends State<DirectorForm> {
         child: Column(
           children: [
             TextFormQuestion(
-              question: "Name",
-              initialValue: widget.director.firstname,
-              onChanged: (answer) => widget.director.firstname = answer,
-              onSaved: (answer) => widget.director.firstname = answer,
+              question: "Firstname",
+              initialValue: director.firstname,
+              onChanged: (answer) => director.firstname = answer,
+              onSaved: (answer) => director.firstname = answer,
+
             ),
             TextFormQuestion(
-              question: "Firstname",
-              initialValue: widget.director.name,
-              onChanged: (answer) => widget.director.firstname = answer,
-              onSaved: (answer) => widget.director.firstname = answer,
+              question: "Name",
+              initialValue: director.name,
+              onChanged: (answer) => director.name = answer,
+              onSaved: (answer) => director.name = answer,
             ),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-
                   BlocProvider.of<DirectorBloc>(context).add(
                     AddDirector(
-                      director: widget.director,
+                      director: director,
                     ),
                   );
+                  Navigator.pop(context);
                 }
               },
-              child: widget.director.id == null ? const Text("Add") : const Text("Edit"),
+              child: director.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

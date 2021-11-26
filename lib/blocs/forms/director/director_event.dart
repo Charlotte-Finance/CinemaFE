@@ -27,3 +27,7 @@ class DeleteDirector extends DirectorEvent {
     director,
   ];
 }
+class ResetDirector extends DirectorEvent {
+  @override
+  List<Object> get props => [];
+}

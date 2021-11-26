@@ -6,8 +6,8 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'liked_tab_event.dart';
-part 'liked_tab_state.dart';
 
+part 'liked_tab_state.dart';
 
 class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   final MovieRepository movieRepository = MovieRepository();
@@ -22,7 +22,7 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
     if (event is GetLikedMovies) {
       yield* _mapGetLikedMovies(event);
     }
-    if (event is Refresh) {
+    if (event is RefreshLike) {
       yield LikedTabEmpty();
     }
   }
@@ -31,7 +31,7 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
     yield LikedTabLoading();
     try {
       List<Movie> movies = await movieRepository.getLikedMovies(event.user);
-      for (Movie movie in movies){
+      for (Movie movie in movies) {
         movie.isLiked = true;
       }
       yield LikedTabLoaded(movies: movies);
@@ -42,5 +42,4 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
       );
     }
   }
-
 }

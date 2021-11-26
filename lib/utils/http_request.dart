@@ -61,7 +61,6 @@ class HttpRequest {
       body: jsonBody,
     );
     print(httpRequest.toString());
-
     if (response.statusCode != 201 && response.statusCode != 200) {
       // If the server did not return a 200 OK response,
       // then throw an exception.

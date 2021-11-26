@@ -1,9 +1,13 @@
-import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
+import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
+import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
+import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/sizes.dart';
 import 'package:cinema_fe/utils/text_styles.dart';
+import 'package:cinema_fe/utils/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +22,8 @@ class MoviesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ToDo : Listen Movie Card -> Like
+    // ToDo : Lister Movie -> Add or Delete
     return BlocBuilder<MoviesTabBloc, MoviesTabState>(
       builder: (context, state) {
         if (state is MoviesTabEmpty) {
@@ -29,22 +35,43 @@ class MoviesTab extends StatelessWidget {
               allMovies.add(movie);
             }
           }
-          return BlocProvider(
-            create: (BuildContext context) => MovieBloc(),
+          return BlocListener<MovieBloc, MovieState>(
+            listener: (context, movieState) {
+              if (movieState is MovieAdded) {
+                context.read<MoviesTabBloc>().add(
+                  AddMovieToList(
+                    movies: state.movies,
+                    movieId: movieState.movieId,
+                  ),
+                );
+              }
+            },
             child: Column(
               children: [
-                Column(
-                  children: [
-                    Text("Our movies", style: subtitleStyle),
-                    const SizedBox(height: 20),
-                    MoviesCarousel(
-                        user: user, movies: state.movies, allMovies: allMovies),
-                  ],
+                SizedBox(
+                  height: titleHeight(context),
+                  child: Center(
+                    child: Text(
+                      moviesTabStr,
+                      style: subtitleStyle,
+                    ),
+                  ),
                 ),
-                CategoryMovies(
+                MoviesCarousel(
                   user: user,
                   movies: state.movies,
+                  allMovies: allMovies,
                 ),
+                SizedBox(
+                  height: titleHeight(context),
+                ),
+                for (Category category in state.movies.keys) ...[
+                  CategoryMovies(
+                    user: user,
+                    category: category,
+                    movies: state.movies,
+                  ),
+                ],
               ],
             ),
           );

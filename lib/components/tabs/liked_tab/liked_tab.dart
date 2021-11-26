@@ -18,7 +18,7 @@ class LikedTab extends StatelessWidget {
         if (state is LikedTabEmpty) {
           context.watch<LikedTabBloc>().add(GetLikedMovies(user: user));
         } else if (state is LikedTabLoaded) {
-            return ListView.builder(
+          return ListView.builder(
             shrinkWrap: true,
             itemCount: state.movies.length,
             itemBuilder: (context, index) {

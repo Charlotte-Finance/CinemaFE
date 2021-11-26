@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/repositories/character_repository.dart';
+import 'package:cinema_fe/utils/texts.dart';
 import 'package:equatable/equatable.dart';
 
 part 'character_event.dart';
+
 part 'character_state.dart';
 
 class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
@@ -21,16 +23,30 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     if (event is DeleteCharacter) {
       yield* _mapDeleteCharacter(event);
     }
+    if (event is ResetCharacter) {
+      yield CharacterEmpty();
+    }
   }
 
   Stream<CharacterState> _mapAddCharacter(AddCharacter event) async* {
     try {
-      Character character = await characterRepository.post(event.character);
-      yield CharacterSent(character: character);
+      await characterRepository.post(event.character);
+      yield CharacterActionSent(
+        succeed: true,
+        message: addToastStr(
+          event.character,
+          event.character.id,
+          true,
+        ),
+      );
     } catch (_) {
-      yield CharacterError(
-        error: "Something went wrong...",
-        event: event,
+      yield CharacterActionSent(
+        succeed: false,
+        message: addToastStr(
+          event.character,
+          event.character.id,
+          false,
+        ),
       );
     }
   }
@@ -38,11 +54,20 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   Stream<CharacterState> _mapDeleteCharacter(DeleteCharacter event) async* {
     try {
       await characterRepository.delete(event.character);
-      yield CharacterEmpty();
+      yield CharacterActionSent(
+        succeed: true,
+        message: deleteToastStr(
+          event.character,
+          true,
+        ),
+      );
     } catch (_) {
-      yield CharacterError(
-        error: "Something went wrong...",
-        event: event,
+      yield CharacterActionSent(
+        succeed: false,
+        message: deleteToastStr(
+          event.character,
+          false,
+        ),
       );
     }
   }

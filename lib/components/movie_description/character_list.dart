@@ -1,6 +1,6 @@
-import 'package:cinema_fe/blocs/director/director_bloc.dart';
+import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
-import 'package:cinema_fe/models/director.dart';
+import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/route_arguments.dart';
 import 'package:cinema_fe/utils/routing_constants.dart';
@@ -9,14 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DirectorList extends StatelessWidget {
+class CharacterList extends StatelessWidget {
   final User user;
-  final List<Director> directors;
+  final List<Character> characters;
 
-  const DirectorList({
+  const CharacterList({
     Key? key,
     required this.user,
-    required this.directors,
+    required this.characters,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class DirectorList extends StatelessWidget {
           padding: const EdgeInsets.only(left: 30.0),
           alignment: Alignment.centerLeft,
           child: Text(
-            "Directors",
+            "Characters",
             style: subtitleStyle,
           ),
         ),
@@ -41,7 +41,7 @@ class DirectorList extends StatelessWidget {
           child: ListView.builder(
             shrinkWrap: false,
             scrollDirection: Axis.horizontal,
-            itemCount: directors.length,
+            itemCount: characters.length,
             itemBuilder: (ctx, index) {
               return SizedBox(
                 height: 500,
@@ -53,7 +53,7 @@ class DirectorList extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'lib/assets/directors/${directors[index].firstname} ${directors[index].name}.jpg',
+                            'lib/assets/characters/${characters[index].name}.jpg',
                           ),
                           fit: BoxFit.fitHeight,
                         ),
@@ -70,7 +70,7 @@ class DirectorList extends StatelessWidget {
                             icon: const Icon(Icons.create_rounded),
                             onPressed: () {
                               BlocProvider.of<FormsBloc>(context).add(
-                                GetDirectorForm(director: directors[index]),
+                                GetCharacterForm(character: characters[index]),
                               );
                               Navigator.pushNamed(
                                 context,
@@ -80,17 +80,14 @@ class DirectorList extends StatelessWidget {
                             },
                           ),
                           Text(
-                            directors[index].firstname! +
-                                " " +
-                                directors[index].name!,
+                            characters[index].name!,
                             style: const TextStyle(fontSize: 20),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              BlocProvider.of<DirectorBloc>(context)
-                                  .add(
-                                DeleteDirector(director: directors[index]),
+                              BlocProvider.of<CharacterBloc>(context).add(
+                                DeleteCharacter(character: characters[index]),
                               );
                             },
                           ),

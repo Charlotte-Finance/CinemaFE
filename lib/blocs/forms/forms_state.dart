@@ -9,7 +9,14 @@ class FormEmpty extends FormsState {
   List<Object> get props => [];
 }
 
+class FormMovieAdded extends FormEmpty {
+  final int movieId;
 
+  FormMovieAdded({required this.movieId});
+
+  @override
+  List<Object> get props => [];
+}
 
 class FormLoaded extends FormsState {
   @override

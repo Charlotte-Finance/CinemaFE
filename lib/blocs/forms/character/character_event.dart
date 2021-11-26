@@ -7,13 +7,11 @@ abstract class CharacterEvent extends Equatable {
 class AddCharacter extends CharacterEvent {
   final Character character;
 
-  const AddCharacter(
-      {required this.character});
+  const AddCharacter({required this.character});
 
   @override
   List<Object> get props => [character];
 }
-
 
 class DeleteCharacter extends CharacterEvent {
   final Character character;
@@ -23,7 +21,10 @@ class DeleteCharacter extends CharacterEvent {
   });
 
   @override
-  List<Object> get props => [
-    character,
-  ];
+  List<Object> get props => [character];
+}
+
+class ResetCharacter extends CharacterEvent {
+  @override
+  List<Object> get props => [];
 }

@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/sizes.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../widgets/movie_card.dart';
@@ -24,7 +25,7 @@ class MoviesCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 400,
+        height: carrouselHeight(context),
         aspectRatio: 16 / 9,
         viewportFraction: 0.6,
         initialPage: 0,

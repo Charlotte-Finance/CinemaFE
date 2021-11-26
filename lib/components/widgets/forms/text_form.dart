@@ -2,9 +2,9 @@ part of 'forms.dart';
 
 class TextFormQuestion extends StatelessWidget {
   final String question;
-  final initialValue;
-  final onSaved;
-  final onChanged;
+  final String? initialValue;
+  final Function(String?)? onSaved;
+  final Function(String)? onChanged;
   final VoidCallback? onTap;
   final bool autofocus;
   final bool obscureText;
@@ -12,6 +12,7 @@ class TextFormQuestion extends StatelessWidget {
   final bool? acceptEmpty;
 
   const TextFormQuestion({
+    Key? key,
     required this.question,
     required this.onSaved,
     this.initialValue,
@@ -21,7 +22,7 @@ class TextFormQuestion extends StatelessWidget {
     this.obscureText = false,
     this.numberLine = 1,
     this.acceptEmpty,
-  });
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class TextFormQuestion extends StatelessWidget {
           }
         },
         onSaved: onSaved,
-        onChanged: onChanged,
+        onChanged: onChanged!,
       ),
     );
   }

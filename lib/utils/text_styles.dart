@@ -13,7 +13,7 @@ TextStyle addSectionBorderStyle = TextStyle(
 
 TextStyle addSectionStyle = const TextStyle(
   fontSize: 40,
-  color: Colors.orange,
+  color: Colors.white,
 );
 
 TextStyle subtitleStyle = const TextStyle(

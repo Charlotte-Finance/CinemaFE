@@ -31,15 +31,10 @@ class AddSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<FormsBloc>().add(event);
-        WidgetsBinding.instance!.addPostFrameCallback(
-              (_) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              FormRoute,
-              ModalRoute.withName(FormRoute),
-              arguments: UserArgument(user: user),
-            );
-          },
+        Navigator.pushNamed(
+          context,
+          FormRoute,
+          arguments:UserArgument(user: user)
         );
       },
       child: Stack(
@@ -65,8 +60,8 @@ class AddSection extends StatelessWidget {
                   begin: beginAlignment,
                   end: endAlignment,
                   colors: [
-                    Colors.white.withOpacity(0.9),
-                    Colors.white.withOpacity(0.0),
+                    Colors.black.withOpacity(0.9),
+                    Colors.black.withOpacity(0.0),
                   ],
                   stops: const [0.0, 1.0],
                 ),

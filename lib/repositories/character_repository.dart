@@ -28,10 +28,9 @@ class CharacterRepository {
     return (characters as List).map((p) => Character.fromJson(p)).toList();
   }
 
-  Future<Character> post(Character character) async {
+  Future<void> post(Character character) async {
     final String json = jsonEncode(character);
-    final response = await HttpRequest.postRequest(url, json);
-    return Character.fromJson(response);
+    await HttpRequest.postRequest(url, json);
   }
 
 
