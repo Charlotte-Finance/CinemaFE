@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/director.dart';
@@ -41,35 +42,30 @@ class MovieDescriptionBloc
     if (event is LikeMovie) {
       yield* _mapLikeMovie(event);
     }
-    if (event is ResetMovieDescription) {
-      yield MovieDescriptionEmpty();
+    if (event is LikeMovie) {
+      yield* _mapLikeMovie(event);
     }
+    // if (event is UpdateActorDescription) {
+    //   yield* _mapUpdateActorDescription(event);
+    // }
+
   }
 
   Stream<MovieDescriptionState> _mapFetchMovieDescription(
       FetchMovieDescription event) async* {
     try {
-      print("AAAA");
       List<Character> characters =
           await characterRepository.getByMovie(event.movie);
-      print("BBBBBB");
-
       for (Character character in characters) {
         character.actor = await actorRepository.getActor(character.id!);
       }
-      print("CCCCCCCCCC");
-
       Director director =
           await directorRepository.getDirector(event.movie.directorId!);
-      print("DDDDDDDD");
-
       Category category =
           await categoryRepository.getCategory(event.movie.categoryCode!);
       event.movie.category = category;
       event.movie.director = director;
       event.movie.characters = characters;
-      print("EEEEEEEEE");
-
       yield MovieDescriptionLoaded(
         movie: event.movie,
       );
@@ -95,6 +91,8 @@ class MovieDescriptionBloc
   }
 
   Stream<MovieDescriptionState> _mapLikeMovie(LikeMovie event) async* {
+    print(event.isLiked);
+    yield MovieDescriptionReloading(movie:event.movie);
     try {
       await likeRepository.changeLike(event.user, event.movie);
       event.movie.isLiked = event.isLiked;
@@ -106,4 +104,23 @@ class MovieDescriptionBloc
       );
     }
   }
+
+  // Stream<MovieDescriptionState> _mapUpdateActorDescription(UpdateActorDescription event) async* {
+  //   print("AAAAAAA");
+  //   yield MovieDescriptionReloading(movie:state.movie);
+  //   try {
+  //     for (Actor actor in state.movie.actors!){
+  //       if (actor.id == event.actor.id){
+  //         actor = event.actor;
+  //       }
+  //     }
+  //     yield MovieDescriptionLoaded(movie: state.movie);
+  //   } catch (_) {
+  //     yield MovieDescriptionError(
+  //       movie: state.movie,
+  //       error: "Something went wrong...",
+  //       event: MovieDescriptionEmpty(),
+  //     );
+  //   }
+  // }
 }

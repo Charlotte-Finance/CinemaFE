@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/character.dart';
+import 'package:cinema_fe/repositories/like_repository.dart';
 import 'package:cinema_fe/repositories/character_repository.dart';
 import 'package:cinema_fe/utils/texts.dart';
 import 'package:equatable/equatable.dart';
@@ -10,13 +11,14 @@ part 'character_state.dart';
 
 class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   final CharacterRepository characterRepository = CharacterRepository();
+  final LikeRepository likeRepository = LikeRepository();
 
   CharacterBloc() : super(CharacterEmpty());
 
   @override
   Stream<CharacterState> mapEventToState(
-    CharacterEvent event,
-  ) async* {
+      CharacterEvent event,
+      ) async* {
     if (event is AddCharacter) {
       yield* _mapAddCharacter(event);
     }
@@ -30,8 +32,9 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
   Stream<CharacterState> _mapAddCharacter(AddCharacter event) async* {
     try {
-      await characterRepository.post(event.character);
-      yield CharacterActionSent(
+      Character character = await characterRepository.post(event.character);
+      yield CharacterAdded(
+        character: character,
         succeed: true,
         message: addToastStr(
           event.character,
@@ -54,7 +57,8 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   Stream<CharacterState> _mapDeleteCharacter(DeleteCharacter event) async* {
     try {
       await characterRepository.delete(event.character);
-      yield CharacterActionSent(
+      yield CharacterDeleted(
+        character: event.character,
         succeed: true,
         message: deleteToastStr(
           event.character,

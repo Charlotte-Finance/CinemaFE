@@ -13,7 +13,7 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   final MovieRepository movieRepository = MovieRepository();
   final LikeRepository likeRepository = LikeRepository();
 
-  LikedTabBloc() : super(LikedTabEmpty());
+  LikedTabBloc() : super(const LikedTabEmpty(movies: []));
 
   @override
   Stream<LikedTabState> mapEventToState(
@@ -22,13 +22,12 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
     if (event is GetLikedMovies) {
       yield* _mapGetLikedMovies(event);
     }
-    if (event is RefreshLike) {
-      yield LikedTabEmpty();
+    if (event is ChangeLikedMovies) {
+      yield* _mapChangeLikedMovies(event);
     }
   }
 
   Stream<LikedTabState> _mapGetLikedMovies(GetLikedMovies event) async* {
-    yield LikedTabLoading();
     try {
       List<Movie> movies = await movieRepository.getLikedMovies(event.user);
       for (Movie movie in movies) {
@@ -37,8 +36,28 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
       yield LikedTabLoaded(movies: movies);
     } catch (_) {
       yield LikedTabError(
+        movies: [],
         error: "Something went wrong...",
         event: event,
+      );
+    }
+  }
+
+  Stream<LikedTabState> _mapChangeLikedMovies(ChangeLikedMovies event) async* {
+    List<Movie> movies = state.movies;
+    try {
+      if (event.isLiked) {
+        event.movie.isLiked = event.isLiked;
+        state.movies.add(event.movie);
+      } else {
+        state.movies.remove(event.movie);
+      }
+      yield LikedTabLoaded(movies: movies);
+    } catch (_) {
+      yield LikedTabError(
+        movies: const [],
+        error: "Something went wrong...",
+        event: GetLikedMovies(user: event.user),
       );
     }
   }

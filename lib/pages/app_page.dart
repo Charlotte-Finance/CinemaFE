@@ -69,20 +69,7 @@ class _AppPageState extends State<AppPage> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider<MoviesTabBloc>(
-                create: (BuildContext context) => MoviesTabBloc(),
-              ),
-              BlocProvider<LikedTabBloc>(
-                create: (BuildContext context) => LikedTabBloc(),
-              ),
-              BlocProvider<AddTabBloc>(
-                create: (BuildContext context) => AddTabBloc(),
-              ),
-            ],
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

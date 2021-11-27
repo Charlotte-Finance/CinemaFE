@@ -21,3 +21,30 @@ class CharacterActionSent extends CharacterState {
   @override
   List<Object> get props => [message, succeed];
 }
+
+class CharacterAdded extends CharacterActionSent {
+  final Character character;
+  final String message;
+  final bool succeed;
+
+  const CharacterAdded({
+    required this.character, required this.message,required this.succeed,
+  }) : super(message:message, succeed:succeed) ;
+
+  @override
+  List<Object> get props => [character, message, succeed];
+}
+
+
+class CharacterDeleted extends CharacterActionSent {
+  final Character character;
+  final String message;
+  final bool succeed;
+
+  const CharacterDeleted({
+    required this.character, required this.message,required this.succeed,
+  }) : super(message:message, succeed:succeed) ;
+
+  @override
+  List<Object> get props => [character, message, succeed];
+}

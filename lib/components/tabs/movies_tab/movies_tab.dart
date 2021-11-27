@@ -1,5 +1,6 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
+import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/category.dart';
@@ -35,45 +36,33 @@ class MoviesTab extends StatelessWidget {
               allMovies.add(movie);
             }
           }
-          return BlocListener<MovieBloc, MovieState>(
-            listener: (context, movieState) {
-              if (movieState is MovieAdded) {
-                context.read<MoviesTabBloc>().add(
-                  AddMovieToList(
-                    movies: state.movies,
-                    movieId: movieState.movieId,
-                  ),
-                );
-              }
-            },
-            child: Column(
-              children: [
-                SizedBox(
-                  height: titleHeight(context),
-                  child: Center(
-                    child: Text(
-                      moviesTabStr,
-                      style: subtitleStyle,
-                    ),
+          return Column(
+            children: [
+              SizedBox(
+                height: titleHeight(context),
+                child: Center(
+                  child: Text(
+                    moviesTabStr,
+                    style: subtitleStyle,
                   ),
                 ),
-                MoviesCarousel(
+              ),
+              MoviesCarousel(
+                user: user,
+                movies: state.movies,
+                allMovies: allMovies,
+              ),
+              SizedBox(
+                height: titleHeight(context),
+              ),
+              for (Category category in state.movies.keys) ...[
+                CategoryMovies(
                   user: user,
+                  category: category,
                   movies: state.movies,
-                  allMovies: allMovies,
                 ),
-                SizedBox(
-                  height: titleHeight(context),
-                ),
-                for (Category category in state.movies.keys) ...[
-                  CategoryMovies(
-                    user: user,
-                    category: category,
-                    movies: state.movies,
-                  ),
-                ],
               ],
-            ),
+            ],
           );
         } else if (state is MoviesTabError) {
           return ErrorMessage(

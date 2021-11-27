@@ -17,10 +17,6 @@ class FetchMovieDescription extends MovieDescriptionEvent {
       ];
 }
 
-class ResetMovieDescription extends MovieDescriptionEvent {
-  @override
-  List<Object> get props => [];
-}
 
 class FetchLike extends MovieDescriptionEvent {
   final User user;
@@ -49,3 +45,15 @@ class LikeMovie extends MovieDescriptionEvent {
   @override
   List<Object> get props => [user, movie, isLiked];
 }
+
+class UpdateActorDescription extends MovieDescriptionEvent {
+  final Actor actor;
+
+  const UpdateActorDescription({
+    required this.actor,
+  });
+
+  @override
+  List<Object> get props => [actor];
+}
+

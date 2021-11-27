@@ -9,11 +9,28 @@ class MovieDescriptionEmpty extends MovieDescriptionState {
   List<Object> get props => [];
 }
 
+class MovieLikeLoaded extends MovieDescriptionState {
+  final Movie movie;
+
+  const MovieLikeLoaded({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
 
 class MovieDescriptionLoaded extends MovieDescriptionState {
   final Movie movie;
 
   const MovieDescriptionLoaded({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
+
+class MovieDescriptionReloading extends MovieDescriptionLoaded {
+  final Movie movie;
+
+  const MovieDescriptionReloading({required this.movie}) : super(movie: movie);
 
   @override
   List<Object> get props => [movie];

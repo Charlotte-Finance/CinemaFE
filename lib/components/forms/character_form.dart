@@ -92,7 +92,6 @@ class _CharacterFormState extends State<CharacterForm> {
                     AddCharacter(character: character),
                   );
                   Navigator.pop(context);
-
                 }
               },
               child: character.id == null ? const Text("Add") : const Text("Edit"),

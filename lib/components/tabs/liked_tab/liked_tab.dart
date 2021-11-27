@@ -1,3 +1,4 @@
+import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/movie_card.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
@@ -20,15 +21,16 @@ class LikedTab extends StatelessWidget {
         } else if (state is LikedTabLoaded) {
           return ListView.builder(
             shrinkWrap: true,
+            scrollDirection: Axis.vertical,
             itemCount: state.movies.length,
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  MovieCard(
-                    user: user,
-                    movie: state.movies[index],
-                  ),
-                ],
+              return Container(
+                height: 300,
+                child: MovieCard(
+                  user: user,
+                  movie: state.movies[index],
+                  enableLike: false,
+                ),
               );
             },
           );

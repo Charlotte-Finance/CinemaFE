@@ -1,4 +1,3 @@
-import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
@@ -16,6 +15,7 @@ class MovieCard extends StatefulWidget {
   final Movie movie;
   final User user;
   final bool enableClick;
+  final bool enableLike;
   final double? size;
 
   const MovieCard({
@@ -24,6 +24,7 @@ class MovieCard extends StatefulWidget {
     required this.user,
     required this.movie,
     this.enableClick = true,
+    this.enableLike = true,
   }) : super(key: key);
 
   @override
@@ -45,6 +46,14 @@ class _MovieCardState extends State<MovieCard> {
                 ),
               );
         } else if (state is MovieDescriptionLoaded) {
+          if (state is MovieDescriptionReloading) {
+            context.watch<MovieDescriptionBloc>().add(
+                  FetchLike(
+                    user: widget.user,
+                    movie: widget.movie,
+                  ),
+                );
+          }
           return Stack(
             children: [
               GestureDetector(
@@ -69,23 +78,22 @@ class _MovieCardState extends State<MovieCard> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setState(
-                          () {
-                            // ToDo : pop Up
-                            widget.movie.isLiked = !(widget.movie.isLiked!);
-                          },
-                        );
-                        BlocProvider.of<MovieDescriptionBloc>(context).add(
-                          LikeMovie(
-                            user: widget.user,
-                            movie: widget.movie,
-                            isLiked: (widget.movie.isLiked!),
-                          ),
-                        );
-
-                        // ToDo : Remove and use listener
-                        BlocProvider.of<LikedTabBloc>(context)
-                            .add(RefreshLike());
+                        if (widget.enableLike) {
+                          BlocProvider.of<MovieDescriptionBloc>(context).add(
+                            LikeMovie(
+                              user: widget.user,
+                              movie: widget.movie,
+                              isLiked: (!widget.movie.isLiked!),
+                            ),
+                          );
+                          BlocProvider.of<LikedTabBloc>(context).add(
+                            ChangeLikedMovies(
+                              movie: widget.movie,
+                              isLiked: (!widget.movie.isLiked!),
+                              user: widget.user,
+                            ),
+                          );
+                        }
                       },
                       child: LikeButton(isLiked: widget.movie.isLiked!),
                     ),

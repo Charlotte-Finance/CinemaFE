@@ -92,6 +92,7 @@ class MovieDescription extends StatelessWidget {
                   BlocProvider.of<MovieBloc>(context).add(
                     DeleteMovie(movie: movie),
                   );
+                  Navigator.pop(context);
                 },
               ),
             ],

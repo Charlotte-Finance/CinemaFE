@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/movie.dart';
-import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/repositories/like_repository.dart';
 import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:cinema_fe/utils/texts.dart';
@@ -13,12 +12,13 @@ part 'movie_state.dart';
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final MovieRepository movieRepository = MovieRepository();
   final LikeRepository likeRepository = LikeRepository();
+
   MovieBloc() : super(MovieEmpty());
 
   @override
   Stream<MovieState> mapEventToState(
-      MovieEvent event,
-      ) async* {
+    MovieEvent event,
+  ) async* {
     if (event is AddMovie) {
       yield* _mapAddMovie(event);
     }
@@ -30,11 +30,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     }
   }
 
-
   Stream<MovieState> _mapAddMovie(AddMovie event) async* {
     try {
-      await movieRepository.post(event.movie);
-      yield MovieActionSent(
+      Movie movie = await movieRepository.post(event.movie);
+      yield MovieAdded(
+        movie: movie,
         succeed: true,
         message: addToastStr(
           event.movie,
@@ -57,7 +57,8 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Stream<MovieState> _mapDeleteMovie(DeleteMovie event) async* {
     try {
       await movieRepository.delete(event.movie);
-      yield MovieActionSent(
+      yield MovieDeleted(
+        movie: event.movie,
         succeed: true,
         message: deleteToastStr(
           event.movie,
@@ -74,5 +75,4 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       );
     }
   }
-
 }

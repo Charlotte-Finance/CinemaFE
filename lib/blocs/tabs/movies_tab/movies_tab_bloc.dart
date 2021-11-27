@@ -10,6 +10,7 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movies_tab_event.dart';
+
 part 'movies_tab_state.dart';
 
 class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
@@ -18,7 +19,8 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
   final DirectorRepository directorRepository = DirectorRepository();
   final ActorRepository actorRepository = ActorRepository();
 
-  MoviesTabBloc() : super(MoviesTabEmpty());
+  MoviesTabBloc()
+      : super(MoviesTabEmpty(movies: HashMap<Category, List<Movie>>()));
 
   @override
   Stream<MoviesTabState> mapEventToState(
@@ -30,10 +32,12 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
     if (event is AddMovieToList) {
       yield* _mapAddMovieToList(event);
     }
+    if (event is RemoveMovieFromList) {
+      yield* _mapRemoveMovieFromList(event);
+    }
   }
 
   Stream<MoviesTabState> _mapGetMovies(GetMovies event) async* {
-    yield MoviesTabLoading();
     try {
       List<Category> categories = await categoryRepository.getCategories();
       HashMap movies = HashMap<Category, List<Movie>>();
@@ -45,24 +49,51 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
       yield MoviesTabLoaded(movies: movies);
     } catch (_) {
       yield MoviesTabError(
+        movies: HashMap<Category, List<Movie>>(),
         error: "Something went wrong...",
         event: event,
       );
     }
   }
 
-
   Stream<MoviesTabState> _mapAddMovieToList(AddMovieToList event) async* {
-    yield MoviesTabLoading();
+    yield MoviesTabReloading(movies: state.movies);
     try {
-      Movie movie = await movieRepository.getMovie(event.movieId);
-      Category category = await categoryRepository.getCategory(movie.categoryCode!);
-      event.movies[category].add(movie);
-      yield MoviesTabLoaded(movies: event.movies);
+      Movie movie = await movieRepository.getMovie(event.movie.id!);
+      Category category =
+      await categoryRepository.getCategory(movie.categoryCode!);
+      for (Category categoryKey in state.movies.keys){
+        if (categoryKey == category){
+          state.movies[categoryKey].add(movie);
+        }
+      }
+      yield MoviesTabLoaded(movies: state.movies);
     } catch (_) {
       yield MoviesTabError(
+        movies: HashMap<Category, List<Movie>>(),
         error: "Something went wrong...",
-        event: event,
+        event: GetMovies(),
+      );
+    }
+  }
+
+  Stream<MoviesTabState> _mapRemoveMovieFromList(
+      RemoveMovieFromList event) async* {
+    yield MoviesTabReloading(movies: state.movies);
+    try {
+      Category category =
+          await categoryRepository.getCategory(event.movie.categoryCode!);
+      for (Category categoryKey in state.movies.keys){
+        if (categoryKey == category){
+          state.movies[category].remove(event.movie);
+        }
+      }
+      yield MoviesTabLoaded(movies: state.movies);
+    } catch (_) {
+      yield MoviesTabError(
+        movies: HashMap<Category, List<Movie>>(),
+        error: "Something went wrong...",
+        event: GetMovies(),
       );
     }
   }

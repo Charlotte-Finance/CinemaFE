@@ -2,6 +2,7 @@ import 'package:cinema_fe/blocs/forms/actor/actor_bloc.dart';
 import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
+import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/forms/actor_form.dart';
 import 'package:cinema_fe/components/forms/character_form.dart';
@@ -39,6 +40,11 @@ class FormPage extends StatelessWidget {
                 if (state is MovieActionSent) {
                   context.read<MovieBloc>().add(ResetMovie());
                   toast(context, state.message, state.succeed);
+                  if (state is MovieAdded) {
+                    context.read<MoviesTabBloc>().add(
+                          AddMovieToList(movie: state.movie),
+                        );
+                  }
                 }
               },
             ),
@@ -47,6 +53,11 @@ class FormPage extends StatelessWidget {
                 if (state is ActorActionSent) {
                   context.read<ActorBloc>().add(ResetActor());
                   toast(context, state.message, state.succeed);
+                }
+                if (state is ActorAdded) {
+                  context.read<MovieDescriptionBloc>().add(
+                    UpdateActorDescription(actor: state.actor),
+                  );
                 }
               },
             ),

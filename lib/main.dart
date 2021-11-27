@@ -14,12 +14,15 @@ import 'blocs/forms/forms_bloc.dart';
 import 'blocs/forms/movie/movie_bloc.dart';
 import 'blocs/login/login_bloc.dart';
 import 'blocs/movie_description/movie_description_bloc.dart';
+import 'blocs/tabs/add_tab/add_tab_bloc.dart';
+import 'blocs/tabs/liked_tab/liked_tab_bloc.dart';
+import 'blocs/tabs/movies_tab/movies_tab_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition);
+    //print(transition);
   }
 }
 
@@ -49,6 +52,15 @@ void main() {
         ),
         BlocProvider<DirectorBloc>(
           create: (BuildContext context) => DirectorBloc(),
+        ),
+        BlocProvider<MoviesTabBloc>(
+          create: (BuildContext context) => MoviesTabBloc(),
+        ),
+        BlocProvider<LikedTabBloc>(
+          create: (BuildContext context) => LikedTabBloc(),
+        ),
+        BlocProvider<AddTabBloc>(
+          create: (BuildContext context) => AddTabBloc(),
         ),
       ],
       child: const MyApp(),

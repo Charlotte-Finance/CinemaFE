@@ -10,12 +10,19 @@ class GetMovies extends MoviesTabEvent {
 }
 
 class AddMovieToList extends MoviesTabEvent {
-  final HashMap movies;
-  final int movieId;
+  final Movie movie;
 
-  const AddMovieToList({required this.movies, required this.movieId});
+  const AddMovieToList({required this.movie});
 
   @override
-  List<Object> get props => [movies, movieId];
+  List<Object> get props => [movie];
 }
 
+class RemoveMovieFromList extends MoviesTabEvent {
+  final Movie movie;
+
+  const RemoveMovieFromList({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
