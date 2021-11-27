@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 class HttpRequest {
@@ -87,6 +88,23 @@ class HttpRequest {
       throw Exception('Failed');
     } else {
       return json.decode(response.body.toString());
+    }
+  }
+
+  static Future<dynamic> postFile(
+      String endpoint, PlatformFile file, String path) async {
+    Uri httpRequest =
+        Uri(scheme: "http", path: endpoint, port: _port, host: _address);
+    print(httpRequest);
+    var request = http.MultipartRequest('POST', httpRequest)
+      ..fields['path'] = path;
+    request.files.add(
+        http.MultipartFile.fromBytes('file', file.bytes!, filename: file.name));
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      return "Upload";
+    } else {
+      throw Exception('Failed');
     }
   }
 
