@@ -41,9 +41,14 @@ class FormPage extends StatelessWidget {
                   context.read<MovieBloc>().add(ResetMovie());
                   toast(context, state.message, state.succeed);
                   if (state is MovieAdded) {
-                    context.read<MoviesTabBloc>().add(
-                          AddMovieToList(movie: state.movie),
-                        );
+                    if (state is!  MovieEdited){
+                      context.read<MoviesTabBloc>().add(
+                        AddMovieToList(movie: state.movie),
+                      );
+                    }
+                    context.read<MovieDescriptionBloc>().add(
+                      RefreshDescription(),
+                    );
                   }
                 }
               },
@@ -56,8 +61,8 @@ class FormPage extends StatelessWidget {
                 }
                 if (state is ActorAdded) {
                   context.read<MovieDescriptionBloc>().add(
-                    UpdateActorDescription(actor: state.actor),
-                  );
+                    UpdateDescription(),
+                      );
                 }
               },
             ),
@@ -67,6 +72,11 @@ class FormPage extends StatelessWidget {
                   context.read<CharacterBloc>().add(ResetCharacter());
                   toast(context, state.message, state.succeed);
                 }
+                if (state is CharacterAdded) {
+                  context.read<MovieDescriptionBloc>().add(
+                        UpdateDescription(),
+                      );
+                }
               },
             ),
             BlocListener<DirectorBloc, DirectorState>(
@@ -74,6 +84,11 @@ class FormPage extends StatelessWidget {
                 if (state is DirectorActionSent) {
                   context.read<DirectorBloc>().add(ResetDirector());
                   toast(context, state.message, state.succeed);
+                }
+                if (state is DirectorAdded) {
+                  context.read<MovieDescriptionBloc>().add(
+                        UpdateDescription(),
+                      );
                 }
               },
             ),

@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
+import 'package:cinema_fe/blocs/movie_card/movie_card_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/movie.dart';
@@ -36,18 +36,19 @@ class MovieCard extends StatefulWidget {
 class _MovieCardState extends State<MovieCard> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDescriptionBloc, MovieDescriptionState>(
+    return BlocBuilder<MovieCardBloc, MovieCardState>(
       builder: (context, state) {
-        if (state is MovieDescriptionEmpty) {
-          context.watch<MovieDescriptionBloc>().add(
+        if (state is MovieCardEmpty) {
+          context.watch<MovieCardBloc>().add(
                 FetchLike(
                   user: widget.user,
                   movie: widget.movie,
                 ),
               );
-        } else if (state is MovieDescriptionLoaded) {
-          if (state is MovieDescriptionReloading) {
-            context.watch<MovieDescriptionBloc>().add(
+        } else if (state is MovieCardLoaded) {
+          if (state is MovieCardReloading &&
+              state.movie.id == widget.movie.id!) {
+            context.watch<MovieCardBloc>().add(
                   FetchLike(
                     user: widget.user,
                     movie: widget.movie,
@@ -79,13 +80,14 @@ class _MovieCardState extends State<MovieCard> {
                     GestureDetector(
                       onTap: () {
                         if (widget.enableLike) {
-                          BlocProvider.of<MovieDescriptionBloc>(context).add(
+                          BlocProvider.of<MovieCardBloc>(context).add(
                             LikeMovie(
                               user: widget.user,
                               movie: widget.movie,
                               isLiked: (!widget.movie.isLiked!),
                             ),
                           );
+                          // ToDo: Bloc listener ?
                           BlocProvider.of<LikedTabBloc>(context).add(
                             ChangeLikedMovies(
                               movie: widget.movie,
@@ -102,10 +104,10 @@ class _MovieCardState extends State<MovieCard> {
               ),
             ],
           );
-        } else if (state is MovieDescriptionError) {
+        } else if (state is MovieCardError) {
           return ErrorMessage(
             error: state.error,
-            bloc: BlocProvider.of<MovieDescriptionBloc>(context),
+            bloc: BlocProvider.of<MovieCardBloc>(context),
             event: state.event,
           );
         }

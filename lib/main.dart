@@ -13,6 +13,7 @@ import 'blocs/forms/director/director_bloc.dart';
 import 'blocs/forms/forms_bloc.dart';
 import 'blocs/forms/movie/movie_bloc.dart';
 import 'blocs/login/login_bloc.dart';
+import 'blocs/movie_card/movie_card_bloc.dart';
 import 'blocs/movie_description/movie_description_bloc.dart';
 import 'blocs/tabs/add_tab/add_tab_bloc.dart';
 import 'blocs/tabs/liked_tab/liked_tab_bloc.dart';
@@ -40,6 +41,9 @@ void main() {
         ),
         BlocProvider<MovieDescriptionBloc>(
           create: (BuildContext context) => MovieDescriptionBloc(),
+        ),
+        BlocProvider<MovieCardBloc>(
+          create: (BuildContext context) => MovieCardBloc(),
         ),
         BlocProvider<MovieBloc>(
           create: (BuildContext context) => MovieBloc(),

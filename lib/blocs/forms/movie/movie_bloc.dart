@@ -32,16 +32,30 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
   Stream<MovieState> _mapAddMovie(AddMovie event) async* {
     try {
+      int? id = event.movie.id;
       Movie movie = await movieRepository.post(event.movie);
-      yield MovieAdded(
-        movie: movie,
-        succeed: true,
-        message: addToastStr(
-          event.movie,
-          event.movie.id,
-          true,
-        ),
-      );
+      if (id != null){
+        yield MovieEdited(
+          movie: movie,
+          succeed: true,
+          message: addToastStr(
+            event.movie,
+            event.movie.id,
+            true,
+          ),
+        );
+      }
+      else{
+        yield MovieAdded(
+          movie: movie,
+          succeed: true,
+          message: addToastStr(
+            event.movie,
+            event.movie.id,
+            true,
+          ),
+        );
+      }
     } catch (_) {
       yield MovieActionSent(
         succeed: false,

@@ -34,6 +34,18 @@ class MovieAdded extends MovieActionSent {
   @override
   List<Object> get props => [movie, message, succeed];
 }
+class MovieEdited extends MovieAdded {
+  final Movie movie;
+  final String message;
+  final bool succeed;
+
+  const MovieEdited({
+    required this.movie, required this.message,required this.succeed,
+  }) : super(movie:movie, message:message, succeed:succeed) ;
+
+  @override
+  List<Object> get props => [movie, message, succeed];
+}
 
 
 class MovieDeleted extends MovieActionSent {

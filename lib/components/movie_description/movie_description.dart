@@ -28,84 +28,69 @@ class MovieDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDescriptionBloc, MovieDescriptionState>(
-      builder: (context, state) {
-        if (state is MovieDescriptionEmpty) {
-          context.watch<MovieDescriptionBloc>().add(
-              FetchMovieDescription(movie: movie));
-        } else if (state is MovieDescriptionLoaded) {
-          return Column(
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(movie.title!, style: movieTitleStyle),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "A movie from ${movie.director!.firstname} ${movie
-                          .director!.name}",
-                      style: movieSubtitleStyle,
-                    ),
-                    Text(
-                      movie.category!.label,
-                      style: categoryStyle,
-                    ),
-                  ],
-                ),
+              Text(movie.title!, style: movieTitleStyle),
+              const SizedBox(
+                height: 10,
               ),
-              MovieCard(
-                user: user,
-                movie: movie,
-                enableClick: false,
+              Text(
+                "A movie from ${movie.director!.firstname} ${movie
+                    .director!.name}",
+                style: movieSubtitleStyle,
               ),
-              CharacterList(
-                user: user,
-                characters: movie.characters!,
-              ),
-              ActorList(
-                user: user,
-                characters: movie.characters!,
-              ),
-              DirectorList(
-                user: user,
-                directors: [movie.director!],
-              ),
-              GestureDetector(
-                child: const Text("Edit"),
-                onTap: () {
-                  BlocProvider.of<FormsBloc>(context).add(
-                    GetMovieForm(movie: movie),
-                  );
-                  Navigator.pushNamed(
-                    context,
-                    FormRoute,
-                    arguments: UserArgument(user: user),
-                  );
-                },
-              ),
-              GestureDetector(
-                child: const Text("Delete"),
-                onTap: () {
-                  BlocProvider.of<MovieBloc>(context).add(
-                    DeleteMovie(movie: movie),
-                  );
-                  Navigator.pop(context);
-                },
+              Text(
+                movie.category!.label,
+                style: categoryStyle,
               ),
             ],
-          );
-        } else if (state is MovieDescriptionError) {
-          return ErrorMessage(
-            error: state.error,
-            bloc: BlocProvider.of<MovieDescriptionBloc>(context),
-            event: state.event,
-          );
-        }
-        return const CircularProgressIndicator();
-      },
+          ),
+        ),
+        MovieCard(
+          user: user,
+          movie: movie,
+          enableClick: false,
+        ),
+        CharacterList(
+          user: user,
+          characters: movie.characters!,
+        ),
+        ActorList(
+          user: user,
+          characters: movie.characters!,
+        ),
+        DirectorList(
+          user: user,
+          directors: [movie.director!],
+        ),
+        GestureDetector(
+          child: const Text("Edit"),
+          onTap: () {
+            BlocProvider.of<FormsBloc>(context).add(
+              GetMovieForm(movie: movie),
+            );
+            Navigator.pushNamed(
+              context,
+              FormRoute,
+              arguments: UserArgument(user: user),
+            );
+          },
+        ),
+        GestureDetector(
+          child: const Text("Delete"),
+          onTap: () {
+            BlocProvider.of<MovieBloc>(context).add(
+              DeleteMovie(movie: movie),
+            );
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 }

@@ -17,43 +17,11 @@ class FetchMovieDescription extends MovieDescriptionEvent {
       ];
 }
 
-
-class FetchLike extends MovieDescriptionEvent {
-  final User user;
-  final Movie movie;
-
-  const FetchLike({
-    required this.user,
-    required this.movie,
-  });
-
+class UpdateDescription extends MovieDescriptionEvent {
   @override
-  List<Object> get props => [user, movie];
+  List<Object> get props => [];
 }
-
-class LikeMovie extends MovieDescriptionEvent {
-  final User user;
-  final Movie movie;
-  final bool isLiked;
-
-  const LikeMovie({
-    required this.user,
-    required this.movie,
-    required this.isLiked,
-  });
-
+class RefreshDescription extends MovieDescriptionEvent {
   @override
-  List<Object> get props => [user, movie, isLiked];
+  List<Object> get props => [];
 }
-
-class UpdateActorDescription extends MovieDescriptionEvent {
-  final Actor actor;
-
-  const UpdateActorDescription({
-    required this.actor,
-  });
-
-  @override
-  List<Object> get props => [actor];
-}
-
