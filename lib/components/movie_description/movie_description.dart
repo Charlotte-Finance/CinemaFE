@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
-import 'package:cinema_fe/components/widgets/movie_card.dart';
+import 'package:cinema_fe/components/movie_card/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/routes/route_arguments.dart';
@@ -55,7 +55,6 @@ class MovieDescription extends StatelessWidget {
             user: user,
             movie: movie,
             enableClick: false,
-            width: MediaQuery.of(context).size.width * 0.5,
           ),
         ),
         CharacterList(

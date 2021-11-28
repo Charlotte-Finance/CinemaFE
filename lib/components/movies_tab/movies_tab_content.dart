@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/styles/sizes/movies.dart';
 import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,10 +29,11 @@ class MoviesTabContent extends StatelessWidget {
         allMovies.add(movie);
       }
     }
+    allMovies.shuffle();
     return Column(
       children: [
         SizedBox(
-          height: titleHeight(context),
+          height: MediaQuery.of(context).size.height * 0.1,
           child: Center(
             child: Text(
               moviesTabTitleStr,
@@ -47,7 +47,7 @@ class MoviesTabContent extends StatelessWidget {
           allMovies: allMovies,
         ),
         SizedBox(
-          height: titleHeight(context),
+          height: MediaQuery.of(context).size.height * 0.1,
         ),
         for (Category category in movies.keys) ...[
           CategoryMovies(

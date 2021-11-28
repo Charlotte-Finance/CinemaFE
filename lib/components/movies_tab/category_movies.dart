@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cinema_fe/components/movie_card/movie_card.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -7,7 +8,6 @@ import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/movie_card.dart';
 
 class CategoryMovies extends StatelessWidget {
   final User user;
@@ -50,7 +50,6 @@ class CategoryMovies extends StatelessWidget {
                 child: MovieCard(
                   user: user,
                   movie: movie,
-                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
               );
             },

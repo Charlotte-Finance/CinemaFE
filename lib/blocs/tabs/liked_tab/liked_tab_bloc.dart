@@ -27,8 +27,6 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   }
 
   Stream<LikedTabState> _mapGetLikedMovies(GetLikedMovies event) async* {
-    yield LikedTabReloading(movies: state.movies);
-
     try {
       List<Movie> movies = await movieRepository.getLikedMovies(event.user);
       for (Movie movie in movies) {
@@ -37,7 +35,7 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
       yield LikedTabLoaded(movies: movies);
     } catch (_) {
       yield LikedTabError(
-        movies: [],
+        movies: const [],
         error: "Something went wrong...",
         event: event,
       );
@@ -51,11 +49,8 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
       try {
         if (event.isLiked) {
           event.movie.isLiked = event.isLiked;
-          print(state.movies);
-          print(event.movie);
           movies.add(event.movie);
         } else {
-          print(event.movie);
           movies.remove(event.movie);
         }
         yield LikedTabLoaded(movies: movies);

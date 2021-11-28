@@ -1,12 +1,11 @@
 import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
-import 'package:cinema_fe/components/tabs/liked_tab/liked_movies.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
-import 'package:cinema_fe/components/widgets/movie_card.dart';
-import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'liked_movies.dart';
 
 class LikedTab extends StatelessWidget {
   final User user;

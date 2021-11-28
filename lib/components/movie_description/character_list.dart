@@ -86,8 +86,29 @@ class CharacterList extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              BlocProvider.of<CharacterBloc>(context).add(
-                                DeleteCharacter(character: characters[index]),
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Delete this character ?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Close')),
+                                      TextButton(
+                                        onPressed: () {
+                                          BlocProvider.of<CharacterBloc>(context).add(
+                                            DeleteCharacter(character: characters[index]),
+                                          );
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Delete'),
+                                      )
+                                    ],
+                                  );
+                                },
                               );
                             },
                           ),

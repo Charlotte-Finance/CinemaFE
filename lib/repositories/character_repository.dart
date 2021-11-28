@@ -29,8 +29,12 @@ class CharacterRepository {
   }
 
   Future<Character> post(Character character) async {
+    print("AAAAAAAAAAAAAAAAA");
     final String json = jsonEncode(character);
+    print("BBBBBBBBBBBB");
     final response = await HttpRequest.postRequest(url, json);
+    print("CCCCCCC");
+
     return Character.fromJson(response);
   }
 

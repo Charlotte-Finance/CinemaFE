@@ -75,40 +75,28 @@ class _MoviePageState extends State<MoviePage> {
             ),
             BlocListener<ActorBloc, ActorState>(
               listener: (context, state) {
-                if (state is ActorActionSent) {
-                  context.read<ActorBloc>().add(ResetActor());
-                  toast(context, state.message, state.succeed);
-                }
                 if (state is ActorDeleted) {
                   context.read<MovieDescriptionBloc>().add(
-                        RefreshDescription(),
-                      );
+                    RefreshDescription(),
+                  );
                 }
               },
             ),
             BlocListener<CharacterBloc, CharacterState>(
               listener: (context, state) {
-                if (state is CharacterActionSent) {
-                  context.read<CharacterBloc>().add(ResetCharacter());
-                  toast(context, state.message, state.succeed);
-                }
                 if (state is CharacterDeleted) {
                   context.read<MovieDescriptionBloc>().add(
-                        RefreshDescription(),
-                      );
+                    RefreshDescription(),
+                  );
                 }
               },
             ),
             BlocListener<DirectorBloc, DirectorState>(
               listener: (context, state) {
-                if (state is DirectorActionSent) {
-                  context.read<DirectorBloc>().add(ResetDirector());
-                  toast(context, state.message, state.succeed);
-                }
                 if (state is DirectorDeleted) {
                   context.read<MovieDescriptionBloc>().add(
-                        RefreshDescription(),
-                      );
+                    RefreshDescription(),
+                  );
                 }
               },
             ),
