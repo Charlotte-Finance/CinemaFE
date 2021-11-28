@@ -1,9 +1,9 @@
 
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/route_arguments.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
-import 'package:cinema_fe/utils/text_styles.dart';
+import 'package:cinema_fe/utils/routes/route_arguments.dart';
+import 'package:cinema_fe/utils/routes/routing_constants.dart';
+import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

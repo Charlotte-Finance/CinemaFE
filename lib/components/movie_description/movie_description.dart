@@ -1,13 +1,11 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
-import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
-import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/components/widgets/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/route_arguments.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
-import 'package:cinema_fe/utils/text_styles.dart';
+import 'package:cinema_fe/utils/routes/route_arguments.dart';
+import 'package:cinema_fe/utils/routes/routing_constants.dart';
+import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +26,6 @@ class MovieDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Padding(
@@ -40,8 +37,7 @@ class MovieDescription extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "A movie from ${movie.director!.firstname} ${movie
-                    .director!.name}",
+                "A movie from ${movie.director!.firstname} ${movie.director!.name}",
                 style: movieSubtitleStyle,
               ),
               Text(
@@ -51,10 +47,16 @@ class MovieDescription extends StatelessWidget {
             ],
           ),
         ),
-        MovieCard(
-          user: user,
-          movie: movie,
-          enableClick: false,
+        Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.5,
+          alignment: Alignment.topCenter,
+          child: MovieCard(
+            user: user,
+            movie: movie,
+            enableClick: false,
+            width: MediaQuery.of(context).size.width * 0.5,
+          ),
         ),
         CharacterList(
           user: user,
@@ -68,9 +70,8 @@ class MovieDescription extends StatelessWidget {
           user: user,
           directors: [movie.director!],
         ),
-        GestureDetector(
-          child: const Text("Edit"),
-          onTap: () {
+        ElevatedButton(
+          onPressed: () {
             BlocProvider.of<FormsBloc>(context).add(
               GetMovieForm(movie: movie),
             );
@@ -80,15 +81,61 @@ class MovieDescription extends StatelessWidget {
               arguments: UserArgument(user: user),
             );
           },
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.width * 0.1,
+            alignment: Alignment.center,
+            child: const Text(
+              "Edit the movie",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
         ),
-        GestureDetector(
-          child: const Text("Delete"),
-          onTap: () {
-            BlocProvider.of<MovieBloc>(context).add(
-              DeleteMovie(movie: movie),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.1,
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Delete this movie ?'),
+                  content: const Text(
+                      'If you delete this movie, it will also delete all the characters linked to this movie. Are you sure ?'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Close')),
+                    TextButton(
+                      onPressed: () {
+                        BlocProvider.of<MovieBloc>(context).add(
+                          DeleteMovie(movie: movie),
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Delete the movie'),
+                    ),
+                  ],
+                );
+              },
             );
-            Navigator.pop(context);
           },
+          child: Container(
+            width: MediaQuery.of(context).size.width * 1,
+            height: MediaQuery.of(context).size.width * 0.05,
+            alignment: Alignment.center,
+            child: const Text(
+              "Delete the movie",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
         ),
       ],
     );

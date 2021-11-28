@@ -1,6 +1,12 @@
+import 'package:cinema_fe/blocs/forms/actor/actor_bloc.dart';
+import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
+import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
+import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
+import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/movie_description/movie_description.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
+import 'package:cinema_fe/components/widgets/snack_bar.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,38 +49,110 @@ class _MoviePageState extends State<MoviePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: BlocBuilder<MovieDescriptionBloc, MovieDescriptionState>(
-          builder: (context, state) {
-            if (state is MovieDescriptionEmpty) {
-              print("aaaaaaa");
-              BlocProvider.of<MovieDescriptionBloc>(context).add(
-                FetchMovieDescription(
-                  movie: movie,
-                ),
-              );
-            } else if (state is MovieDescriptionLoaded) {
-              if (state is MovieDescriptionReloading && state.movie.id == movie.id){
-                WidgetsBinding.instance!.addPostFrameCallback((_){
-                  setState(() {
-                    movie = state.movie;
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<MovieBloc, MovieState>(
+              listener: (context, state) {
+                if (state is MovieActionSent) {
+                  context.read<MovieBloc>().add(ResetMovie());
+                  toast(context, state.message, state.succeed);
+                if (state is MovieDeleted) {
+                  context.read<MoviesTabBloc>().add(
+                    RemoveMovieFromList(movie: state.movie),
+                  );
+                }
+                }
+              },
+            ),
+            BlocListener<MovieBloc, MovieState>(
+              listener: (context, state) {
+                if (state is MovieAdded) {
+                  context.read<MovieDescriptionBloc>().add(
+                    RefreshDescription(),
+                  );
+                }
+              },
+            ),
+            BlocListener<ActorBloc, ActorState>(
+              listener: (context, state) {
+                if (state is ActorActionSent) {
+                  context.read<ActorBloc>().add(ResetActor());
+                  toast(context, state.message, state.succeed);
+                }
+                if (state is ActorDeleted) {
+                  context.read<MovieDescriptionBloc>().add(
+                        RefreshDescription(),
+                      );
+                }
+              },
+            ),
+            BlocListener<CharacterBloc, CharacterState>(
+              listener: (context, state) {
+                if (state is CharacterActionSent) {
+                  context.read<CharacterBloc>().add(ResetCharacter());
+                  toast(context, state.message, state.succeed);
+                }
+                if (state is CharacterDeleted) {
+                  context.read<MovieDescriptionBloc>().add(
+                        RefreshDescription(),
+                      );
+                }
+              },
+            ),
+            BlocListener<DirectorBloc, DirectorState>(
+              listener: (context, state) {
+                if (state is DirectorActionSent) {
+                  context.read<DirectorBloc>().add(ResetDirector());
+                  toast(context, state.message, state.succeed);
+                }
+                if (state is DirectorDeleted) {
+                  context.read<MovieDescriptionBloc>().add(
+                        RefreshDescription(),
+                      );
+                }
+              },
+            ),
+          ],
+          child: BlocBuilder<MovieDescriptionBloc, MovieDescriptionState>(
+            builder: (context, state) {
+              if (state is MovieDescriptionEmpty) {
+                BlocProvider.of<MovieDescriptionBloc>(context).add(
+                  FetchMovieDescription(
+                    movie: movie,
+                  ),
+                );
+              } else if (state is MovieDescriptionLoaded) {
+                if (state is MovieDescriptionReloading &&
+                    state.movie.id == movie.id) {
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    setState(() {
+                      movie = state.movie;
+                    });
                   });
-                });
-              }
-              if (state.movie == movie) {
-                return MovieDescription(
-                  user: widget.user,
-                  movie: state.movie,
+                }
+                if (state.movie == movie) {
+                  return MovieDescription(
+                    user: widget.user,
+                    movie: state.movie,
+                  );
+                }
+                if (state.movie != movie) {
+                  BlocProvider.of<MovieDescriptionBloc>(context).add(
+                    FetchMovieDescription(
+                      movie: movie,
+                    ),
+                  );
+                }
+              } else if (state is MovieDescriptionError) {
+                return ErrorMessage(
+                  error: state.error,
+                  bloc: BlocProvider.of<MovieDescriptionBloc>(context),
+                  event: state.event,
                 );
               }
-            } else if (state is MovieDescriptionError) {
-              return ErrorMessage(
-                error: state.error,
-                bloc: BlocProvider.of<MovieDescriptionBloc>(context),
-                event: state.event,
-              );
-            }
-            return const CircularProgressIndicator();
-          },
+              return const CircularProgressIndicator();
+            },
+          ),
         ),
       ),
     );

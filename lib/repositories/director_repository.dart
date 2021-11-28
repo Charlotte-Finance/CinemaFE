@@ -26,7 +26,7 @@ class DirectorRepository {
 
   Future<Director> delete(Director director) async {
     final String json = jsonEncode(director);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url+"delete/", json);
     return Director.fromJson(response);
   }
 }

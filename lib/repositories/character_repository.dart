@@ -37,7 +37,7 @@ class CharacterRepository {
 
   Future<Character> delete(Character character) async {
     final String json = jsonEncode(character);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url+"delete/", json);
     return Character.fromJson(response);
   }
 }

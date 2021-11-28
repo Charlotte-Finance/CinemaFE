@@ -3,8 +3,7 @@ import 'dart:collection';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/sizes.dart';
-import 'package:cinema_fe/utils/text_styles.dart';
+import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +26,9 @@ class CategoryMovies extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: categoryTitleHeight(context),
-          padding: EdgeInsets.only(left: categoryLeftPadding(context)),
+          height: MediaQuery.of(context).size.height * 0.045,
+          padding:
+              EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.035),
           alignment: Alignment.topLeft,
           child: Text(
             category.label,
@@ -36,7 +36,7 @@ class CategoryMovies extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: pictureHeight(context),
+          height: MediaQuery.of(context).size.height * 0.40,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -45,19 +45,19 @@ class CategoryMovies extends StatelessWidget {
               Movie movie = movies[category][movieIndex];
               return Container(
                 padding: EdgeInsets.only(
-                  left: picturesPadding(context),
-                  right: picturesPadding(context),
+                  left: MediaQuery.of(context).size.width * 0.05,
                 ),
                 child: MovieCard(
                   user: user,
                   movie: movie,
+                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
               );
             },
           ),
         ),
         SizedBox(
-          height: categoryPadding(context),
+          height: MediaQuery.of(context).size.height * 0.065,
         ),
       ],
     );

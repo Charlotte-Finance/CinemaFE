@@ -10,7 +10,6 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movies_tab_event.dart';
-
 part 'movies_tab_state.dart';
 
 class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
@@ -31,6 +30,9 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
     }
     if (event is AddMovieToList) {
       yield* _mapAddMovieToList(event);
+    }
+    if (event is EditMovie) {
+      yield* _mapEditMovie(event);
     }
     if (event is RemoveMovieFromList) {
       yield* _mapRemoveMovieFromList(event);
@@ -59,12 +61,9 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
   Stream<MoviesTabState> _mapAddMovieToList(AddMovieToList event) async* {
     yield MoviesTabReloading(movies: state.movies);
     try {
-      Movie movie = await movieRepository.getMovie(event.movie.id!);
-      Category category =
-      await categoryRepository.getCategory(movie.categoryCode!);
       for (Category categoryKey in state.movies.keys){
-        if (categoryKey == category){
-          state.movies[categoryKey].add(movie);
+        if (categoryKey.code == event.movie.categoryCode){
+          state.movies[categoryKey].add(event.movie);
         }
       }
       yield MoviesTabLoaded(movies: state.movies);
@@ -76,7 +75,34 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
       );
     }
   }
-
+  Stream<MoviesTabState> _mapEditMovie(EditMovie event) async* {
+    yield MoviesTabReloading(movies: state.movies);
+    try {
+      Movie? removeMovie;
+      for (Category categoryKey in state.movies.keys){
+        for (Movie movieValue in state.movies[categoryKey]){
+          if (movieValue.id == event.movie.id && categoryKey.code != event.movie.categoryCode){
+            removeMovie = movieValue;
+          }
+        }
+        if (removeMovie != null) {
+          state.movies[categoryKey].remove(removeMovie);
+          for (Category categoryKey in state.movies.keys){
+            if (categoryKey.code == event.movie.categoryCode){
+              state.movies[categoryKey].add(event.movie);
+            }
+          }
+        }
+      }
+      yield MoviesTabLoaded(movies: state.movies);
+    } catch (_) {
+      yield MoviesTabError(
+        movies: HashMap<Category, List<Movie>>(),
+        error: "Something went wrong...",
+        event: GetMovies(),
+      );
+    }
+  }
   Stream<MoviesTabState> _mapRemoveMovieFromList(
       RemoveMovieFromList event) async* {
     yield MoviesTabReloading(movies: state.movies);

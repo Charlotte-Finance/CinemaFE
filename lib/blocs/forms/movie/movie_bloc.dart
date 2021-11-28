@@ -2,11 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/repositories/like_repository.dart';
 import 'package:cinema_fe/repositories/movie_repository.dart';
-import 'package:cinema_fe/utils/texts.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movie_event.dart';
-
 part 'movie_state.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {

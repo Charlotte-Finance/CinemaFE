@@ -1,13 +1,11 @@
-import 'package:cinema_fe/blocs/tabs/add_tab/add_tab_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
+
 import 'package:cinema_fe/components/tabs/add_tab/add_tab.dart';
 import 'package:cinema_fe/components/tabs/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/tabs/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppPage extends StatefulWidget {
   final User user;
@@ -49,11 +47,10 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       appBar: AppBar(
         title: _selectedIndex == 0
-            ? const Text("Catalogue")
+            ? Text(moviesTabStr)
             : _selectedIndex == 1
-                ? const Text("Your Likes")
-                : const Text("Add some data"),
-        leading: null,
+                ? Text(likeTabStr)
+                : Text(formTabStr),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -73,22 +70,21 @@ class _AppPageState extends State<AppPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
-            label: 'Movies',
+            icon: const Icon(Icons.movie),
+            label: moviesTabStr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            icon: const Icon(Icons.favorite),
+            label: likeTabStr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'Add Data',
+            icon: const Icon(Icons.add_circle),
+            label: formTabStr,
           ),
         ],
         currentIndex: _selectedIndex,
-        //selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

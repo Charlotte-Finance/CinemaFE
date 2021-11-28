@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/director.dart';
-import 'package:cinema_fe/repositories/like_repository.dart';
 import 'package:cinema_fe/repositories/director_repository.dart';
-import 'package:cinema_fe/utils/texts.dart';
+import 'package:cinema_fe/repositories/like_repository.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:equatable/equatable.dart';
 
 part 'director_event.dart';
-
 part 'director_state.dart';
 
 class DirectorBloc extends Bloc<DirectorEvent, DirectorState> {

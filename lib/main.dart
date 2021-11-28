@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:cinema_fe/pages/login_page.dart';
-import 'package:cinema_fe/utils/route_generator.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
+import 'package:cinema_fe/utils/routes/route_generator.dart';
+import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_strategy/url_strategy.dart';

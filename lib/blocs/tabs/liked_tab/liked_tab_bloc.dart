@@ -6,7 +6,6 @@ import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'liked_tab_event.dart';
-
 part 'liked_tab_state.dart';
 
 class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
@@ -28,6 +27,8 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   }
 
   Stream<LikedTabState> _mapGetLikedMovies(GetLikedMovies event) async* {
+    yield LikedTabReloading(movies: state.movies);
+
     try {
       List<Movie> movies = await movieRepository.getLikedMovies(event.user);
       for (Movie movie in movies) {
@@ -44,21 +45,27 @@ class LikedTabBloc extends Bloc<LikedTabEvent, LikedTabState> {
   }
 
   Stream<LikedTabState> _mapChangeLikedMovies(ChangeLikedMovies event) async* {
-    List<Movie> movies = state.movies;
-    try {
-      if (event.isLiked) {
-        event.movie.isLiked = event.isLiked;
-        state.movies.add(event.movie);
-      } else {
-        state.movies.remove(event.movie);
+    if (state is LikedTabLoaded) {
+      yield LikedTabReloading(movies: state.movies);
+      List<Movie> movies = state.movies;
+      try {
+        if (event.isLiked) {
+          event.movie.isLiked = event.isLiked;
+          print(state.movies);
+          print(event.movie);
+          movies.add(event.movie);
+        } else {
+          print(event.movie);
+          movies.remove(event.movie);
+        }
+        yield LikedTabLoaded(movies: movies);
+      } catch (_) {
+        yield LikedTabError(
+          movies: const [],
+          error: "Something went wrong...",
+          event: GetLikedMovies(user: event.user),
+        );
       }
-      yield LikedTabLoaded(movies: movies);
-    } catch (_) {
-      yield LikedTabError(
-        movies: const [],
-        error: "Something went wrong...",
-        event: GetLikedMovies(user: event.user),
-      );
     }
   }
 }

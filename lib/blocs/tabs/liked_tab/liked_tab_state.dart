@@ -26,7 +26,14 @@ class LikedTabLoaded extends LikedTabState {
   @override
   List<Object> get props => [movies];
 }
+class LikedTabReloading extends LikedTabLoaded {
+  final List<Movie> movies;
 
+  const LikedTabReloading({required this.movies}) : super(movies:movies);
+
+  @override
+  List<Object> get props => [movies];
+}
 class LikedTabError extends LikedTabState {
   final List<Movie> movies;
   final String error;

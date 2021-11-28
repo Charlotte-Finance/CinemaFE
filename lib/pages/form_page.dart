@@ -1,4 +1,5 @@
 import 'package:cinema_fe/blocs/forms/actor/actor_bloc.dart';
+import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
 import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
@@ -9,10 +10,11 @@ import 'package:cinema_fe/components/forms/character_form.dart';
 import 'package:cinema_fe/components/forms/director_form.dart';
 import 'package:cinema_fe/components/forms/movie_form.dart';
 import 'package:cinema_fe/components/widgets/snack_bar.dart';
+import 'package:cinema_fe/utils/styles/icons.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
 
 class FormPage extends StatelessWidget {
   const FormPage({
@@ -23,9 +25,9 @@ class FormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Form'),
+        title: Text(formTabStr),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: backArrow,
           onPressed: () {
             context.read<FormsBloc>().add(ResetForm());
             Navigator.pop(context);
@@ -41,14 +43,19 @@ class FormPage extends StatelessWidget {
                   context.read<MovieBloc>().add(ResetMovie());
                   toast(context, state.message, state.succeed);
                   if (state is MovieAdded) {
-                    if (state is!  MovieEdited){
+                    if (state is MovieEdited) {
+                      context
+                          .read<MoviesTabBloc>()
+                          .add(EditMovie(movie: state.movie));
+                    }
+                    if (state is! MovieEdited) {
                       context.read<MoviesTabBloc>().add(
-                        AddMovieToList(movie: state.movie),
-                      );
+                            AddMovieToList(movie: state.movie),
+                          );
                     }
                     context.read<MovieDescriptionBloc>().add(
-                      RefreshDescription(),
-                    );
+                          RefreshDescription(),
+                        );
                   }
                 }
               },
@@ -61,7 +68,7 @@ class FormPage extends StatelessWidget {
                 }
                 if (state is ActorAdded) {
                   context.read<MovieDescriptionBloc>().add(
-                    UpdateDescription(),
+                        UpdateDescription(),
                       );
                 }
               },

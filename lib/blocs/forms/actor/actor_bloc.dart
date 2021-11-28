@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/models/actor.dart';
-import 'package:cinema_fe/repositories/like_repository.dart';
 import 'package:cinema_fe/repositories/actor_repository.dart';
-import 'package:cinema_fe/utils/texts.dart';
+import 'package:cinema_fe/repositories/like_repository.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:equatable/equatable.dart';
 
 part 'actor_event.dart';
-
 part 'actor_state.dart';
 
 class ActorBloc extends Bloc<ActorEvent, ActorState> {

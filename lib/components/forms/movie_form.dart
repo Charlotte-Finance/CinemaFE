@@ -1,5 +1,4 @@
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
-import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/director.dart';

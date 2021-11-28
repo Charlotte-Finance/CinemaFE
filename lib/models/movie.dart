@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 import 'actor.dart';
 import 'category.dart';

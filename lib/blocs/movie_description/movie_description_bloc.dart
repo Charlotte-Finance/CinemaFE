@@ -7,7 +7,6 @@ import 'package:cinema_fe/repositories/actor_repository.dart';
 import 'package:cinema_fe/repositories/category_repository.dart';
 import 'package:cinema_fe/repositories/character_repository.dart';
 import 'package:cinema_fe/repositories/director_repository.dart';
-import 'package:cinema_fe/repositories/movie_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'movie_description_event.dart';
@@ -15,7 +14,6 @@ part 'movie_description_state.dart';
 
 class MovieDescriptionBloc
     extends Bloc<MovieDescriptionEvent, MovieDescriptionState> {
-  final MovieRepository movieRepository = MovieRepository();
   final ActorRepository actorRepository = ActorRepository();
   final DirectorRepository directorRepository = DirectorRepository();
   final CharacterRepository characterRepository = CharacterRepository();
@@ -40,11 +38,12 @@ class MovieDescriptionBloc
 
   Stream<MovieDescriptionState> _mapFetchMovieDescription(
       FetchMovieDescription event) async* {
+    yield MovieDescriptionReloading(movie: state.movie);
     try {
       List<Character> characters =
           await characterRepository.getByMovie(event.movie);
       for (Character character in characters) {
-        character.actor = await actorRepository.getActor(character.id!);
+        character.actor = await actorRepository.getActor(character.actorId!);
       }
       Director director =
           await directorRepository.getDirector(event.movie.directorId!);
@@ -64,5 +63,4 @@ class MovieDescriptionBloc
       );
     }
   }
-
 }

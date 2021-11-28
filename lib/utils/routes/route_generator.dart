@@ -2,8 +2,8 @@ import 'package:cinema_fe/pages/app_page.dart';
 import 'package:cinema_fe/pages/form_page.dart';
 import 'package:cinema_fe/pages/login_page.dart';
 import 'package:cinema_fe/pages/movie_page.dart';
-import 'package:cinema_fe/utils/route_arguments.dart';
-import 'package:cinema_fe/utils/routing_constants.dart';
+import 'package:cinema_fe/utils/routes/route_arguments.dart';
+import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {

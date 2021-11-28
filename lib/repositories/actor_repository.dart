@@ -33,7 +33,7 @@ class ActorRepository {
 
   Future<Actor> delete(Actor actor) async {
     final String json = jsonEncode(actor);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url+"delete/", json);
     return Actor.fromJson(response);
   }
 }

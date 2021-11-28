@@ -1,7 +1,8 @@
-import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
 import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
-import 'package:cinema_fe/components/widgets/movie_card.dart';
+import 'package:cinema_fe/components/tabs/liked_tab/liked_movies.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
+import 'package:cinema_fe/components/widgets/movie_card.dart';
+import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,21 +20,10 @@ class LikedTab extends StatelessWidget {
         if (state is LikedTabEmpty) {
           context.watch<LikedTabBloc>().add(GetLikedMovies(user: user));
         } else if (state is LikedTabLoaded) {
-          return ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: state.movies.length,
-            itemBuilder: (context, index) {
-              return Container(
-                height: 300,
-                child: MovieCard(
-                  user: user,
-                  movie: state.movies[index],
-                  enableLike: false,
-                ),
-              );
-            },
-          );
+          if (state is LikedTabReloading) {
+            context.watch<LikedTabBloc>().add(GetLikedMovies(user: user));
+          }
+          return LikedMovies(user: user, movies: state.movies);
         } else if (state is LikedTabError) {
           return ErrorMessage(
             error: state.error,

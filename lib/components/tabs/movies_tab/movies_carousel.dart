@@ -1,10 +1,9 @@
-
 import 'dart:collection';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
-import 'package:cinema_fe/utils/sizes.dart';
+import 'package:cinema_fe/utils/styles/sizes/movies.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../widgets/movie_card.dart';
@@ -33,8 +32,7 @@ class MoviesCarousel extends StatelessWidget {
         reverse: false,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 3),
-        autoPlayAnimationDuration:
-        const Duration(milliseconds: 800),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,
         enlargeCenterPage: false,
         scrollDirection: Axis.horizontal,
@@ -45,6 +43,7 @@ class MoviesCarousel extends StatelessWidget {
             return MovieCard(
               user: user,
               movie: movie,
+              width: MediaQuery.of(context).size.width * 0.5,
             );
           },
         );
