@@ -8,6 +8,7 @@ import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/routes/route_arguments.dart';
 import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,7 +61,11 @@ class _MoviePictureState extends State<MoviePicture> {
       },
       child: Stack(
         children: [
-          image,
+          kIsWeb ? image : SizedBox(width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.5, child: image,
+              ),
           FutureBuilder<ui.Image>(
             future: completer.future,
             builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
