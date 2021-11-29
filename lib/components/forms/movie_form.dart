@@ -1,3 +1,5 @@
+import 'package:cinema_fe/blocs/picture/picture_bloc.dart';
+import 'package:cinema_fe/components/forms/picture_button.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/category.dart';
@@ -114,6 +116,9 @@ class _MovieFormState extends State<MovieForm> {
                 return null;
               },
             ),
+            BlocProvider(
+                create: (BuildContext context) => PictureBloc(),
+                child: const PictureButton()),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
