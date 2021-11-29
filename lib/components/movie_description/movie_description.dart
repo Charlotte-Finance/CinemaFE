@@ -10,9 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'actor_list.dart';
-import 'character_list.dart';
-import 'director_list.dart';
+import 'entity_list.dart';
 
 class MovieDescription extends StatelessWidget {
   final User user;
@@ -47,27 +45,24 @@ class MovieDescription extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width * 0.5,
-          alignment: Alignment.topCenter,
-          child: MovieCard(
-            user: user,
-            movie: movie,
-            enableClick: false,
-          ),
-        ),
-        CharacterList(
+        MovieCard(
           user: user,
-          characters: movie.characters!,
+          movie: movie,
+          enableClick: false,
         ),
-        ActorList(
+        EntityList(
           user: user,
-          characters: movie.characters!,
+          entities: movie.characters!,
+          isDeletable: true,
         ),
-        DirectorList(
+        EntityList(
           user: user,
-          directors: [movie.director!],
+          entities: movie.characters!,
+          isActor: true,
+        ),
+        EntityList(
+          user: user,
+          entities: [movie.director!],
         ),
         ElevatedButton(
           onPressed: () {
@@ -76,7 +71,7 @@ class MovieDescription extends StatelessWidget {
             );
             Navigator.pushNamed(
               context,
-              FormRoute,
+              formRoute,
               arguments: UserArgument(user: user),
             );
           },
@@ -104,7 +99,8 @@ class MovieDescription extends StatelessWidget {
                 return AlertDialog(
                   title: const Text('Delete this movie ?'),
                   content: const Text(
-                      'If you delete this movie, it will also delete all the characters linked to this movie. Are you sure ?'),
+                    'If you delete this movie, it will also delete all the characters linked to this movie. Are you sure ?',
+                  ),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () {

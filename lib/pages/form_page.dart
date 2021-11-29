@@ -4,7 +4,7 @@ import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/forms/actor_form.dart';
 import 'package:cinema_fe/components/forms/character_form.dart';
 import 'package:cinema_fe/components/forms/director_form.dart';

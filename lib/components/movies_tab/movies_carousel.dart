@@ -25,7 +25,7 @@ class MoviesCarousel extends StatelessWidget {
       options: CarouselOptions(
         height: MediaQuery.of(context).size.height * 0.46,
         aspectRatio: 16 / 9,
-        viewportFraction: kIsWeb ? 0.1 : 0.6,
+        viewportFraction: kIsWeb ? 0.2 : 0.6,
         initialPage: 0,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 3),

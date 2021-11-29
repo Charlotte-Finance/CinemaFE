@@ -11,12 +11,14 @@ class MovieCard extends StatefulWidget {
   final Movie movie;
   final User user;
   final bool enableClick;
+  final bool isLikedTab;
 
   const MovieCard({
     Key? key,
     required this.user,
     required this.movie,
     this.enableClick = true,
+    this.isLikedTab = false,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,11 @@ class _MovieCardState extends State<MovieCard> {
                   ),
                 );
           }
-          return MoviePicture(user: widget.user, movie: widget.movie);
+          return MoviePicture(
+            user: widget.user,
+            movie: widget.movie,
+            isLikedTab: widget.isLikedTab,
+          );
         } else if (state is MovieCardError) {
           return ErrorMessage(
             error: state.error,

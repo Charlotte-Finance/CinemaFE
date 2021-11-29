@@ -2,6 +2,7 @@ import 'package:cinema_fe/pages/app_page.dart';
 import 'package:cinema_fe/pages/form_page.dart';
 import 'package:cinema_fe/pages/login_page.dart';
 import 'package:cinema_fe/pages/movie_page.dart';
+import 'package:cinema_fe/pages/user_page.dart';
 import 'package:cinema_fe/utils/routes/route_arguments.dart';
 import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:flutter/material.dart';
@@ -11,21 +12,26 @@ class RouteGenerator {
     final args = settings.arguments;
     if (args is UserArgument) {
       switch (settings.name) {
-        case LoginRoute:
-          return _loginRoute(AppRoute);
+        case loginRoute:
+          return _loginRoute(appRoute);
 
-        case AppRoute:
-          return _appRoute(AppRoute, args);
+        case appRoute:
+          return _appRoute(appRoute, args);
 
-        case MovieRoute:
-          return _movieRoute(AppRoute, args);
-        case FormRoute:
-          return _formRoute(AppRoute, args);
+        case movieRoute:
+          return _movieRoute(appRoute, args);
+
+        case formRoute:
+          return _formRoute(appRoute, args);
+
+        case userRoute:
+          return _userRoute(appRoute, args);
+
         default:
-          return _loginRoute(AppRoute);
+          return _loginRoute(appRoute);
       }
     } else {
-      return _loginRoute(AppRoute);
+      return _loginRoute(appRoute);
     }
   }
 }
@@ -34,7 +40,7 @@ Route<dynamic> _loginRoute(
   String route,
 ) {
   return PageRouteBuilder(
-      settings: const RouteSettings(name: LoginRoute),
+      settings: const RouteSettings(name: loginRoute),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
@@ -44,7 +50,7 @@ Route<dynamic> _loginRoute(
 
 Route<dynamic> _appRoute(String route, UserArgument args) {
   return PageRouteBuilder(
-    settings: const RouteSettings(name: AppRoute),
+    settings: const RouteSettings(name: appRoute),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return child;
     },
@@ -57,7 +63,7 @@ Route<dynamic> _appRoute(String route, UserArgument args) {
 Route<dynamic> _movieRoute(String route, UserArgument args) {
   if (args is MovieArgument) {
     return PageRouteBuilder(
-      settings: const RouteSettings(name: AppRoute),
+      settings: const RouteSettings(name: appRoute),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
@@ -67,17 +73,27 @@ Route<dynamic> _movieRoute(String route, UserArgument args) {
       ),
     );
   } else {
-    return _loginRoute(AppRoute);
+    return _loginRoute(appRoute);
   }
 }
 
 Route<dynamic> _formRoute(String route, UserArgument args) {
   return PageRouteBuilder(
-    settings: const RouteSettings(name: AppRoute),
+    settings: const RouteSettings(name: appRoute),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return child;
     },
-    pageBuilder: (context, animation, secondaryAnimation) => const FormPage(
-    ),
+    pageBuilder: (context, animation, secondaryAnimation) => const FormPage(),
+  );
+}
+
+Route<dynamic> _userRoute(String route, UserArgument args) {
+  return PageRouteBuilder(
+    settings: const RouteSettings(name: userRoute),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        UserPage(user: args.user),
   );
 }

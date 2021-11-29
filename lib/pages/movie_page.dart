@@ -3,12 +3,13 @@ import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
 import 'package:cinema_fe/blocs/forms/director/director_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/movie_description/movie_description_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/movies_tab/movies_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
 import 'package:cinema_fe/components/movie_description/movie_description.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/components/widgets/snack_bar.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/styles/icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +43,7 @@ class _MoviePageState extends State<MoviePage> {
       appBar: AppBar(
         title: Text("${widget.movie.title}"),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: backArrow,
           onPressed: () {
             Navigator.pop(context);
           },

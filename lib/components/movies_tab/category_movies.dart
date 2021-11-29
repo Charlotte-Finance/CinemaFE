@@ -4,6 +4,7 @@ import 'package:cinema_fe/components/movie_card/movie_card.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/image.dart';
 import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class CategoryMovies extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.40,
+          height: pictureHeight,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,

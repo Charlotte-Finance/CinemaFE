@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
+import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
