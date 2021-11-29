@@ -1,14 +1,12 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/add_tab/add_tab_bloc.dart';
-import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/character.dart';
 import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'add_section.dart';
 
@@ -19,57 +17,49 @@ class AddTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddTabBloc, AddTabState>(
-      builder: (context, state) {
-        if (state is AddTabLoaded) {
-          return Column(
-            children: [
-              AddSection(
-                user: user,
-                path: "add_movies.jpg",
-                event: GetMovieForm(movie: Movie()),
-                text: "Add a movie",
-                beginAlignment: Alignment.centerLeft,
-                endAlignment: Alignment.centerRight,
-              ),
-              const SizedBox(height: 3),
-              AddSection(
-                user: user,
-                path: "add_actors.jpg",
-                event: GetActorForm(actor: Actor()),
-                text: "Add an actor",
-                beginAlignment: Alignment.centerRight,
-                endAlignment: Alignment.centerLeft,
-              ),
-              const SizedBox(height: 3),
-              AddSection(
-                user: user,
-                path: "add_characters.jpg",
-                event: GetCharacterForm(character: Character()),
-                text: "Add a character",
-                beginAlignment: Alignment.centerLeft,
-                endAlignment: Alignment.centerRight,
-              ),
-              const SizedBox(height: 3),
-              AddSection(
-                user: user,
-                path: "add_directors.jpg",
-                event: GetDirectorForm(director: Director()),
-                text: "Add a director",
-                beginAlignment: Alignment.centerRight,
-                endAlignment: Alignment.centerLeft,
-              ),
-            ],
-          );
-        } else if (state is AddTabError) {
-          return ErrorMessage(
-            error: state.error,
-            bloc: BlocProvider.of<AddTabBloc>(context),
-            event: state.event,
-          );
-        }
-        return const CircularProgressIndicator();
-      },
+    double height = kIsWeb ? MediaQuery.of(context).size.height * 0.5 : MediaQuery.of(context).size.height * 0.25;
+    return Column(
+      children: [
+        AddSection(
+          user: user,
+          path: "add_movies.jpg",
+          event: GetMovieForm(movie: Movie()),
+          text: "Add a movie",
+          beginAlignment: Alignment.centerLeft,
+          endAlignment: Alignment.centerRight,
+          height : height,
+        ),
+        const SizedBox(height: 3),
+        AddSection(
+          user: user,
+          path: "add_actors.jpg",
+          event: GetActorForm(actor: Actor()),
+          text: "Add an actor",
+          beginAlignment: Alignment.centerRight,
+          endAlignment: Alignment.centerLeft,
+          height : height,
+        ),
+        const SizedBox(height: 3),
+        AddSection(
+          user: user,
+          path: "add_characters.jpg",
+          event: GetCharacterForm(character: Character()),
+          text: "Add a character",
+          beginAlignment: Alignment.centerLeft,
+          endAlignment: Alignment.centerRight,
+          height : height,
+        ),
+        const SizedBox(height: 3),
+        AddSection(
+          user: user,
+          path: "add_directors.jpg",
+          event: GetDirectorForm(director: Director()),
+          text: "Add a director",
+          beginAlignment: Alignment.centerRight,
+          endAlignment: Alignment.centerLeft,
+          height : height,
+        ),
+      ],
     );
   }
 }

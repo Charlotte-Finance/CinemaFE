@@ -3,6 +3,8 @@ import 'package:cinema_fe/components/add_tab/add_tab.dart';
 import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/routes/route_arguments.dart';
+import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +57,15 @@ class _AppPageState extends State<AppPage> {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  userRoute,
+                  arguments: UserArgument(
+                    user: widget.user,
+                  ),
+                );
+              },
               child: const Icon(
                 Icons.person,
                 size: 26.0,

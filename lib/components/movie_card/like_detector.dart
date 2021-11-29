@@ -1,6 +1,5 @@
-
+import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/blocs/movie_card/movie_card_bloc.dart';
-import 'package:cinema_fe/blocs/tabs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,7 +88,10 @@ class _LikeDetectorState extends State<LikeDetector> {
           );
         }
       },
-      child: LikeButton(isLiked: widget.movie.isLiked!, width: widget.width),
+      child: LikeButton(
+        isLiked: widget.movie.isLiked!,
+        width: widget.width,
+      ),
     );
   }
 }

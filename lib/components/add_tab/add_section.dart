@@ -1,10 +1,10 @@
-
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/routes/route_arguments.dart';
 import 'package:cinema_fe/utils/routes/routing_constants.dart';
 import 'package:cinema_fe/utils/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +15,7 @@ class AddSection extends StatelessWidget {
   final String text;
   final Alignment beginAlignment;
   final Alignment endAlignment;
+  final double height;
 
   const AddSection({
     Key? key,
@@ -24,6 +25,7 @@ class AddSection extends StatelessWidget {
     required this.text,
     required this.beginAlignment,
     required this.endAlignment,
+    required this.height,
   }) : super(key: key);
 
   @override
@@ -31,27 +33,21 @@ class AddSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<FormsBloc>().add(event);
-        Navigator.pushNamed(
-          context,
-          FormRoute,
-          arguments:UserArgument(user: user)
-        );
+        Navigator.pushNamed(context, formRoute,
+            arguments: UserArgument(user: user));
       },
       child: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.25,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/backgrounds/$path'),
-                fit: BoxFit.cover,
-              ),
-            ),
+          Image(
+            height: height,
+            width: MediaQuery.of(context).size.width,
+            image: AssetImage('lib/assets/backgrounds/$path'),
+            fit: BoxFit.cover,
           ),
           Align(
             child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: height,
               alignment: beginAlignment,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(

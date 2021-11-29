@@ -12,7 +12,15 @@ class UserRepository {
     final response = await HttpRequest.getRequest(
         parameters: _queryParameters, endpoint: url + "login/");
     // ToDo : Remove this line
-    return User(id:5, username: "Charlotte", password: "azerty", role: "admin");
+    return User(
+      id: 5,
+      username: "Chachou",
+      password: "azerty",
+      role: "admin",
+      firstname: "Charlotte",
+      name: "Finance",
+      character: 'Loki',
+    );
     //return User.fromJson(response);
   }
 }

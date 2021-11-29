@@ -12,12 +12,11 @@ import 'blocs/forms/character/character_bloc.dart';
 import 'blocs/forms/director/director_bloc.dart';
 import 'blocs/forms/forms_bloc.dart';
 import 'blocs/forms/movie/movie_bloc.dart';
+import 'blocs/liked_tab/liked_tab_bloc.dart';
 import 'blocs/login/login_bloc.dart';
 import 'blocs/movie_card/movie_card_bloc.dart';
 import 'blocs/movie_description/movie_description_bloc.dart';
-import 'blocs/tabs/add_tab/add_tab_bloc.dart';
-import 'blocs/tabs/liked_tab/liked_tab_bloc.dart';
-import 'blocs/tabs/movies_tab/movies_tab_bloc.dart';
+import 'blocs/movies_tab/movies_tab_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -63,9 +62,6 @@ void main() {
         BlocProvider<LikedTabBloc>(
           create: (BuildContext context) => LikedTabBloc(),
         ),
-        BlocProvider<AddTabBloc>(
-          create: (BuildContext context) => AddTabBloc(),
-        ),
       ],
       child: const MyApp(),
     ),
@@ -83,24 +79,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.orange,
-        accentColor: Colors.orange,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.orange,
-          ),
-        ),
+        primarySwatch: Colors.orange,
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
       onGenerateInitialRoutes: (route) {
         return [
           PageRouteBuilder(
-            settings: const RouteSettings(name: LoginRoute),
+            settings: const RouteSettings(name: loginRoute),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return child;
             },
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const LoginPage(route: AppRoute),
+                const LoginPage(route: appRoute),
           ),
         ];
       },
