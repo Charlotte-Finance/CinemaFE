@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cinema_fe/repositories/file_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'picture_event.dart';
 
@@ -21,40 +22,43 @@ class PictureBloc extends Bloc<PictureEvent, PictureState> {
     yield PictureLoading();
     if (event is UploadFile) {
       try {
-        FilePickerResult? result = await FilePicker.platform.pickFiles();
-        if (result != null) {
-          var file = result.files.first;
+        final ImagePicker _picker = ImagePicker();
 
-          yield PictureLoaded(file: file);
-        } else {
-          throw Exception();
-        }
+        final XFile? image =
+            await _picker.pickImage(source: ImageSource.camera);
+
+        print(image!.name);
+
+        //FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+        yield PictureLoaded(file: image);
       } catch (e) {
+        print(e.toString());
         yield PictureError();
       }
     }
-    // if (event is DownloadFile) {
-    //   try {
-    //     final content = base64Encode(event.file.bytes!);
-    //     AnchorElement(
-    //         href:
-    //             "data:application/octet-stream;charset=utf-16le;base64,$content")
-    //       ..setAttribute("download", event.file.name)
-    //       ..click();
-    //
-    //     //yield PictureLoaded(listFiles: listFiles);
-    //   } catch (_) {
-    //     yield PictureError();
-    //   }
-    // }
+
+    if (event is DownloadFile) {
+      try {
+
+        GallerySaver.saveImage(event.file.path);
+
+
+
+        yield PictureLoaded(file: event.file);
+      } catch (_) {
+        print(_.toString());
+        yield PictureError();
+      }
+    }
 
     if (event is PostFiles) {
       try {
-        if (event.listFiles != null) {
+        /*if (event.listFiles != null) {
           for (int i = 0; i < event.listFiles!.length; i++) {
             await fileRepository.postFile(event.listFiles![i], event.path);
           }
-        }
+        }*/
         yield PicturePostSuccess();
       } catch (_) {
         yield PictureError();

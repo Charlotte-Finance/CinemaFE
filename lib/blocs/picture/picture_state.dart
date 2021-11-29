@@ -14,7 +14,7 @@ class PictureEmpty extends PictureState {}
 class PicturePostSuccess extends PictureState {}
 
 class PictureLoaded extends PictureState {
-  final PlatformFile file;
+  final XFile file;
 
   PictureLoaded({required this.file});
 

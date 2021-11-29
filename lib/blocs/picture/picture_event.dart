@@ -8,7 +8,7 @@ abstract class PictureEvent extends Equatable {
 class UploadFile extends PictureEvent {}
 
 class DownloadFile extends PictureEvent {
-  final PlatformFile file;
+  final XFile file;
 
   DownloadFile({required this.file});
 
@@ -17,7 +17,7 @@ class DownloadFile extends PictureEvent {
 }
 
 class PostFiles extends PictureEvent {
-  final List<PlatformFile>? listFiles;
+  final List<ImagePicker>? listFiles;
   final String path;
 
   PostFiles({required this.listFiles, required this.path});
@@ -27,7 +27,7 @@ class PostFiles extends PictureEvent {
 }
 
 class DeleteFile extends PictureEvent {
-  final PlatformFile file;
+  final ImagePicker file;
 
   DeleteFile({required this.file});
 }

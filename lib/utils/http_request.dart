@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class HttpRequest {
   //static const String _address = "10.0.2.2"; // Emulator
   //static const String _address = "127.0.0.1"; // Web
-  static const String _address = kIsWeb ?"127.0.0.1" : "10.0.2.2"; // Web
+  static const String _address = kIsWeb ? "127.0.0.1" : "10.0.2.2"; // Web
   static const int _port = 8080;
 
   static Future<dynamic> getRequest(

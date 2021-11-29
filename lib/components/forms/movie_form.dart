@@ -1,4 +1,3 @@
-import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/picture/picture_bloc.dart';
 import 'package:cinema_fe/components/forms/picture_button.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
