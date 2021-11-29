@@ -13,7 +13,13 @@ class GetLikedMovies extends LikedTabEvent {
   List<Object> get props => [user];
 }
 
-class Refresh extends LikedTabEvent{
+class ChangeLikedMovies extends LikedTabEvent {
+  final User user;
+  final Movie movie;
+  final bool isLiked;
+
+
+  const ChangeLikedMovies({required this.user, required this.movie, required this.isLiked});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [user, movie, isLiked];
 }

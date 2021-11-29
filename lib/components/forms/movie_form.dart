@@ -1,6 +1,7 @@
 import 'package:cinema_fe/blocs/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/picture/picture_bloc.dart';
 import 'package:cinema_fe/components/forms/picture_button.dart';
+import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/director.dart';
@@ -30,15 +31,17 @@ class _MovieFormState extends State<MovieForm> {
   late TextEditingController releaseCtl;
   final _formKey = GlobalKey<FormState>();
   final formatDate = DateFormat('yyyy-MM-dd');
+  late Movie movie;
 
   @override
   void initState() {
-    super.initState();
     releaseCtl = TextEditingController(
       text: widget.movie.release.toString() == "null"
           ? null
           : widget.movie.release.toString(),
     );
+    movie = widget.movie;
+    super.initState();
   }
 
   @override
@@ -51,45 +54,45 @@ class _MovieFormState extends State<MovieForm> {
           children: [
             TextFormQuestion(
               question: "Title",
-              initialValue: widget.movie.title,
-              onChanged: (answer) => widget.movie.title = answer,
-              onSaved: (answer) => widget.movie.title = answer,
+              initialValue: movie.title,
+              onChanged: (answer) => movie.title = answer,
+              onSaved: (answer) => movie.title = answer,
             ),
             NumberFormQuestion(
               question: "Duration",
-              initialValue: widget.movie.duration.toString(),
-              onChanged: (answer) => widget.movie.duration = int.parse(answer),
-              onSaved: (answer) => widget.movie.duration = int.parse(answer),
+              initialValue: movie.duration.toString(),
+              onChanged: (answer) => movie.duration = int.parse(answer),
+              onSaved: (answer) => movie.duration = int.parse(answer),
             ),
             DateFormQuestion(
               question: "Release",
-              initialValue: widget.movie.release,
-              onChanged: (date) => setState(() => widget.movie.release =
-                  formatDate.format(DateTime.parse(date!))),
-              onSaved: (date) => setState(() => widget.movie.release =
-                  formatDate.format(DateTime.parse(date!))),
+              initialValue: movie.release,
+              onChanged: (date) => setState(() =>
+                  movie.release = formatDate.format(DateTime.parse(date!))),
+              onSaved: (date) => setState(() =>
+                  movie.release = formatDate.format(DateTime.parse(date!))),
               controller: releaseCtl,
             ),
             NumberFormQuestion(
               question: "Budget",
-              initialValue: widget.movie.budget.toString(),
-              onChanged: (answer) => widget.movie.budget = int.parse(answer),
-              onSaved: (answer) => widget.movie.budget = int.parse(answer),
+              initialValue: movie.budget.toString(),
+              onChanged: (answer) => movie.budget = int.parse(answer),
+              onSaved: (answer) => movie.budget = int.parse(answer),
             ),
             NumberFormQuestion(
               question: "Revenue",
-              initialValue: widget.movie.revenue.toString(),
-              onChanged: (answer) => widget.movie.revenue = int.parse(answer),
-              onSaved: (answer) => widget.movie.revenue = int.parse(answer),
+              initialValue: movie.revenue.toString(),
+              onChanged: (answer) => movie.revenue = int.parse(answer),
+              onSaved: (answer) => movie.revenue = int.parse(answer),
             ),
             DropDownFormQuestion(
               question: "Director",
               category: "director",
-              selectedItem: widget.movie.director,
+              selectedItem: movie.director,
               items: widget.directors,
               itemAsString: (items) => "${items.firstname} ${items.name}",
               onSaved: (director) => setState(() {
-                widget.movie.directorId = director.id;
+                movie.directorId = director.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -101,11 +104,11 @@ class _MovieFormState extends State<MovieForm> {
             DropDownFormQuestion(
               question: "Category",
               category: "category",
-              selectedItem: widget.movie.category,
+              selectedItem: movie.category,
               items: widget.categories,
               itemAsString: (items) => "${items.label}",
               onSaved: (category) => setState(() {
-                widget.movie.categoryCode = category.code;
+                movie.categoryCode = category.code;
               }),
               validator: (value) {
                 if (value == null) {
@@ -122,13 +125,12 @@ class _MovieFormState extends State<MovieForm> {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   BlocProvider.of<MovieBloc>(context).add(
-                    AddMovie(movie: widget.movie),
+                    AddMovie(movie: movie),
                   );
+                  Navigator.pop(context);
                 }
               },
-              child: widget.movie.id == null
-                  ? const Text("Add")
-                  : const Text("Edit"),
+              child: movie.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

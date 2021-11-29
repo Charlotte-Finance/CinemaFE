@@ -1,14 +1,14 @@
 class User {
-  final int? id;
-  final String username;
-  final String password;
-  final String role;
+  int? id;
+  String? username;
+  String? password;
+  String? role;
 
   User({
     this.id,
-    required this.username,
-    required this.password,
-    required this.role,
+    this.username,
+    this.password,
+    this.role,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {

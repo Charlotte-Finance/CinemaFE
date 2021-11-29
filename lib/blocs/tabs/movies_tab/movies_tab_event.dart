@@ -9,4 +9,28 @@ class GetMovies extends MoviesTabEvent {
   List<Object> get props => [];
 }
 
+class AddMovieToList extends MoviesTabEvent {
+  final Movie movie;
 
+  const AddMovieToList({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
+
+class EditMovie extends MoviesTabEvent {
+  final Movie movie;
+
+  const EditMovie({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
+class RemoveMovieFromList extends MoviesTabEvent {
+  final Movie movie;
+
+  const RemoveMovieFromList({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}

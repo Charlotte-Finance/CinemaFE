@@ -2,8 +2,8 @@ class Actor {
   int? id;
   String? name;
   String? firstname;
-  DateTime? birth;
-  DateTime? death;
+  String? birth;
+  String? death;
 
   Actor({
     this.id,
@@ -18,8 +18,8 @@ class Actor {
       id: json['id'],
       name: json['name'],
       firstname: json['firstname'],
-      birth: DateTime.parse(json['birth']),
-      death: json['death'] == null ? null : DateTime.parse(json['death']),
+      birth: json['birth'],
+      death: json['death'],
     );
   }
 

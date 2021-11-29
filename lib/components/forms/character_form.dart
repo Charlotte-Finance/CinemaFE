@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/character/character_bloc.dart';
+import 'package:cinema_fe/blocs/forms/character/character_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:cinema_fe/models/character.dart';
@@ -25,7 +25,13 @@ class CharacterForm extends StatefulWidget {
 
 class _CharacterFormState extends State<CharacterForm> {
   final _formKey = GlobalKey<FormState>();
+  late Character character;
 
+  @override
+  void initState() {
+    character = widget.character;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,21 +42,21 @@ class _CharacterFormState extends State<CharacterForm> {
           children: [
             TextFormQuestion(
               question: "Name",
-              initialValue: widget.character.name,
-              onChanged: (answer) => widget.character.name = answer,
-              onSaved: (answer) => widget.character.name = answer,
+              initialValue: character.name,
+              onChanged: (answer) => character.name = answer,
+              onSaved: (answer) => character.name = answer,
             ),
             DropDownFormQuestion(
               question: "Actor",
               category: "actor",
-              selectedItem: widget.character.actor,
+              selectedItem: character.actor,
               items: widget.actors,
               itemAsString: (items) => "${items.firstname} ${items.name}",
               onChanged: (actor) => setState(() {
-                widget.character.actorId = actor.id;
+                character.actorId = actor.id;
               }),
               onSaved: (actor) => setState(() {
-                widget.character.actorId = actor.id;
+                character.actorId = actor.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -62,14 +68,14 @@ class _CharacterFormState extends State<CharacterForm> {
             DropDownFormQuestion(
               question: "Movie",
               category: "movie",
-              selectedItem: widget.character.movie,
+              selectedItem: character.movie,
               items: widget.movies,
               itemAsString: (items) => "${items.title}",
               onChanged: (movie) => setState(() {
-                widget.character.movieId = movie.id;
+                character.movieId = movie.id;
               }),
               onSaved: (movie) => setState(() {
-                widget.character.movieId = movie.id;
+                character.movieId = movie.id;
               }),
               validator: (value) {
                 if (value == null) {
@@ -83,11 +89,12 @@ class _CharacterFormState extends State<CharacterForm> {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   BlocProvider.of<CharacterBloc>(context).add(
-                    AddCharacter(character: widget.character),
+                    AddCharacter(character: character),
                   );
+                  Navigator.pop(context);
                 }
               },
-              child: widget.character.id == null ? const Text("Add") : const Text("Edit"),
+              child: character.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),

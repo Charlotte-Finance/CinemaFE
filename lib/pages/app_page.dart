@@ -1,8 +1,9 @@
 
-import 'package:cinema_fe/components/tabs/add_tab/add_tab.dart';
-import 'package:cinema_fe/components/tabs/liked_tab/liked_tab.dart';
-import 'package:cinema_fe/components/tabs/movies_tab/movies_tab.dart';
+import 'package:cinema_fe/components/add_tab/add_tab.dart';
+import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
+import 'package:cinema_fe/components/movies_tab/movies_tab.dart';
 import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -43,11 +44,13 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Catalogue"),
-        leading: null,
+        title: _selectedIndex == 0
+            ? Text(moviesTabStr)
+            : _selectedIndex == 1
+                ? Text(likeTabStr)
+                : Text(formTabStr),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -67,22 +70,21 @@ class _AppPageState extends State<AppPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
-            label: 'Movies',
+            icon: const Icon(Icons.movie),
+            label: moviesTabStr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            icon: const Icon(Icons.favorite),
+            label: likeTabStr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'Add Data',
+            icon: const Icon(Icons.add_circle),
+            label: formTabStr,
           ),
         ],
         currentIndex: _selectedIndex,
-        //selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

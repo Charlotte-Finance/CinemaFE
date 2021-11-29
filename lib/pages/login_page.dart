@@ -1,7 +1,9 @@
 import 'package:cinema_fe/blocs/login/login_bloc.dart';
-import 'package:cinema_fe/utils/route_arguments.dart';
-import 'package:cinema_fe/utils/text_styles.dart';
-import 'package:cinema_fe/utils/texts.dart';
+import 'package:cinema_fe/components/widgets/forms/forms.dart';
+import 'package:cinema_fe/models/user.dart';
+import 'package:cinema_fe/utils/routes/route_arguments.dart';
+import 'package:cinema_fe/utils/styles/text_styles.dart';
+import 'package:cinema_fe/utils/styles/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +22,9 @@ class LoginPage extends StatefulWidget {
 class _State extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  User user = User();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +36,10 @@ class _State extends State<LoginPage> {
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           if (state is LoginLoaded) {
-            return Padding(
-              padding: const EdgeInsets.all(10),
-              child: ListView(
-                children: <Widget>[
+            return Form(
+              key: _formKey,
+              child: Column(
+                children: [
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
@@ -51,28 +56,17 @@ class _State extends State<LoginPage> {
                         style: errorStyle,
                       ),
                     ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'User Name',
-                      ),
-                    ),
+                  TextFormQuestion(
+                    question: "Username",
+                    onChanged: (answer) => user.username = answer,
+                    onSaved: (answer) => user.username = answer,
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: TextField(
-                      obscureText: true,
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                      ),
-                    ),
+                  TextFormQuestion(
+                    question: "Password",
+                    obscureText: true,
+                    onChanged: (answer) => user.password = answer,
+                    onSaved: (answer) => user.password = answer,
                   ),
-                  const SizedBox(height: 50),
                   Container(
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -83,10 +77,7 @@ class _State extends State<LoginPage> {
                       ),
                       onPressed: () {
                         context.read<LoginBloc>().add(
-                              Login(
-                                username: nameController.text,
-                                password: passwordController.text,
-                              ),
+                              Login(user: user),
                             );
                       },
                     ),

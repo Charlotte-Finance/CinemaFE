@@ -42,10 +42,9 @@ class MovieRepository {
     return Movie.fromJson(response);
   }
 
-
   Future<Movie> delete(Movie movie) async {
     final String json = jsonEncode(movie);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url + "delete/", json);
     return Movie.fromJson(response);
   }
 }

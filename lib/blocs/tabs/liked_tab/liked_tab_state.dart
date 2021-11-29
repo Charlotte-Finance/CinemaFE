@@ -1,15 +1,19 @@
 part of 'liked_tab_bloc.dart';
 
 abstract class LikedTabState extends Equatable {
-  const LikedTabState();
+  final List<Movie> movies;
+
+  const LikedTabState({required this.movies});
+
+  @override
+  List<Object> get props => [movies];
 }
 
 class LikedTabEmpty extends LikedTabState {
-  @override
-  List<Object> get props => [];
-}
+  final List<Movie> movies;
 
-class LikedTabLoading extends LikedTabState {
+  const LikedTabEmpty({required this.movies}) : super(movies: movies);
+
   @override
   List<Object> get props => [];
 }
@@ -17,21 +21,30 @@ class LikedTabLoading extends LikedTabState {
 class LikedTabLoaded extends LikedTabState {
   final List<Movie> movies;
 
-  const LikedTabLoaded({required this.movies});
+  const LikedTabLoaded({required this.movies}) : super(movies:movies);
 
   @override
   List<Object> get props => [movies];
 }
+class LikedTabReloading extends LikedTabLoaded {
+  final List<Movie> movies;
 
+  const LikedTabReloading({required this.movies}) : super(movies:movies);
+
+  @override
+  List<Object> get props => [movies];
+}
 class LikedTabError extends LikedTabState {
+  final List<Movie> movies;
   final String error;
   final Equatable event;
 
   const LikedTabError({
+    required this.movies,
     required this.error,
     required this.event,
-  });
+  }): super(movies:movies);
 
   @override
-  List<Object> get props => [error, event];
+  List<Object> get props => [movies, error, event];
 }

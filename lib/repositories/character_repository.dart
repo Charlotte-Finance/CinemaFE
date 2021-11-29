@@ -29,15 +29,19 @@ class CharacterRepository {
   }
 
   Future<Character> post(Character character) async {
+    print("AAAAAAAAAAAAAAAAA");
     final String json = jsonEncode(character);
+    print("BBBBBBBBBBBB");
     final response = await HttpRequest.postRequest(url, json);
+    print("CCCCCCC");
+
     return Character.fromJson(response);
   }
 
 
   Future<Character> delete(Character character) async {
     final String json = jsonEncode(character);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url+"delete/", json);
     return Character.fromJson(response);
   }
 }

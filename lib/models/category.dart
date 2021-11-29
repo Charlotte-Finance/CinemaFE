@@ -1,20 +1,17 @@
 class Category {
   final String code;
   final String label;
-  final String picture;
 
 
   Category({
     required this.code,
     required this.label,
-    required this.picture,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
       code: json['code'],
       label: json['label'],
-      picture: json['picture'],
     );
   }
 
@@ -22,7 +19,16 @@ class Category {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['label'] = label;
-    data['picture'] = picture;
     return data;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Category &&
+          runtimeType == other.runtimeType &&
+          label == other.label;
+
+  @override
+  int get hashCode => label.hashCode;
 }

@@ -21,7 +21,7 @@ class ActorRepository {
     final Map<String, String> _queryParameters = <String, String>{
       'movieId': movie.id.toString()
     };
-    final actors = await HttpRequest.getRequest(parameters: _queryParameters, endpoint: url + "by-movie/");
+    final actors = await HttpRequest.getRequest(parameters: _queryParameters, endpoint: url + "by-movie_description/");
     return (actors as List).map((p) => Actor.fromJson(p)).toList();
   }
 
@@ -33,7 +33,7 @@ class ActorRepository {
 
   Future<Actor> delete(Actor actor) async {
     final String json = jsonEncode(actor);
-    final response = await HttpRequest.deleteRequest(url, json);
+    final response = await HttpRequest.postRequest(url+"delete/", json);
     return Actor.fromJson(response);
   }
 }

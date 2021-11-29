@@ -1,4 +1,4 @@
-import 'package:cinema_fe/blocs/actor/actor_bloc.dart';
+import 'package:cinema_fe/blocs/forms/actor/actor_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,10 +24,10 @@ class _ActorFormState extends State<ActorForm> {
   final _formKey = GlobalKey<FormState>();
   final formatDate = DateFormat('yyyy-MM-dd');
   late bool isChecked;
+  late Actor actor;
 
   @override
   void initState() {
-    super.initState();
     isChecked = widget.actor.death != null;
     birthCtl = TextEditingController(
       text: widget.actor.birth.toString() == "null"
@@ -39,6 +39,8 @@ class _ActorFormState extends State<ActorForm> {
           ? null
           : widget.actor.death.toString(),
     );
+    actor = widget.actor;
+    super.initState();
   }
 
   @override
@@ -51,23 +53,24 @@ class _ActorFormState extends State<ActorForm> {
           children: [
             TextFormQuestion(
               question: "Name",
-              initialValue: widget.actor.name,
-              onChanged: (answer) => widget.actor.name = answer,
-              onSaved: (answer) => widget.actor.name = answer,
+              initialValue: actor.name,
+              onChanged: (answer) => actor.name = answer,
+              onSaved: (answer) => actor.name = answer,
             ),
             TextFormQuestion(
               question: "Firstname",
-              initialValue: widget.actor.firstname,
-              onChanged: (answer) => widget.actor.firstname = answer,
-              onSaved: (answer) => widget.actor.firstname = answer,
+              initialValue: actor.firstname,
+              onChanged: (answer) => actor.firstname = answer,
+              onSaved: (answer) => actor.firstname = answer,
             ),
             DateFormQuestion(
               question: "Birth date",
-              initialValue: widget.actor.birth,
-              onChanged: (date) => setState(() => widget.actor.birth =
-                  DateTime.parse(formatDate.format(DateTime.parse(date!)))),
-              onSaved: (date) => setState(() => widget.actor.birth =
-                  DateTime.parse(formatDate.format(DateTime.parse(date!)))),
+              initialValue: actor.birth,
+              onChanged: (date) => setState(
+                  () => actor.birth = formatDate.format(DateTime.parse(date!))),
+              onSaved: (date) => setState(
+                () => actor.birth = formatDate.format(DateTime.parse(date!)),
+              ),
               controller: birthCtl,
             ),
             Container(
@@ -89,24 +92,24 @@ class _ActorFormState extends State<ActorForm> {
             if (isChecked)
               DateFormQuestion(
                 question: "Death date",
-                initialValue: widget.actor.death,
-                onChanged: (date) => setState(() => widget.actor.death =
-                    DateTime.parse(formatDate.format(DateTime.parse(date!)))),
-                onSaved: (date) => setState(() => widget.actor.death =
-                    DateTime.parse(formatDate.format(DateTime.parse(date!)))),
+                initialValue: actor.death,
+                onChanged: (date) => () =>
+                    actor.death = formatDate.format(DateTime.parse(date!)),
+                onSaved: (date) => () =>
+                    actor.death = formatDate.format(DateTime.parse(date!)),
                 controller: deathCtl,
               ),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-
                   BlocProvider.of<ActorBloc>(context).add(
-                    AddActor(actor: widget.actor),
+                    AddActor(actor: actor),
                   );
+                  Navigator.pop(context);
                 }
               },
-              child: widget.actor.id == null ? const Text("Add") : const Text("Edit"),
+              child: actor.id == null ? const Text("Add") : const Text("Edit"),
             ),
           ],
         ),
