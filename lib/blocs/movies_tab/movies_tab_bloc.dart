@@ -114,7 +114,7 @@ class MoviesTabBloc extends Bloc<MoviesTabEvent, MoviesTabState> {
           state.movies[category].remove(event.movie);
         }
       }
-      yield MoviesTabLoaded(movies: state.movies);
+      yield MoviesTabReloading(movies: state.movies);
     } catch (_) {
       yield MoviesTabError(
         movies: HashMap<Category, List<Movie>>(),

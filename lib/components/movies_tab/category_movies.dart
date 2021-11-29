@@ -46,7 +46,7 @@ class CategoryMovies extends StatelessWidget {
               Movie movie = movies[category][movieIndex];
               return Container(
                 padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
+                  left: MediaQuery.of(context).size.width * 0.025,
                 ),
                 child: MovieCard(
                   user: user,

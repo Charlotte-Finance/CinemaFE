@@ -1,5 +1,8 @@
 import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
+import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
+import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
+import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/movie_card/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
@@ -112,6 +115,20 @@ class MovieDescription extends StatelessWidget {
                         BlocProvider.of<MovieBloc>(context).add(
                           DeleteMovie(movie: movie),
                         );
+                        BlocProvider.of<MoviesTabBloc>(context).add(
+                          RemoveMovieFromList(movie: movie),
+                        );
+                        if (movie.isLiked != null) {
+                          if (movie.isLiked!) {
+                            BlocProvider.of<LikedTabBloc>(context).add(
+                              ChangeLikedMovies(
+                                user: user,
+                                movie: movie,
+                                isLiked: !movie.isLiked!,
+                              ),
+                            );
+                          }
+                        }
                         Navigator.pop(context);
                         Navigator.pop(context);
                       },

@@ -19,6 +19,9 @@ class MoviesTab extends StatelessWidget {
         if (state is MoviesTabEmpty) {
           context.watch<MoviesTabBloc>().add(GetMovies());
         } else if (state is MoviesTabLoaded) {
+          if (state is MoviesTabReloading) {
+            context.watch<MoviesTabBloc>().add(GetMovies());
+          }
           return MoviesTabContent(
             user: user,
             movies: state.movies,

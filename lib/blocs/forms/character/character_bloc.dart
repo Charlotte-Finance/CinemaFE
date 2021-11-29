@@ -31,10 +31,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
   Stream<CharacterState> _mapAddCharacter(AddCharacter event) async* {
     try {
-      print("AAAAAAAAAA");
-      print(event.character.toJson());
       Character character = await characterRepository.post(event.character);
-      print("BBBBBBBBBBB");
       yield CharacterAdded(
         character: character,
         succeed: true,
@@ -44,8 +41,6 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
           true,
         ),
       );
-      print("CCCCCCCCCCC");
-
     } catch (_) {
       yield CharacterActionSent(
         succeed: false,
