@@ -1,6 +1,6 @@
 import 'package:cinema_fe/blocs/movie_card/movie_card_bloc.dart';
-import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/components/movie_card/movie_picture.dart';
+import 'package:cinema_fe/components/widgets/error_message.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,6 +53,7 @@ class _MovieCardState extends State<MovieCard> {
             user: widget.user,
             movie: widget.movie,
             isLikedTab: widget.isLikedTab,
+            enableClick: widget.enableClick,
           );
         } else if (state is MovieCardError) {
           return ErrorMessage(

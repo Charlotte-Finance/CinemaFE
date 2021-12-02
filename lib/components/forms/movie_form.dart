@@ -1,6 +1,6 @@
+import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/picture/picture_bloc.dart';
 import 'package:cinema_fe/components/forms/picture_button.dart';
-import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/components/widgets/forms/forms.dart';
 import 'package:cinema_fe/models/category.dart';
 import 'package:cinema_fe/models/director.dart';

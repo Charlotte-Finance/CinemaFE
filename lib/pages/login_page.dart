@@ -33,88 +33,90 @@ class _State extends State<LoginPage> {
         title: const Text('CineMovies'),
         leading: null,
       ),
-      body: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          if (state is LoginLoaded) {
-            return Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(10),
-                    child: const Text(
-                      'Sign in',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  if (state.failed)
+      body: SingleChildScrollView(
+        child: BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, state) {
+            if (state is LoginLoaded) {
+              return Form(
+                key: _formKey,
+                child: Column(
+                  children: [
                     Container(
+                      alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
-                      child: Text(
-                        errorLoginStr,
-                        style: errorStyle,
-                      ),
-                    ),
-                  TextFormQuestion(
-                    question: "Username",
-                    onChanged: (answer) => user.username = answer,
-                    onSaved: (answer) => user.username = answer,
-                  ),
-                  TextFormQuestion(
-                    question: "Password",
-                    obscureText: true,
-                    onChanged: (answer) => user.password = answer,
-                    onSaved: (answer) => user.password = answer,
-                  ),
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButton(
                       child: const Text(
-                        'Login',
+                        'Sign in',
                         style: TextStyle(fontSize: 20),
                       ),
-                      onPressed: () {
-                        context.read<LoginBloc>().add(
-                              Login(user: user),
-                            );
-                      },
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: <Widget>[
-                      const Text('Does not have account?'),
-                      const SizedBox(width: 25),
-                      ElevatedButton(
+                    if (state.failed)
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          errorLoginStr,
+                          style: errorStyle,
+                        ),
+                      ),
+                    TextFormQuestion(
+                      question: "Username",
+                      onChanged: (answer) => user.username = answer,
+                      onSaved: (answer) => user.username = answer,
+                    ),
+                    TextFormQuestion(
+                      question: "Password",
+                      obscureText: true,
+                      onChanged: (answer) => user.password = answer,
+                      onSaved: (answer) => user.password = answer,
+                    ),
+                    Container(
+                      height: 50,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: ElevatedButton(
                         child: const Text(
-                          'Sign in',
+                          'Login',
+                          style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () {
-                          //signup screen
+                          context.read<LoginBloc>().add(
+                                Login(user: user),
+                              );
                         },
-                      )
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  )
-                ],
-              ),
-            );
-          } else if (state is Logged) {
-            WidgetsBinding.instance!.addPostFrameCallback(
-              (_) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  widget.route,
-                  ModalRoute.withName(widget.route),
-                  arguments: UserArgument(user: state.user),
-                );
-              },
-            );
-          }
-          return const CircularProgressIndicator();
-        },
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      children: <Widget>[
+                        const Text('Does not have account?'),
+                        const SizedBox(width: 25),
+                        ElevatedButton(
+                          child: const Text(
+                            'Sign in',
+                          ),
+                          onPressed: () {
+                            //signup screen
+                          },
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    )
+                  ],
+                ),
+              );
+            } else if (state is Logged) {
+              WidgetsBinding.instance!.addPostFrameCallback(
+                (_) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    widget.route,
+                    ModalRoute.withName(widget.route),
+                    arguments: UserArgument(user: state.user),
+                  );
+                },
+              );
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }

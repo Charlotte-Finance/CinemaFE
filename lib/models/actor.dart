@@ -1,9 +1,13 @@
+import 'character.dart';
+
 class Actor {
   int? id;
   String? name;
   String? firstname;
   String? birth;
   String? death;
+
+  List<Character>? characters;
 
   Actor({
     this.id,

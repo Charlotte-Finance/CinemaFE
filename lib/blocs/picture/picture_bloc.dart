@@ -7,7 +7,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'picture_event.dart';
-
 part 'picture_state.dart';
 
 class PictureBloc extends Bloc<PictureEvent, PictureState> {

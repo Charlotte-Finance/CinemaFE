@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cinema_fe/models/category.dart';
+import 'package:cinema_fe/models/director.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';
 import 'package:cinema_fe/utils/http_request.dart';
@@ -47,4 +48,14 @@ class MovieRepository {
     final response = await HttpRequest.postRequest(url + "delete/", json);
     return Movie.fromJson(response);
   }
+
+  Future<List<Movie>> getByDirector(Director director) async {
+    final Map<String, String> _queryParameters = <String, String>{
+      'directorId': director.id.toString()
+    };
+    final movies = await HttpRequest.getRequest(
+        parameters: _queryParameters, endpoint: url + "by-director/");
+    return (movies as List).map((p) => Movie.fromJson(p)).toList();
+  }
+
 }

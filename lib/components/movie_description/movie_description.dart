@@ -2,7 +2,6 @@ import 'package:cinema_fe/blocs/forms/forms_bloc.dart';
 import 'package:cinema_fe/blocs/forms/movie/movie_bloc.dart';
 import 'package:cinema_fe/blocs/liked_tab/liked_tab_bloc.dart';
 import 'package:cinema_fe/blocs/movies_tab/movies_tab_bloc.dart';
-import 'package:cinema_fe/components/liked_tab/liked_tab.dart';
 import 'package:cinema_fe/components/movie_card/movie_card.dart';
 import 'package:cinema_fe/models/movie.dart';
 import 'package:cinema_fe/models/user.dart';

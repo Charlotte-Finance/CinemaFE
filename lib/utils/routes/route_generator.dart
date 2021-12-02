@@ -1,4 +1,6 @@
+import 'package:cinema_fe/pages/actor_page.dart';
 import 'package:cinema_fe/pages/app_page.dart';
+import 'package:cinema_fe/pages/director_page.dart';
 import 'package:cinema_fe/pages/form_page.dart';
 import 'package:cinema_fe/pages/login_page.dart';
 import 'package:cinema_fe/pages/movie_page.dart';
@@ -26,6 +28,12 @@ class RouteGenerator {
 
         case userRoute:
           return _userRoute(appRoute, args);
+
+        case actorRoute:
+          return _actorRoute(appRoute, args);
+
+        case directorRoute:
+          return _directorRoute(appRoute, args);
 
         default:
           return _loginRoute(appRoute);
@@ -96,4 +104,38 @@ Route<dynamic> _userRoute(String route, UserArgument args) {
     pageBuilder: (context, animation, secondaryAnimation) =>
         UserPage(user: args.user),
   );
+}
+
+Route<dynamic> _actorRoute(String route, UserArgument args) {
+  if (args is ActorArgument) {
+    return PageRouteBuilder(
+      settings: const RouteSettings(name: appRoute),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      },
+      pageBuilder: (context, animation, secondaryAnimation) => ActorPage(
+        user: args.user,
+        actor: args.actor,
+      ),
+    );
+  } else {
+    return _loginRoute(appRoute);
+  }
+}
+
+Route<dynamic> _directorRoute(String route, UserArgument args) {
+  if (args is DirectorArgument) {
+    return PageRouteBuilder(
+      settings: const RouteSettings(name: appRoute),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      },
+      pageBuilder: (context, animation, secondaryAnimation) => DirectorPage(
+        user: args.user,
+        director: args.director,
+      ),
+    );
+  } else {
+    return _loginRoute(appRoute);
+  }
 }
